@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Backend.Model.Settings
 {
-    internal class Settings
+    public class Settings
     {
     }
 }
