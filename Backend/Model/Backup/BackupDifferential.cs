@@ -1,5 +1,7 @@
 ﻿using System.Xml.Linq;
 using System;
+using Timer = System.Timers.Timer;
+using System.Diagnostics;
 
 namespace Backend.Model.Backup
 {
@@ -15,27 +17,47 @@ namespace Backend.Model.Backup
         }
         public override void PerformBackup()
         {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+            ProgressDisplayTimer.Start();
+
             try
             {
-                // Obtient la liste des fichiers dans le répertoire source
+                // Gets the list of files in the source directory
                 string[] sourceFiles = Directory.GetFiles(SourceDirectory);
-
-                // Parcours tous les fichiers du répertoire source
+                State.RemainingFiles = sourceFiles.Length;
+                State.RemainingSize = TotalSize;
+                // Browse all files in the source directory
                 foreach (string sourceFilePath in sourceFiles)
                 {
                     string fileName = Path.GetFileName(sourceFilePath);
                     string targetFilePath = Path.Combine(TargetDirectory, fileName);
+                    State.CurrentFileSource = sourceFilePath;
+                    State.CurrentFileTarget = targetFilePath;
 
-                    // Si le fichier n'existe pas dans le répertoire cible ou s'il a été modifié
+                    // If the file does not exist in the target directory or if it has been modified
                     if (!File.Exists(targetFilePath) || File.GetLastWriteTimeUtc(sourceFilePath) > File.GetLastWriteTimeUtc(targetFilePath))
                     {
-                        File.Copy(sourceFilePath, targetFilePath, true); // true pour écraser les fichiers existants
+                        File.Copy(sourceFilePath, targetFilePath, true); // true to overwrite existing files
                     }
+
+                    State.RemainingFiles--;
+                    FileInfo fileInfo = new FileInfo(sourceFilePath);
+                    State.RemainingSize -= fileInfo.Length;
+                    UpdateProgress();
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error copying modified or new files: {ex.Message}");
+            }
+            finally
+            {
+                stopwatch.Stop();
+
+                // Assigning the total backup time to FileTransferTime
+                FileTransferTime = (float)stopwatch.Elapsed.TotalSeconds;
+                Console.WriteLine($"Differential Backup finished successfully in {FileTransferTime} seconds");
             }
         }
     }
