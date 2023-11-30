@@ -1,2 +1,11 @@
 ﻿//Frontend version console
-Console.WriteLine("Hello, World!");
+using Backend.Model.Backup;
+
+BackupManager backupManager;
+backupManager = new BackupManager();
+
+backupManager.AddBackup("full", "backup1", "C:\\backupSource", "C:\\backupTarget");
+backupManager.BackupList[0].ScanFiles();
+backupManager.BackupList[0].PerformBackup();
+
+//Console.WriteLine(backupManager.BackupList[0].Name);

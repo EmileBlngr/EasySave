@@ -3,13 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33723.286
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Projet EasySave groupe 2", "Projet EasySave groupe 2.csproj", "{12ABC839-0326-4838-ADE1-26EE296DCD46}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Backend", "Backend\Backend.csproj", "{00D247A4-74C5-4079-B038-5BAF8D9A84CD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Backend", "Backend\Backend.csproj", "{00D247A4-74C5-4079-B038-5BAF8D9A84CD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FrontendConsole", "Frontend console\FrontendConsole.csproj", "{7CC9E315-51A1-47C5-BA37-BD77310F52AD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FrontendConsole", "Frontend console\FrontendConsole.csproj", "{7CC9E315-51A1-47C5-BA37-BD77310F52AD}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FrontendWPF", "FrontendWPF\FrontendWPF.csproj", "{67BB2204-C1C4-4C8A-970A-22B03F97C12A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FrontendWPF", "FrontendWPF\FrontendWPF.csproj", "{67BB2204-C1C4-4C8A-970A-22B03F97C12A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +15,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{12ABC839-0326-4838-ADE1-26EE296DCD46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{12ABC839-0326-4838-ADE1-26EE296DCD46}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{12ABC839-0326-4838-ADE1-26EE296DCD46}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{12ABC839-0326-4838-ADE1-26EE296DCD46}.Release|Any CPU.Build.0 = Release|Any CPU
 		{00D247A4-74C5-4079-B038-5BAF8D9A84CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{00D247A4-74C5-4079-B038-5BAF8D9A84CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{00D247A4-74C5-4079-B038-5BAF8D9A84CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
