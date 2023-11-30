@@ -1,6 +1,6 @@
 ﻿using Backend.Model.Backup;
 using System;
-
+using Timer = System.Timers.Timer;
 namespace Backend
 {
 
@@ -17,6 +17,9 @@ namespace Backend
         public float FileTransferTime { get; set; }
         public DateTime StartTime { get; set; }
         public BackupState State { get; set; }
+        public event EventHandler ProgressUpdated;
+        public Timer ProgressDisplayTimer { get; set; }
+
         public ABackup(string name, string sourceDirectory, string targetDirectory)
         {
             Name = name;
@@ -27,6 +30,12 @@ namespace Backend
             FileTransferTime = 0.0f;
             StartTime = DateTime.Now;
             State = new BackupState();
+            //Set the progress display timer
+            ProgressDisplayTimer = new Timer(500); // 0.5 seconds
+            ProgressDisplayTimer.Elapsed += ProgressDisplayTimerElapsed;
+            ProgressDisplayTimer.AutoReset = true;
+            ProgressDisplayTimer.Enabled = true;
+            ProgressUpdated += DisplayProgress;
         }
         /// <summary>
         /// Performs the backup operation. Must be implemented by subclasses.
@@ -55,7 +64,6 @@ namespace Backend
                 }
 
                 TotalSize = (uint)totalSize;
-                Console.WriteLine($"Scanned {TotalFiles} files. Total size: {totalSize} bytes.");
             }
             catch (Exception ex)
             {
@@ -67,7 +75,25 @@ namespace Backend
         /// </summary>
         public void UpdateProgress()
         {
-            
+            State.Progress = 1.0f - (float)State.RemainingSize / TotalSize;
+        }
+        public void ProgressDisplayTimerElapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            // Timer has started, show progress
+            DisplayProgress(sender, e);
+        }
+
+        public void DisplayProgress(object sender, EventArgs e)
+        {
+            // Display progress here
+            Console.WriteLine($"Progression : {State.Progress * 100}% | Fichiers restants : {State.RemainingFiles} | " +
+                $"Taille restante : {State.RemainingSize} octets | Fichier source actuel : {State.CurrentFileSource} | " +
+                $"Fichier destination actuel : {State.CurrentFileTarget}");
+
+        }
+        protected virtual void OnProgressUpdated()
+        {
+            ProgressUpdated?.Invoke(this, EventArgs.Empty);
         }
     }
 }
