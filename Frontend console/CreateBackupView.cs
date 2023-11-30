@@ -7,8 +7,18 @@ namespace Frontend_console
         public static void CreateBackup(BackupManager backupManager)
         {
             Console.WriteLine("Creating a new backup:");
-            Console.Write("Enter backup type (full/differential): ");
-            string backupType = Console.ReadLine().ToLower();
+            string backupType;
+            do
+            {
+                Console.Write("Enter backup type (full/differential): ");
+                backupType = Console.ReadLine().ToLower();
+
+                if (backupType != "full" && backupType != "differential")
+                {
+                    Console.WriteLine("Invalid backup type. Please enter 'full' or 'differential'.");
+                }
+
+            } while (backupType != "full" && backupType != "differential");
             Console.Write("Enter backup name: ");
             string name = Console.ReadLine();
             Console.Write("Enter source directory: ");

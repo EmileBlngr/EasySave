@@ -13,6 +13,7 @@ namespace Backend.Model.Backup
         { }
         public override void PerformBackup()
         {
+            ScanFiles();
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
             ProgressDisplayTimer.Start();
@@ -40,6 +41,9 @@ namespace Backend.Model.Backup
             }
             catch (Exception ex)
             {
+                stopwatch.Stop();
+                ProgressDisplayTimer.Stop();
+                State.State = EnumState.Failed;
                 Console.WriteLine($"Error copying files: {ex.Message}");
             }
             finally
@@ -48,6 +52,7 @@ namespace Backend.Model.Backup
                 ProgressDisplayTimer.Stop();
                 // Assigning the total backup time to FileTransferTime
                 FileTransferTime = (float)stopwatch.Elapsed.TotalSeconds;
+                State.State = EnumState.Finished;
                 Console.WriteLine($"Differential Backup finished successfully in {FileTransferTime} seconds");
             }
         }

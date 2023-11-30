@@ -7,6 +7,17 @@ backupManager = new BackupManager();
 bool run = true;
 
 
+//var language = new Language(EnumLanguages.English);
+//language.ShowFirstValue(); // Affiche "New backup" pour l'anglais
+
+//language = new Language(EnumLanguages.Français);
+//language.ShowFirstValue(); // Affiche "Nouvelle sauvegarde" pour le français
+
+
+//backupManager.AddBackup("differential", "backup1", "C:\\backupSource", "C:\\backupTarget");
+//backupManager.BackupList[0].ScanFiles();
+//backupManager.BackupList[0].PerformBackup();
+
 while (run)
 {
     try

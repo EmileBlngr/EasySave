@@ -17,6 +17,7 @@ namespace Backend.Model.Backup
         }
         public override void PerformBackup()
         {
+            ScanFiles();
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
             ProgressDisplayTimer.Start();
@@ -49,6 +50,9 @@ namespace Backend.Model.Backup
             }
             catch (Exception ex)
             {
+                stopwatch.Stop();
+                ProgressDisplayTimer.Stop();
+                State.State = EnumState.Failed;
                 Console.WriteLine($"Error copying modified or new files: {ex.Message}");
             }
             finally
