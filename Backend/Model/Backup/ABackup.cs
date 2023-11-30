@@ -34,7 +34,7 @@ namespace Backend
             ProgressDisplayTimer = new Timer(500); // 0.5 seconds
             ProgressDisplayTimer.Elapsed += ProgressDisplayTimerElapsed;
             ProgressDisplayTimer.AutoReset = true;
-            ProgressDisplayTimer.Enabled = true;
+            ProgressDisplayTimer.Enabled = false;
             ProgressUpdated += DisplayProgress;
         }
         /// <summary>

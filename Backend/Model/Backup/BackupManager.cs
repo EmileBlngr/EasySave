@@ -21,8 +21,6 @@
         {
             sourceDirectory = ConvertToLocalUNC(sourceDirectory);
             targetDirectory = ConvertToLocalUNC(targetDirectory);
-            Console.WriteLine(sourceDirectory);
-            Console.WriteLine(targetDirectory);
 
             if (backupType == "full")
             {
