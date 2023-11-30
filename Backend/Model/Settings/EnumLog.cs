@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace Backend.Model.Settings
 {
-    public class Logs
+    public class EnumLog
     {
+        enum EnumLogFormat { 
+            Txt, 
+            Json 
+        }
     }
 }
