@@ -4,7 +4,7 @@ using Backend.Model.Backup;
 BackupManager backupManager;
 backupManager = new BackupManager();
 
-backupManager.AddBackup("full", "backup1", "C:\\backupSource", "C:\\backupTarget");
+backupManager.AddBackup("differential", "backup1", "C:\\backupSource", "C:\\backupTarget");
 backupManager.BackupList[0].ScanFiles();
 backupManager.BackupList[0].PerformBackup();
 
