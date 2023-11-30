@@ -54,7 +54,7 @@ namespace Backend.Model.Backup
             finally
             {
                 stopwatch.Stop();
-
+                ProgressDisplayTimer.Stop();
                 // Assigning the total backup time to FileTransferTime
                 FileTransferTime = (float)stopwatch.Elapsed.TotalSeconds;
                 Console.WriteLine($"Differential Backup finished successfully in {FileTransferTime} seconds");
