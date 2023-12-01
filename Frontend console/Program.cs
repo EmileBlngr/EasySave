@@ -7,15 +7,14 @@ BackupManager backupManager;
 backupManager = new BackupManager();
 bool run = true;
 
-
 //var language = new Language(EnumLanguages.English);
-//language.ShowFirstValue(); // Affiche "New backup" pour l'anglais
+//language.ShowFirstValue();
 
 //language = new Language(EnumLanguages.Français);
-//language.ShowFirstValue(); // Affiche "Nouvelle sauvegarde" pour le français
+//language.ShowFirstValue();
 
-//bool userWantsJson = false; 
-//bool userWantsTxt = true; 
+//bool userWantsJson = false;
+//bool userWantsTxt = true;
 
 //Logs.DemonstrateLogging(userWantsJson, userWantsTxt);
 

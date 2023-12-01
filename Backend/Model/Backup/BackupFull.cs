@@ -19,11 +19,11 @@ namespace Backend.Model.Backup
             ProgressDisplayTimer.Start();
             try
             {
-                // Obtient la liste des fichiers dans le répertoire source
+                // Gets the list of files in the source directory
                 string[] sourceFiles = Directory.GetFiles(SourceDirectory);
                 State.RemainingFiles = sourceFiles.Length;
                 State.RemainingSize = TotalSize;
-                // Copie chaque fichier vers le répertoire cible
+                // Copy each file to the target directory
                 foreach (string sourceFilePath in sourceFiles)
                 {
                     string fileName = Path.GetFileName(sourceFilePath);
@@ -36,6 +36,7 @@ namespace Backend.Model.Backup
                     FileInfo fileInfo = new FileInfo(sourceFilePath);
                     State.RemainingSize -= fileInfo.Length;
                     UpdateProgress();
+                    Thread.Sleep(500);
                 }
 
             }

@@ -1,5 +1,4 @@
 ﻿using Backend.Model.Backup;
-using System;
 using Timer = System.Timers.Timer;
 namespace Backend
 {
@@ -20,6 +19,12 @@ namespace Backend
         public event EventHandler ProgressUpdated;
         public Timer ProgressDisplayTimer { get; set; }
 
+        /// <summary>
+        /// Constructor method of ABackup, initialize all the attributes and set up the timer
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="sourceDirectory"></param>
+        /// <param name="targetDirectory"></param>
         public ABackup(string name, string sourceDirectory, string targetDirectory)
         {
             Name = name;
@@ -30,8 +35,8 @@ namespace Backend
             FileTransferTime = 0.0f;
             StartTime = DateTime.Now;
             State = new BackupState();
-            //Set the progress display timer
-            ProgressDisplayTimer = new Timer(500); // 0.5 seconds
+
+            ProgressDisplayTimer = new Timer(500);
             ProgressDisplayTimer.Elapsed += ProgressDisplayTimerElapsed;
             ProgressDisplayTimer.AutoReset = true;
             ProgressDisplayTimer.Enabled = false;
@@ -46,7 +51,7 @@ namespace Backend
         }
 
         /// <summary>
-        /// Scans files for backup.
+        /// Scans files for backup. Updates the total files number and total size
         /// </summary>
         public void ScanFiles()
         {
@@ -77,20 +82,31 @@ namespace Backend
         {
             State.Progress = 1.0f - (float)State.RemainingSize / TotalSize;
         }
+        /// <summary>
+        /// ProgressDisplayTimerElapsed method shows the progress of the backups, once the timer reaches the end of his interval.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public void ProgressDisplayTimerElapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
-            // Timer has started, show progress
             DisplayProgress(sender, e);
         }
-
+        /// <summary>
+        /// Displays the progress here, the remaining size and files, and the file being saved.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public void DisplayProgress(object sender, EventArgs e)
         {
-            // Display progress here
             Console.WriteLine($"Progression : {State.Progress * 100}% | Fichiers restants : {State.RemainingFiles} | " +
                 $"Taille restante : {State.RemainingSize} octets | Fichier source actuel : {State.CurrentFileSource} | " +
                 $"Fichier destination actuel : {State.CurrentFileTarget}");
 
         }
+        /// <summary>
+        /// Raises the event indicating that the progress has been updated.
+        /// This method is called when the progress of the backup operation is updated.
+        /// </summary>
         protected virtual void OnProgressUpdated()
         {
             ProgressUpdated?.Invoke(this, EventArgs.Empty);

@@ -1,7 +1,4 @@
-﻿using System.Xml.Linq;
-using System;
-using Timer = System.Timers.Timer;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 
 namespace Backend.Model.Backup
 {
