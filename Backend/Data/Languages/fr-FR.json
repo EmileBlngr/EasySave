@@ -1,0 +1,31 @@
+{
+  "new_backup_access": "Nouvelle sauvegarde",
+  "logs_access": "Accès aux logs",
+  "settings_access": "Paramètres",
+  "real_time_file_access": "Suivi des sauvegardes en cours",
+  "estimed_time": "temps estimé :",
+  "paused_state": "en pause",
+  "cancelled_state": "annulée",
+  "finished_state": "terminée",
+  "failed_state": "erreur de sauvegarde",
+  "my_backups_title": "Mes sauvegardes",
+
+  "settings_title": "Paramètres",
+  "language_title": "Langue",
+  "logs_format_title": "Format des Logs",
+  "apply_changes": "Appliquer les changements",
+
+  "new_backup_title": "Nouvelle sauvegarde",
+  "backup_name_title": "Nom de votre sauvegarde",
+  "backup_type_title": "Type de sauvegarde",
+  "save_type_scrolling_menu": "choisissez un type",
+  "full_backup": "Sauvegarde totale",
+  "differential_backup": "Sauvegarde différentielle",
+  "source_folder_title": "Répertoire source",
+  "browse_source_folder": "Parcourir",
+  "target_folder_title": "Répertoire destination",
+  "browse_target_folder": "Parcourir",
+  "create_backup": "Créer la sauvegarde",
+  "not_valid": "Merci de renseigner tout les champs"
+
+}

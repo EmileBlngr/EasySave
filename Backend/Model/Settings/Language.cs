@@ -1,29 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
+﻿
 using System.Text.Json;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using Backend.Model.Settings;
 
 namespace Backend.Model.Settings
 {
     public class Language
     {
         public string LanguageFile {get; set; }
-        public EnumLanguages CurrentLanguage { get; set; } // Utilisation de l'enum déjà défini
+        public EnumLanguages CurrentLanguage { get; set; } // used already defined enum
         public Dictionary<string, string> LanguageData { get; private set; }
 
-        public Language(EnumLanguages language = EnumLanguages.English)
+        public Language(EnumLanguages language = EnumLanguages.EN)
         {
             CurrentLanguage = language;
-            LanguageFile = Path.Combine(
-                @"C:\Users\romeo\OneDrive\Bureau\A3 INFO\Projet Programmation systeme\Projet EasySave groupe 2\Frontend console\bin\Debug\net6.0\languages",
-                $"{CurrentLanguage.ToString().ToLower()}.json"); //Construit le nom de fichier basé sur la langue sélectionnée 
+            string basePath = AppDomain.CurrentDomain.BaseDirectory; // get the local path of the app
+
+            string languageCode = ConvertEnumToLanguageCode(CurrentLanguage);
+             //Console.WriteLine($"the local path catched is :{basePath}");
+
+            LanguageFile = Path.Combine(basePath, "Data", "languages", $"{languageCode}.json"); // Create a local path to the json file language
+            //Console.WriteLine($"the local path created is :{LanguageFile}");
         }
 
+        private string ConvertEnumToLanguageCode(EnumLanguages language)
+        {
+            string code = language.ToString().ToLower();
+            return $"{code}-{code.ToUpper()}";
+        }
         public void loadFileLocal()
         {
             if (File.Exists(LanguageFile)) //vérifier si le fichier existe
@@ -31,7 +33,7 @@ namespace Backend.Model.Settings
                 string jsonString = File.ReadAllText(LanguageFile);
                 try
                 {
-                    LanguageData = JsonSerializer.Deserialize<Dictionary<string, string>>(jsonString); //Affecte les données déserialisées à la propriété LanguageData
+                    LanguageData = JsonSerializer.Deserialize<Dictionary<string, string>>(jsonString); //affect deserialized data to the LanguageData property
                 }
                 catch (JsonException e)
                 {
@@ -40,30 +42,33 @@ namespace Backend.Model.Settings
 
             }
             else 
-            {
+            
                 Console.WriteLine("Language file not found");
-            }
+            
         }
+        /// <summary>
+        /// 
+        /// </summary>
         public void ShowFirstValue()
         {
 
 
             Console.WriteLine($"Attempting to load file at: {LanguageFile}");
-            // Chargement des données de langue si ce n'est pas déjà fait
+            // create the language folder if not already created
             if (LanguageData == null || !LanguageData.Any())
             {
                 loadFileLocal();
             }
 
-            // Vérification de la présence de la clé "new_backup_access"
+            // veryfying the key "new_backup_access" exist
             if (LanguageData != null && LanguageData.TryGetValue("new_backup_access", out string value))
-            {
+            
                 Console.WriteLine(value);
-            }
+            
             else
-            {
+            
                 Console.WriteLine("La clé spécifiée est introuvable dans les données de langue.");
-            }
+            
         }
     }
 }

@@ -1,0 +1,31 @@
+{
+  "new_backup_access": "New backup",
+  "logs_access": "Logs access",
+  "settings_access": "Settings",
+  "real_time_file_access": "Monitoring backups in progress",
+  "estimed_time": "estimed time :",
+  "paused_state": "paused",
+  "cancelled_state": "cancelled",
+  "finished_state": "finished",
+  "failed_state": "backup failed",
+  "my_backups_title": "My backups",
+
+  "settings_title": "Settings",
+  "language_title": "Language",
+  "logs_format_title": "Logs format",
+  "apply_changes": "Apply changes",
+
+  "new_backup_title": "New backup",
+  "backup_name_title": "Backup name",
+  "backup_type_title": "Backup type",
+  "save_type_scrolling_menu": "choose a type",
+  "full_backup": "Full backup",
+  "differential_backup": "Differential backup",
+  "source_folder_title": "Source folder",
+  "browse_source_folder": "Browse",
+  "target_folder_title": "Target folder",
+  "browse_target_folder": "Browse",
+  "create_backup": "Create backup",
+  "not_valid": "Please fill in all the fields"
+
+}

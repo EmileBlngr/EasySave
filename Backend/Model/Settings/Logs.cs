@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.IO;
+﻿
 using System.Text.Json;
 
 namespace Backend.Model.Settings
@@ -38,6 +33,7 @@ namespace Backend.Model.Settings
                            $"size {logEntry.FileSize} bytes took {logEntry.FileTransferTime}ms";
             }
         }
+
 
         private void SaveLogMessage(string message)
         {
@@ -87,14 +83,14 @@ namespace Backend.Model.Settings
 
             if (writeToJson)
             {
-                var jsonLogger = new Logs(EnumLogFormat.Json);
+                Logs jsonLogger = new (EnumLogFormat.Json);
                 logEntries.ForEach(jsonLogger.WriteLog);
             }
 
             // Vérifiez si TXT est sélectionné
             if (writeToTxt)
             {
-                var txtLogger = new Logs(EnumLogFormat.Txt);
+                Logs txtLogger = new (EnumLogFormat.Txt);
                 logEntries.ForEach(txtLogger.WriteLog);
             }
 
