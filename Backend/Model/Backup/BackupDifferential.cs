@@ -8,10 +8,23 @@ namespace Backend.Model.Backup
     /// </summary>
     public class BackupDifferential : ABackup
     {
+        /// <summary>
+        ///  Constructor method of BackupDifferential, based on the constructor of ABackup.
+        ///  It is empty because it only implements the basic constructor.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="sourceDirectory"></param>
+        /// <param name="targetDirectory"></param>
         public BackupDifferential(string name, string sourceDirectory, string targetDirectory) : base(name, sourceDirectory, targetDirectory)
         {
 
         }
+        /// <summary>
+        /// Performs a differential backup operation.
+        /// Copies files from the source directory to the target directory only if they don't exist 
+        /// in the target directory or if they have been modified.
+        /// Updates the progress, remaining files, and remaining size during the process.
+        /// </summary>
         public override void PerformBackup()
         {
             ScanFiles();
@@ -21,11 +34,9 @@ namespace Backend.Model.Backup
 
             try
             {
-                // Gets the list of files in the source directory
                 string[] sourceFiles = Directory.GetFiles(SourceDirectory);
                 State.RemainingFiles = sourceFiles.Length;
                 State.RemainingSize = TotalSize;
-                // Browse all files in the source directory
                 foreach (string sourceFilePath in sourceFiles)
                 {
                     string fileName = Path.GetFileName(sourceFilePath);
@@ -33,10 +44,10 @@ namespace Backend.Model.Backup
                     State.CurrentFileSource = sourceFilePath;
                     State.CurrentFileTarget = targetFilePath;
 
-                    // If the file does not exist in the target directory or if it has been modified
                     if (!File.Exists(targetFilePath) || File.GetLastWriteTimeUtc(sourceFilePath) > File.GetLastWriteTimeUtc(targetFilePath))
                     {
-                        File.Copy(sourceFilePath, targetFilePath, true); // true to overwrite existing files
+                        File.Copy(sourceFilePath, targetFilePath, true);
+                        Thread.Sleep(500);
                     }
 
                     State.RemainingFiles--;
@@ -56,9 +67,8 @@ namespace Backend.Model.Backup
             {
                 stopwatch.Stop();
                 ProgressDisplayTimer.Stop();
-                // Assigning the total backup time to FileTransferTime
                 FileTransferTime = (float)stopwatch.Elapsed.TotalSeconds;
-                Console.WriteLine($"Differential Backup finished successfully in {FileTransferTime} seconds");
+                Console.WriteLine($"Differential Backup finished successfully in {FileTransferTime} seconds\n");
             }
         }
     }
