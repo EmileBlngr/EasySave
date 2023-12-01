@@ -1,5 +1,6 @@
 ﻿//Frontend version console
 using Backend.Model.Backup;
+using Backend.Model.Settings;
 using Frontend_console;
 
 BackupManager backupManager;
@@ -13,6 +14,10 @@ bool run = true;
 //language = new Language(EnumLanguages.Français);
 //language.ShowFirstValue(); // Affiche "Nouvelle sauvegarde" pour le français
 
+//bool userWantsJson = false; 
+//bool userWantsTxt = true; 
+
+//Logs.DemonstrateLogging(userWantsJson, userWantsTxt);
 
 //backupManager.AddBackup("differential", "backup1", "C:\\backupSource", "C:\\backupTarget");
 //backupManager.BackupList[0].ScanFiles();
