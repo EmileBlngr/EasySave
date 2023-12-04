@@ -1,5 +1,8 @@
 ﻿namespace Backend.Model.Backup
 {
+    /// <summary>
+    /// Enumerates the possible states of a backup operation.
+    /// </summary>
     public enum EnumState
     {
         Paused,
