@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace Backend.Model.Backup
+namespace Backend.Backup
 {
     /// <summary>
     /// BackupFull class represents a full backup strategy 
@@ -16,8 +16,8 @@ namespace Backend.Model.Backup
         /// <param name="sourceDirectory"></param>
         /// <param name="targetDirectory"></param>
         public BackupFull(string name, string sourceDirectory, string targetDirectory) : base(name, sourceDirectory, targetDirectory)
-        { 
-        
+        {
+
         }
 
         /// <summary>

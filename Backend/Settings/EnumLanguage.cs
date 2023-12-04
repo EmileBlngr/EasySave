@@ -1,5 +1,4 @@
-﻿
-namespace Backend.Model.Settings
+﻿namespace Backend.Settings
 {
     public enum EnumLanguages
     {

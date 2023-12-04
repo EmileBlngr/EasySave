@@ -1,7 +1,7 @@
 ﻿
 using System.Text.Json;
 
-namespace Backend.Model.Settings
+namespace Backend.Settings
 {
     public class Logs
     {
@@ -83,14 +83,14 @@ namespace Backend.Model.Settings
 
             if (writeToJson)
             {
-                Logs jsonLogger = new (EnumLogFormat.Json);
+                Logs jsonLogger = new(EnumLogFormat.Json);
                 logEntries.ForEach(jsonLogger.WriteLog);
             }
 
             // Vérifiez si TXT est sélectionné
             if (writeToTxt)
             {
-                Logs txtLogger = new (EnumLogFormat.Txt);
+                Logs txtLogger = new(EnumLogFormat.Txt);
                 logEntries.ForEach(txtLogger.WriteLog);
             }
 

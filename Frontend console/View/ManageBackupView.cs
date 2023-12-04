@@ -1,7 +1,6 @@
-﻿using Backend;
-using Backend.Model.Backup;
+﻿using Backend.Backup;
 
-namespace Frontend_console
+namespace Frontend_console.View
 {
     public class ManageBackupView
     {

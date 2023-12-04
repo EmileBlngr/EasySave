@@ -1,11 +1,11 @@
-﻿using Backend.Model.Backup;
+﻿using Backend.Backup;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Frontend_console
+namespace Frontend_console.View
 {
     public class BackupsView
     {

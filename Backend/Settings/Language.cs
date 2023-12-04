@@ -1,11 +1,11 @@
 ﻿
 using System.Text.Json;
 
-namespace Backend.Model.Settings
+namespace Backend.Settings
 {
     public class Language
     {
-        public string LanguageFile {get; set; }
+        public string LanguageFile { get; set; }
         public EnumLanguages CurrentLanguage { get; set; } // used already defined enum
         public Dictionary<string, string> LanguageData { get; private set; }
 
@@ -15,7 +15,7 @@ namespace Backend.Model.Settings
             string basePath = AppDomain.CurrentDomain.BaseDirectory; // get the local path of the app
 
             string languageCode = ConvertEnumToLanguageCode(CurrentLanguage);
-             //Console.WriteLine($"the local path catched is :{basePath}");
+            //Console.WriteLine($"the local path catched is :{basePath}");
 
             LanguageFile = Path.Combine(basePath, "Data", "languages", $"{languageCode}.json"); // Create a local path to the json file language
             //Console.WriteLine($"the local path created is :{LanguageFile}");
@@ -41,10 +41,10 @@ namespace Backend.Model.Settings
                 }
 
             }
-            else 
-            
+            else
+
                 Console.WriteLine("Language file not found");
-            
+
         }
         /// <summary>
         /// 
@@ -62,13 +62,13 @@ namespace Backend.Model.Settings
 
             // veryfying the key "new_backup_access" exist
             if (LanguageData != null && LanguageData.TryGetValue("new_backup_access", out string value))
-            
+
                 Console.WriteLine(value);
-            
+
             else
-            
+
                 Console.WriteLine("La clé spécifiée est introuvable dans les données de langue.");
-            
+
         }
     }
 }
