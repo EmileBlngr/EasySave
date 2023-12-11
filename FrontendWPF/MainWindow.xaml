@@ -1,12 +1,108 @@
-﻿<Window x:Class="FrontendWPF.MainWindow"
+﻿<Window x:Class="WpfApp1.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:FrontendWPF"
+        xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800"
+        FontFamily="Raleway Light">
+    <Window.Resources>
+        <!-- Style pour les boutons avec animation au survol de la souris -->
+        <Style x:Key="AnimatedButtonStyle" TargetType="Button">
+            <Setter Property="Height" Value="50"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Margin" Value="10, 10, 10, 10"/>
+            <Setter Property="Background" Value="MediumAquamarine"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="0"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Trigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ThicknessAnimation Duration="0:0:0.1" To="20,10,0,10" Storyboard.TargetProperty="Margin"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.EnterActions>
+                    <Trigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ThicknessAnimation Duration="0:0:0.1" To="10,10,0,10" Storyboard.TargetProperty="Margin"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.ExitActions>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
     <Grid>
+        <!-- Définition des colonnes pour organiser le contenu -->
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <!-- Sidebar, environ 20% de la largeur totale -->
+            <ColumnDefinition Width="4*"/>
+            <!-- Espace de contenu principal, environ 80% de la largeur totale -->
+        </Grid.ColumnDefinitions>
 
+        <!-- Sidebar avec arrière-plan en dégradé -->
+        <Grid Grid.Column="0">
+            <Grid.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                    <GradientStop Color="Azure" Offset="0"/>
+                    <GradientStop Color="#FFDDFFEE" Offset="1"/>
+                    <!-- Vert très très clair -->
+                </LinearGradientBrush>
+            </Grid.Background>
+
+            <!-- Définition des rangées pour organiser le contenu de la sidebar -->
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <!-- Pour l'image -->
+                <RowDefinition Height="20*"/>
+                <!-- Espace expansible -->
+                <RowDefinition Height="Auto"/>
+                <!-- Pour les boutons -->
+                <RowDefinition Height="70*"/>
+                <!-- Espace expansible -->
+                <RowDefinition Height="Auto"/>
+                <!-- Pour le bouton Quitter -->
+            </Grid.RowDefinitions>
+
+            <!-- Logo EasySave ajusté pour être deux fois plus grand en hauteur -->
+            <Image Source="C:\Users\sissy\Desktop\LEPROJET\FrontendWPF\easysavelogo.png" Grid.Row="0" Margin="10" Height="90" Stretch="UniformToFill"/>
+
+            <!-- StackPanel pour les boutons qui sont centrés avec plus d'espacement -->
+            <StackPanel Grid.Column="0" Grid.Row="2" VerticalAlignment="Center">
+                <Button Content="📁 Nouvelle sauvegarde" Style="{StaticResource AnimatedButtonStyle}" />
+                <Button Content="📜 Accès aux logs" Style="{StaticResource AnimatedButtonStyle}" />
+                <Button Content="⚙ Paramètres" Style="{StaticResource AnimatedButtonStyle}" />
+                <Button Content="🔍 Suivi des sauvegardes" Style="{StaticResource AnimatedButtonStyle}" />
+            </StackPanel>
+
+            <!-- Bouton Quitter --> 
+            <Button Content="❌ Quitter" Height="40" FontSize="14" FontWeight="Bold" Grid.Row="4" Margin="10"  Background="LightCoral"/>
+        </Grid>
+
+        <!-- Main content area -->
+        <StackPanel Grid.Column="1" Margin="10">
+            <TextBlock Text="MES SAUVEGARDES" FontWeight="Bold" FontSize="30"  Margin="0,20,0,100" HorizontalAlignment="Center"/>
+            <ListView Width="Auto" Margin="0,10">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <TextBlock Text="nouvelle sauvegarde" FontWeight="Bold" FontSize="15" Margin="10,0"/>
+                <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+                    <ProgressBar Width="400" Height="15" Margin="0,10" Value="65"/>
+                    <TextBlock Text="65%" VerticalAlignment="Center" Margin="5,0"/>
+                </StackPanel>
+                <TextBlock Text="temps estimé" FontWeight="Bold" FontSize="10" Margin="10,0"/>
+            </ListView>
+        </StackPanel>
     </Grid>
+
 </Window>
