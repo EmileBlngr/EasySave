@@ -1,8 +1,9 @@
-﻿namespace Backend.Backup
+﻿using Backend.Settings;
+namespace Backend.Backup
 {
     public class BackupManager
     {
-        //public Settings? Settings { get; set; }
+        public Backend.Settings.Settings Settings { get; set; }
         public List<ABackup> BackupList { get; set; }
         /// <summary>
         /// Constructor of BackupManager.
@@ -10,6 +11,7 @@
         /// </summary>
         public BackupManager()
         {
+            Settings = new Backend.Settings.Settings();
             BackupList = new List<ABackup>();
         }
         /// <summary>
@@ -49,7 +51,8 @@
             }
             else
             {
-                throw new ArgumentException("Type de sauvegarde non pris en charge");
+                string errorMessage = Settings.LanguageSettings.LanguageData["unsupported_backup_type"];
+                throw new ArgumentException(errorMessage);
             }
         }
         /// <summary>
@@ -57,7 +60,7 @@
         /// </summary>
         /// <param name="localPath">The local path to be converted.</param>
         /// <returns>The UNC path.</returns>
-        static string ConvertToLocalUNC(string localPath)
+        public string ConvertToLocalUNC(string localPath)
         {
             try
             {
@@ -66,7 +69,8 @@
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error converting path to UNC: {ex.Message}");
+                string errorMessageUNC = Settings.LanguageSettings.LanguageData["converting_path_unc_error"];
+                Console.WriteLine($"{errorMessageUNC} {ex.Message}");
                 return null;
             }
         }

@@ -8,10 +8,10 @@ BackupManager backupManager;
 backupManager = new BackupManager();
 bool run = true;
 
-//var language = new Language(EnumLanguages.English);
+//var language = new Language();
 //language.ShowFirstValue();
 
-//language = new Language(EnumLanguages.Français);
+//var language = new Language();
 //language.ShowFirstValue();
 
 //bool userWantsJson = false;
@@ -23,41 +23,44 @@ bool run = true;
 //backupManager.BackupList[0].ScanFiles();
 //backupManager.BackupList[0].PerformBackup();
 
+
 while (run)
 {
     try
     {
-        Console.WriteLine("Choose an option:");
-        Console.WriteLine("1. Create a backup");
-        Console.WriteLine("2. Go to settings");
-        Console.WriteLine("3. View existing backups");
-        Console.WriteLine("4. View logs");
-        Console.WriteLine("5. Exit");
+
+        Console.WriteLine(backupManager.Settings.LanguageSettings.LanguageData["choose_options"]);
+        Console.WriteLine("1. " + backupManager.Settings.LanguageSettings.LanguageData["new_backup_access"]);
+        Console.WriteLine("2. " + backupManager.Settings.LanguageSettings.LanguageData["settings_access"]);
+        Console.WriteLine("3. " + backupManager.Settings.LanguageSettings.LanguageData["my_backups_title"]);
+        Console.WriteLine("4. " + backupManager.Settings.LanguageSettings.LanguageData["logs_access"]);
+        Console.WriteLine("5. " + backupManager.Settings.LanguageSettings.LanguageData["exit"]);
 
         string userInput = Console.ReadLine();
 
         switch (userInput)
         {
             case "1":
-                Console.WriteLine("Creating a backup...");
+                Console.WriteLine(backupManager.Settings.LanguageSettings.LanguageData["creating_backup"]);
                 CreateBackupView.CreateBackup(backupManager);
                 break;
             case "2":
-                Console.WriteLine("Going to settings...");
+                Console.WriteLine(backupManager.Settings.LanguageSettings.LanguageData["accessing_settings"]);
+                SettingsView.AccessSettings(backupManager);
                 break;
             case "3":
-                Console.WriteLine("Viewing existing backups...");
+                Console.WriteLine(backupManager.Settings.LanguageSettings.LanguageData["accessing_backups"]);
                 BackupsView.ListBackups(backupManager);
                 break;
             case "4":
-                Console.WriteLine("Viewing logs...");
+                Console.WriteLine(backupManager.Settings.LanguageSettings.LanguageData["accessing_logs"]);
                 break;
             case "5":
-                Console.WriteLine("Exiting...");
+                Console.WriteLine(backupManager.Settings.LanguageSettings.LanguageData["exiting"]);
                 run = false;
                 break;
             default:
-                Console.WriteLine("Invalid choice. Please enter a valid option.");
+                Console.WriteLine(backupManager.Settings.LanguageSettings.LanguageData["invalid_choice"]);
                 break;
         }
     }

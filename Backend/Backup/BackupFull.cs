@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using Backend.Settings;
+using System.Diagnostics;
 
 namespace Backend.Backup
 {
@@ -57,7 +58,8 @@ namespace Backend.Backup
                 stopwatch.Stop();
                 ProgressDisplayTimer.Stop();
                 State.State = EnumState.Failed;
-                Console.WriteLine($"Error copying files: {ex.Message}");
+                Console.WriteLine(string.Format(Settings.Settings.Instance.LanguageSettings.LanguageData["error_copying_files"], ex.Message));
+
             }
             finally
             {
@@ -65,7 +67,7 @@ namespace Backend.Backup
                 ProgressDisplayTimer.Stop();
                 FileTransferTime = (float)stopwatch.Elapsed.TotalSeconds;
                 State.State = EnumState.Finished;
-                Console.WriteLine($"Differential Backup finished successfully in {FileTransferTime} seconds");
+                Console.WriteLine(string.Format(Settings.Settings.Instance.LanguageSettings.LanguageData["differential_backup_success"], FileTransferTime));
             }
         }
 

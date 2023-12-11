@@ -3,6 +3,7 @@
     public enum EnumLanguages
     {
         FR,
-        EN
+        EN,
+        ES
     }
 }

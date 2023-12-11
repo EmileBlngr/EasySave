@@ -1,55 +1,58 @@
 ﻿using Backend.Backup;
+using Backend.Settings;
 
 namespace Frontend_console.View
 {
     public class ManageBackupView
     {
-        public static void ManageBackup(ABackup backup)
+        public static void ManageBackup(ABackup backup , BackupManager backupManager)
         {
-            Console.WriteLine($"Managing backup: {backup.Name}");
-            Console.WriteLine($"Currently: {backup.State.State}");
+            Console.WriteLine(string.Format(backupManager.Settings.LanguageSettings.LanguageData["managing_backup"], backup.Name));
+            Console.WriteLine(string.Format(backupManager.Settings.LanguageSettings.LanguageData["current_state"], backup.State.State));
+
             backup.ScanFiles();
 
             switch (backup.State.State)
             {
                 case EnumState.NotStarted:
-                    Console.WriteLine("Options:");
-                    Console.WriteLine("1. Launch Backup");
-                    Console.WriteLine("5. Back");
+                    Console.WriteLine(backupManager.Settings.LanguageSettings.LanguageData["options"]);
+                    Console.WriteLine(backupManager.Settings.LanguageSettings.LanguageData["launch_backup"]);
+       
+                    Console.WriteLine(backupManager.Settings.LanguageSettings.LanguageData["back_option"]);
                     break;
                 case EnumState.InProgress:
-                    Console.WriteLine("Options:");
-                    Console.WriteLine("2. Pause Backup");
-                    Console.WriteLine("3. Cancel Backup");
-                    Console.WriteLine("5. Back");
+                    Console.WriteLine(backupManager.Settings.LanguageSettings.LanguageData["options"]);
+                    Console.WriteLine(backupManager.Settings.LanguageSettings.LanguageData["pause_backup"]);
+                    Console.WriteLine(backupManager.Settings.LanguageSettings.LanguageData["cancel_backup"]);
+                    Console.WriteLine(backupManager.Settings.LanguageSettings.LanguageData["back_option"]);
                     break;
                 case EnumState.Paused:
-                    Console.WriteLine("Options:");
-                    Console.WriteLine("3. Cancel Backup");
-                    Console.WriteLine("4. Resume Backup");
-                    Console.WriteLine("5. Back");
+                    Console.WriteLine(backupManager.Settings.LanguageSettings.LanguageData["options"]);
+                    Console.WriteLine(backupManager.Settings.LanguageSettings.LanguageData["cancel_backup"]);
+                    Console.WriteLine(backupManager.Settings.LanguageSettings.LanguageData["resume_backup"]);
+                    Console.WriteLine(backupManager.Settings.LanguageSettings.LanguageData["back_option"]);
                     break;
                 case EnumState.Finished:
-                    Console.WriteLine("Options:");
-                    Console.WriteLine("1. Launch Backup");
-                    Console.WriteLine("5. Back");
+                    Console.WriteLine(backupManager.Settings.LanguageSettings.LanguageData["options"]);
+                    Console.WriteLine(backupManager.Settings.LanguageSettings.LanguageData["launch_backup"]);
+                    Console.WriteLine(backupManager.Settings.LanguageSettings.LanguageData["back_option"]);
                     break;
                 case EnumState.Failed:
-                    Console.WriteLine("Options:");
-                    Console.WriteLine("1. Retry Backup");
-                    Console.WriteLine("5. Back");
+                    Console.WriteLine(backupManager.Settings.LanguageSettings.LanguageData["options"]);
+                    Console.WriteLine(backupManager.Settings.LanguageSettings.LanguageData["retry_backup"]);
+                    Console.WriteLine(backupManager.Settings.LanguageSettings.LanguageData["back_option"]);
                     break;
                 case EnumState.Cancelled:
-                    Console.WriteLine("Options:");
-                    Console.WriteLine("1. Launch Backup");
-                    Console.WriteLine("5. Back");
+                    Console.WriteLine(backupManager.Settings.LanguageSettings.LanguageData["options"]);
+                    Console.WriteLine(backupManager.Settings.LanguageSettings.LanguageData["launch_backup"]);
+                    Console.WriteLine(backupManager.Settings.LanguageSettings.LanguageData["back_option"]);
                     break;
                 default:
-                    Console.WriteLine("Invalid state.");
+                    Console.WriteLine(backupManager.Settings.LanguageSettings.LanguageData["invalid_state"]);
                     break;
             }
 
-            Console.Write("Enter your choice: ");
+            Console.Write(backupManager.Settings.LanguageSettings.LanguageData["enter_your_choice"]);
             string userInput = Console.ReadLine();
 
             switch (userInput)
@@ -70,7 +73,7 @@ namespace Frontend_console.View
                     //HandleOption2(backup);
                     break;
                 default:
-                    Console.WriteLine("Invalid choice.");
+                    Console.WriteLine(backupManager.Settings.LanguageSettings.LanguageData["invalid_choice"]);
                     break;
             }
         }

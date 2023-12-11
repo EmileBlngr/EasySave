@@ -7,11 +7,11 @@ namespace Backend.Settings
     {
         public string LanguageFile { get; set; }
         public EnumLanguages CurrentLanguage { get; set; } // used already defined enum
-        public Dictionary<string, string> LanguageData { get; private set; }
+        public Dictionary<string, string> LanguageData { get; set; }
 
-        public Language(EnumLanguages language = EnumLanguages.EN)
+        public Language()
         {
-            CurrentLanguage = language;
+            CurrentLanguage = EnumLanguages.FR;
             string basePath = AppDomain.CurrentDomain.BaseDirectory; // get the local path of the app
 
             string languageCode = ConvertEnumToLanguageCode(CurrentLanguage);
@@ -19,31 +19,42 @@ namespace Backend.Settings
 
             LanguageFile = Path.Combine(basePath, "Data", "languages", $"{languageCode}.json"); // Create a local path to the json file language
             //Console.WriteLine($"the local path created is :{LanguageFile}");
+            CreateLanguageFile();
         }
 
-        private string ConvertEnumToLanguageCode(EnumLanguages language)
+        public string ConvertEnumToLanguageCode(EnumLanguages language)
         {
             string code = language.ToString().ToLower();
             return $"{code}-{code.ToUpper()}";
         }
+        public void CreateLanguageFile()
+        {
+            if (LanguageData == null || !LanguageData.Any())
+            {
+                loadFileLocal();
+            }
+        }
         public void loadFileLocal()
         {
+            //Console.WriteLine($"Trying to load language file at: {LanguageFile}");
+
             if (File.Exists(LanguageFile)) //vérifier si le fichier existe
             {
                 string jsonString = File.ReadAllText(LanguageFile);
+                
                 try
                 {
                     LanguageData = JsonSerializer.Deserialize<Dictionary<string, string>>(jsonString); //affect deserialized data to the LanguageData property
                 }
                 catch (JsonException e)
                 {
-                    Console.WriteLine($"An error occurred: {e.Message}");
+                    Console.WriteLine($"An error occurred during JSON deserialization: {e.Message}");
                 }
 
             }
             else
-
-                Console.WriteLine("Language file not found");
+            { 
+                Console.WriteLine("Language file not found");}
 
         }
         /// <summary>
@@ -55,7 +66,7 @@ namespace Backend.Settings
 
             Console.WriteLine($"Attempting to load file at: {LanguageFile}");
             // create the language folder if not already created
-            if (LanguageData == null || !LanguageData.Any())
+            if (LanguageData == null || LanguageData.Count==0)
             {
                 loadFileLocal();
             }

@@ -6,34 +6,35 @@ namespace Frontend_console.View
     {
         public static void CreateBackup(BackupManager backupManager)
         {
-            Console.WriteLine("Creating a new backup:");
+            Console.WriteLine(backupManager.Settings.LanguageSettings.LanguageData["creating_new_backup"]);
             string backupType;
             do
             {
-                Console.Write("Enter backup type (full/differential): ");
+                Console.Write(backupManager.Settings.LanguageSettings.LanguageData["enter_backup_type"]);
                 backupType = Console.ReadLine().ToLower();
-
+                
                 if (backupType != "full" && backupType != "differential")
                 {
-                    Console.WriteLine("Invalid backup type. Please enter 'full' or 'differential'.");
+                    Console.WriteLine(backupManager.Settings.LanguageSettings.LanguageData["invalid_backup_type_prompt"]);
                 }
 
             } while (backupType != "full" && backupType != "differential");
-            Console.Write("Enter backup name: ");
+            Console.Write(backupManager.Settings.LanguageSettings.LanguageData["enter_backup_name"]);
             string name = Console.ReadLine();
-            Console.Write("Enter source directory: ");
+            Console.Write(backupManager.Settings.LanguageSettings.LanguageData["enter_source_directory"]);
             string sourceDirectory = Console.ReadLine();
-            Console.Write("Enter target directory: ");
+            Console.Write(backupManager.Settings.LanguageSettings.LanguageData["enter_target_directory"]);
             string targetDirectory = Console.ReadLine();
 
             try
             {
                 backupManager.AddBackup(backupType, name, sourceDirectory, targetDirectory);
-                Console.WriteLine("Backup created successfully!");
+                Console.WriteLine(backupManager.Settings.LanguageSettings.LanguageData["backup_created_successfully"]);
             }
             catch (ArgumentException ex)
             {
-                Console.WriteLine($"Error creating backup: {ex.Message}");
+                Console.WriteLine(string.Format(backupManager.Settings.LanguageSettings.LanguageData["error_creating_backup"], ex.Message));
+
             }
         }
     }
