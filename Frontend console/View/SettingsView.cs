@@ -14,7 +14,7 @@ namespace Frontend_console.View
         public static void AccessSettings(BackupManager backupManager)
         {
             string inputLanguage;
-            string logsFormat;
+            string inputlogs;
 
             Console.WriteLine(backupManager.Settings.LanguageSettings.LanguageData["enter_settings"]);
             Console.WriteLine(backupManager.Settings.LanguageSettings.LanguageData["go_back"]);
@@ -26,6 +26,44 @@ namespace Frontend_console.View
                 case "1":
                     break;
                 case "2":
+                    Console.WriteLine("Choisissez le ou les formats de logs à activer/désactiver :");
+
+                    // Afficher tous les formats de logs disponibles
+                    foreach (var enum_log in Enum.GetValues(typeof(EnumLogFormat)))
+                    {
+                        Console.WriteLine(enum_log);
+                    }
+                    inputlogs = Console.ReadLine();
+
+                    if (Enum.TryParse(inputlogs, true, out EnumLogFormat selectedLogFormat))
+                    {
+                        bool currentState = backupManager.Settings.LogSettings.GetLogFormatState(selectedLogFormat);
+                        Console.WriteLine($"Le format de log '{selectedLogFormat}' est actuellement {(currentState ? "activé" : "désactivé")}.");
+
+                        // Demander à l'utilisateur de modifier l'état
+                        Console.WriteLine("Entrez 'true' pour activer ou 'false' pour désactiver ce format de log:");
+                        string newStateInput = Console.ReadLine();
+                        if (bool.TryParse(newStateInput, out bool newState))
+                        {
+                            if (currentState == newState)
+                            {
+                                Console.WriteLine($"Ce format de log est déjà sur '{newState}'.");
+                            }
+                            else
+                            {
+                                backupManager.Settings.LogSettings.SetLogFormatState(selectedLogFormat, newState);
+                                Console.WriteLine($"Le format de log '{selectedLogFormat}' a été {(newState ? "activé" : "désactivé")}.");
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("Entrée invalide. Veuillez entrer 'true' ou 'false'.");
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Sélection de logs invalide.");
+                    }
                     break;
                 case "3":
                     Console.WriteLine(backupManager.Settings.LanguageSettings.LanguageData["choose_language"]);

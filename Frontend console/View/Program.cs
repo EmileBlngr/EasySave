@@ -14,8 +14,7 @@ bool run = true;
 //var language = new Language();
 //language.ShowFirstValue();
 
-//bool userWantsJson = false;
-//bool userWantsTxt = true;
+
 
 //Logs.DemonstrateLogging(userWantsJson, userWantsTxt);
 

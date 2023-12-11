@@ -29,8 +29,7 @@ namespace Backend.Backup
             Name = name;
             SourceDirectory = sourceDirectory;
             TargetDirectory = targetDirectory;
-            TotalFiles = 0;
-            TotalSize = 0;
+            ScanFiles();
             FileTransferTime = 0.0f;
             StartTime = DateTime.Now;
             State = new BackupState();

@@ -1,15 +1,20 @@
 ﻿
+using Backend.Backup;
 using System.Text.Json;
 
 namespace Backend.Settings
 {
     public class Logs
     {
+        public bool WriteToJson { get; set; }
+        public bool WriteToTxt { get; set; }
         public EnumLogFormat LogFormat { get; set; }
 
         public Logs(EnumLogFormat logFormat)
         {
             LogFormat = logFormat;
+            WriteToJson = true;
+            WriteToTxt = false;
         }
 
         public void WriteLog(BackupLogEntry logEntry)
@@ -58,37 +63,56 @@ namespace Backend.Settings
             // Retourne le chemin complet du fichier de log
             return Path.Combine(logsDirectory, fileName);
         }
+        public bool GetLogFormatState(EnumLogFormat logFormat)
+        {
+            switch (logFormat)
+            {
+                case EnumLogFormat.Json:
+                    return WriteToJson;
+                case EnumLogFormat.Txt:
+                    return WriteToTxt;
+                default:
+                    throw new ArgumentException("Format de log non pris en charge");
+            }
+        }
 
-        public static void DemonstrateLogging(bool writeToJson, bool writeToTxt)
+        public void SetLogFormatState(EnumLogFormat logFormat, bool newState)
+        {
+            switch (logFormat)
+            {
+                case EnumLogFormat.Json:
+                    WriteToJson = newState;
+                    break;
+                case EnumLogFormat.Txt:
+                    WriteToTxt = newState;
+                    break;
+                default:
+                    throw new ArgumentException("Format de log non pris en charge");
+            }
+        }
+        public void Createlogs(ABackup backup)
         {
             var logEntries = new List<BackupLogEntry>
     {
         new BackupLogEntry
         {
-            Name = "Save1",
-            FileSource = "D:\\Data\\source.txt",
-            FileTarget = "E:\\Backup\\source.txt",
-            FileSize = 1024,
-            FileTransferTime = 100
+            Name = backup.Name,
+            FileSource = backup.SourceDirectory,
+            FileTarget = backup.TargetDirectory,
+            FileSize = backup.TotalSize,
+            FileTransferTime = backup.FileTransferTime
         },
-        new BackupLogEntry
-        {
-            Name = "Save2",
-            FileSource = "D:\\Data\\image.png",
-            FileTarget = "E:\\Backup\\image.png",
-            FileSize = 2048,
-            FileTransferTime = 200
-        }
+        
     };
 
-            if (writeToJson)
+            if (WriteToJson)
             {
                 Logs jsonLogger = new(EnumLogFormat.Json);
                 logEntries.ForEach(jsonLogger.WriteLog);
             }
 
-            // Vérifiez si TXT est sélectionné
-            if (writeToTxt)
+            
+            if (WriteToTxt)
             {
                 Logs txtLogger = new(EnumLogFormat.Txt);
                 logEntries.ForEach(txtLogger.WriteLog);

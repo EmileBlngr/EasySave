@@ -1,5 +1,4 @@
-﻿using Backend.Settings;
-namespace Backend.Backup
+﻿namespace Backend.Backup
 {
     public class BackupManager
     {
@@ -43,11 +42,15 @@ namespace Backend.Backup
 
             if (backupType == "1")
             {
+
                 BackupList.Add(new BackupFull(name, sourceDirectory, targetDirectory));
+                
+
             }
             else if (backupType == "2")
             {
                 BackupList.Add(new BackupDifferential(name, sourceDirectory, targetDirectory));
+                
             }
             else
             {

@@ -71,7 +71,7 @@ namespace Backend.Backup
                 ProgressDisplayTimer.Stop();
                 FileTransferTime = (float)stopwatch.Elapsed.TotalSeconds;
                 Console.WriteLine(string.Format(Settings.Settings.Instance.LanguageSettings.LanguageData["differential_backup_finished"], FileTransferTime));
-
+                Settings.Settings.Instance.LogSettings.Createlogs(this);
             }
         }
     }
