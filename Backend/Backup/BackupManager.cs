@@ -41,11 +41,11 @@ namespace Backend.Backup
             sourceDirectory = ConvertToLocalUNC(sourceDirectory);
             targetDirectory = ConvertToLocalUNC(targetDirectory);
 
-            if (backupType == "full")
+            if (backupType == "1")
             {
                 BackupList.Add(new BackupFull(name, sourceDirectory, targetDirectory));
             }
-            else if (backupType == "differential")
+            else if (backupType == "2")
             {
                 BackupList.Add(new BackupDifferential(name, sourceDirectory, targetDirectory));
             }

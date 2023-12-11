@@ -7,18 +7,20 @@ namespace Frontend_console.View
         public static void CreateBackup(BackupManager backupManager)
         {
             Console.WriteLine(backupManager.Settings.LanguageSettings.LanguageData["creating_new_backup"]);
+            string backupNumber;
             string backupType;
             do
             {
-                Console.Write(backupManager.Settings.LanguageSettings.LanguageData["enter_backup_type"]);
-                backupType = Console.ReadLine().ToLower();
-                
-                if (backupType != "full" && backupType != "differential")
+                Console.WriteLine($"{backupManager.Settings.LanguageSettings.LanguageData["enter_backup_type"]}");
+                Console.WriteLine($"1. {backupManager.Settings.LanguageSettings.LanguageData["backup_full"]}");
+                Console.WriteLine($"2. {backupManager.Settings.LanguageSettings.LanguageData["backup_differential"]}");
+                backupNumber = Console.ReadLine();
+
+                if (backupNumber != "1" && backupNumber != "2")
                 {
                     Console.WriteLine(backupManager.Settings.LanguageSettings.LanguageData["invalid_backup_type_prompt"]);
                 }
-
-            } while (backupType != "full" && backupType != "differential");
+            } while (backupNumber != "1" && backupNumber != "2");
             Console.Write(backupManager.Settings.LanguageSettings.LanguageData["enter_backup_name"]);
             string name = Console.ReadLine();
             Console.Write(backupManager.Settings.LanguageSettings.LanguageData["enter_source_directory"]);
@@ -28,7 +30,7 @@ namespace Frontend_console.View
 
             try
             {
-                backupManager.AddBackup(backupType, name, sourceDirectory, targetDirectory);
+                backupManager.AddBackup(backupNumber, name, sourceDirectory, targetDirectory);
                 Console.WriteLine(backupManager.Settings.LanguageSettings.LanguageData["backup_created_successfully"]);
             }
             catch (ArgumentException ex)

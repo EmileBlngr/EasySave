@@ -61,7 +61,9 @@
   "invalid_backup_number": "Invalid backup number.",
 
   "creating_new_backup": "Creating a New Backup:",
-  "enter_backup_type": "Enter backup type (full/differential): ",
+  "enter_backup_type": "Enter backup type : ",
+  "backup_full": "full",
+  "backup_differential": "differential",
   "invalid_backup_type_prompt": "Invalid backup type. Please enter 'full' or 'differential'.",
   "enter_backup_name": "Enter backup name:",
   "enter_source_directory": "Enter source directory:",

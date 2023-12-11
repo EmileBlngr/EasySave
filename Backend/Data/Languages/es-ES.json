@@ -61,7 +61,9 @@
   "invalid_backup_number": "Número de copia de seguridad inválido.",
 
   "creating_new_backup": "Creando una nueva copia de seguridad:",
-  "enter_backup_type": "Introduzca el tipo de copia de seguridad (completa/diferencial):",
+  "enter_backup_type": "Introduzca el tipo de copia de seguridad :",
+  "backup_full": "completa",
+  "backup_differential": "diferencial",
   "invalid_backup_type_prompt": "Tipo de copia de seguridad inválido. Por favor, introduzca 'completa' o 'diferencial'.",
   "enter_backup_name": "Introduzca el nombre de la copia de seguridad:",
   "enter_source_directory": "Introduzca el directorio fuente:",

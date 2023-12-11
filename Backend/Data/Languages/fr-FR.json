@@ -61,7 +61,9 @@
   "invalid_backup_number": "Numéro de sauvegarde invalide.",
 
   "creating_new_backup": "Création d'une nouvelle sauvegarde :",
-  "enter_backup_type": "Entrez le type de sauvegarde (total/différentiel) :",
+  "enter_backup_type": "Entrez le type de sauvegarde :",
+  "backup_full": "complète",
+  "backup_differential": "différentielle",
   "invalid_backup_type_prompt": "Type de sauvegarde invalide. Veuillez entrer 'total' ou 'différentiel'.",
   "enter_backup_name": "Entrez le nom de la sauvegarde :",
   "enter_source_directory": "Entrez le répertoire source :",
@@ -81,5 +83,5 @@
   "enter_your_choice": "Entrez votre choix :",
 
   "enter_settings": "Quel paramètre voulez-vous configurer ?",
-  "choose_language":  "Rentrez une langue parmis celles disponibles :"
+  "choose_language": "Rentrez une langue parmis celles disponibles :"
 }
