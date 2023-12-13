@@ -8,8 +8,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfApp1;
 
-namespace FrontendWPF
+namespace WpfApp1
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -21,9 +22,16 @@ namespace FrontendWPF
             InitializeComponent();
         }
 
-        private void InitializeComponent()
+        private void NewSaveButton_Click(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            MainContentFrame.Navigate(new PageNew()); // Assurez-vous que PageNew est une 'Page'
+        }
+
+        private void SettingsButton_Click(object sender, RoutedEventArgs e)
+        {
+            MainContentFrame.Navigate(new PageParam()); // Utilisez le nom correct de la classe PageParam
+
+
         }
     }
 }

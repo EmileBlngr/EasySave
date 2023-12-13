@@ -94,13 +94,13 @@
             <Image Source="C:\Users\sissy\Desktop\LEPROJET\FrontendWPF\easysavelogo.png" Grid.Row="0" Margin="10" Height="90" Stretch="UniformToFill"/>
 
             <StackPanel Grid.Column="0" Grid.Row="2" VerticalAlignment="Center">
-                <Button Content="📁 Nouvelle sauvegarde" Style="{StaticResource AnimatedButtonStyle}" />
+                <Button Content="📁 Nouvelle sauvegarde" Style="{StaticResource AnimatedButtonStyle}" Click="NewSaveButton_Click" />
                 <Button Content="📜 Accès aux logs" Style="{StaticResource AnimatedButtonStyle}" />
-                <Button Content="⚙ Paramètres" Style="{StaticResource AnimatedButtonStyle}" />
+                <Button Content="⚙️ Paramètres" Style="{StaticResource AnimatedButtonStyle}" Click="SettingsButton_Click" />
                 <Button Content="🔍 Suivi des sauvegardes" Style="{StaticResource AnimatedButtonStyle}" />
-            </StackPanel>
+            </StackPanel>       
 
-            <!-- Bouton Quitter -->
+              <!-- Bouton Quitter -->
             <Button Content="❌ Quitter" Style="{StaticResource QuitButtonStyle}" Grid.Row="4"/>
         </Grid>
 
@@ -108,19 +108,32 @@
         <StackPanel Grid.Column="1" Margin="10">
             <TextBlock Text="MES SAUVEGARDES" FontWeight="Bold" FontSize="30" Margin="0,20,0,100" HorizontalAlignment="Center"/>
             <ListView Width="Auto" Margin="0,10">
-                <ListView.ItemContainerStyle>
+                
+                
+                
+              <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
                         <Setter Property="HorizontalAlignment" Value="Stretch"/>
                         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                     </Style>
                 </ListView.ItemContainerStyle>
-                <TextBlock Text="nouvelle sauvegarde" FontWeight="Bold" FontSize="15" Margin="10,0"/>
+
+        
+                        <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="nouvelle sauvegarde" FontWeight="Bold" FontSize="15" Margin="10,0" VerticalAlignment="Center"/>
+                    <Button Content="▶ "  Width="33" Height="20" Background="white"/>
+                    <Button Content="⏸" Margin="5" Width="33" Height="20" Background="white"/>
+                    <Button Content="■ " Margin="5" Width="33" Height="20"  Background="White"/>
+                    <Button Content="📃" Margin="5" Width="33" Height="20"  Background="White"/>
+                </StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                     <ProgressBar Width="400" Height="15" Margin="0,10" Value="65"/>
                     <TextBlock Text="65%" VerticalAlignment="Center" Margin="5,0"/>
                 </StackPanel>
                 <TextBlock Text="temps estimé" FontWeight="Bold" FontSize="10" Margin="10,0"/>
+
             </ListView>
         </StackPanel>
+        <Frame x:Name="MainContentFrame" Grid.Column="1" Margin="10"/>
     </Grid>
 </Window>
