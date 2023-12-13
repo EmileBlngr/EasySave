@@ -16,10 +16,10 @@ namespace Frontend_console.View
             string inputLanguage;
             string inputlogs;
 
-            Console.WriteLine(backupManager.Settings.LanguageSettings.LanguageData["enter_settings"]);
-            Console.WriteLine(backupManager.Settings.LanguageSettings.LanguageData["go_back"]);
-            Console.WriteLine("2. " + backupManager.Settings.LanguageSettings.LanguageData["logs_format_title"]);
-            Console.WriteLine("3. " + backupManager.Settings.LanguageSettings.LanguageData["language_title"]);
+            Console.WriteLine(backupManager.settings.LanguageSettings.LanguageData["enter_settings"]);
+            Console.WriteLine(backupManager.settings.LanguageSettings.LanguageData["go_back"]);
+            Console.WriteLine("2. " + backupManager.settings.LanguageSettings.LanguageData["logs_format_title"]);
+            Console.WriteLine("3. " + backupManager.settings.LanguageSettings.LanguageData["language_title"]);
             string userInput = Console.ReadLine();
             switch (userInput)
             {
@@ -37,7 +37,7 @@ namespace Frontend_console.View
 
                     if (Enum.TryParse(inputlogs, true, out EnumLogFormat selectedLogFormat))
                     {
-                        bool currentState = backupManager.Settings.LogSettings.GetLogFormatState(selectedLogFormat);
+                        bool currentState = backupManager.settings.LogSettings.GetLogFormatState(selectedLogFormat);
                         Console.WriteLine($"Le format de log '{selectedLogFormat}' est actuellement {(currentState ? "activé" : "désactivé")}.");
 
                         // Demander à l'utilisateur de modifier l'état
@@ -51,7 +51,7 @@ namespace Frontend_console.View
                             }
                             else
                             {
-                                backupManager.Settings.LogSettings.SetLogFormatState(selectedLogFormat, newState);
+                                backupManager.settings.LogSettings.SetLogFormatState(selectedLogFormat, newState);
                                 Console.WriteLine($"Le format de log '{selectedLogFormat}' a été {(newState ? "activé" : "désactivé")}.");
                             }
                         }
@@ -66,7 +66,7 @@ namespace Frontend_console.View
                     }
                     break;
                 case "3":
-                    Console.WriteLine(backupManager.Settings.LanguageSettings.LanguageData["choose_language"]);
+                    Console.WriteLine(backupManager.settings.LanguageSettings.LanguageData["choose_language"]);
 
                     // Afficher toutes les langues disponibles
                     foreach (var enum_language in Enum.GetValues(typeof(EnumLanguages)))
@@ -81,7 +81,7 @@ namespace Frontend_console.View
                     if (Enum.TryParse(inputLanguage, true, out EnumLanguages selectedLanguage))
                     {
                         // Appeler SetLanguage avec la langue sélectionnée
-                        backupManager.Settings.SetLanguage(selectedLanguage);
+                        backupManager.settings.SetLanguage(selectedLanguage);
                         Console.WriteLine("Language changed successfully.");
                     }
                     else
@@ -91,7 +91,7 @@ namespace Frontend_console.View
                     break;
 
                 default:
-                    Console.WriteLine(backupManager.Settings.LanguageSettings.LanguageData["invalid_choice"]);
+                    Console.WriteLine(backupManager.settings.LanguageSettings.LanguageData["invalid_choice"]);
                     break;
             }
 

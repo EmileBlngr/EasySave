@@ -13,27 +13,24 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="Settings"/> class.
         /// </summary>
-        public Settings()
+        private Settings()
         {
             // Initialize the default language, can be changed later
             LanguageSettings = new Language();
-            LogSettings = new Logs(EnumLogFormat.Json);
+            LogSettings = new Logs();
 
         }
 
         /// <summary>
         /// Gets the singleton instance.
         /// </summary>
-        public static Settings Instance
+        public static Settings GetInstance()
         {
-            get
+            if (_instance == null)
             {
-                if (_instance == null)
-                {
-                    _instance = new Settings();
-                }
-                return _instance;
+                _instance = new Settings();
             }
+            return _instance;
         }
 
         /// <summary>

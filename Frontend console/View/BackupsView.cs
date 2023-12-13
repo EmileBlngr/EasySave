@@ -13,24 +13,24 @@ namespace Frontend_console.View
     {
         public static void ListBackups(BackupManager backupManager)
         {
-            Console.WriteLine(backupManager.Settings.LanguageSettings.LanguageData["list_of_backups"]);
+            Console.WriteLine(backupManager.settings.LanguageSettings.LanguageData["list_of_backups"]);
 
             if (backupManager.BackupList.Count == 0)
             {
-                Console.WriteLine(backupManager.Settings.LanguageSettings.LanguageData["no_backups_available"]);
+                Console.WriteLine(backupManager.settings.LanguageSettings.LanguageData["no_backups_available"]);
             }
             else
             {
                 foreach (var backup in backupManager.BackupList)
                 {
                     Console.WriteLine($"- {backup.Name} ({backup.GetType().Name}):");
-                    Console.WriteLine(string.Format(backupManager.Settings.LanguageSettings.LanguageData["source_directory"], backup.SourceDirectory));
-                    Console.WriteLine(string.Format(backupManager.Settings.LanguageSettings.LanguageData["target_directory"], backup.TargetDirectory));
+                    Console.WriteLine(string.Format(backupManager.settings.LanguageSettings.LanguageData["source_directory"], backup.SourceDirectory));
+                    Console.WriteLine(string.Format(backupManager.settings.LanguageSettings.LanguageData["target_directory"], backup.TargetDirectory));
                 }
-                Console.WriteLine(backupManager.Settings.LanguageSettings.LanguageData["options"]);
-                Console.WriteLine(backupManager.Settings.LanguageSettings.LanguageData["go_back"]);
-                Console.WriteLine(backupManager.Settings.LanguageSettings.LanguageData["manage_backup"]);
-                Console.WriteLine(backupManager.Settings.LanguageSettings.LanguageData["launch_all_backups"]);
+                Console.WriteLine(backupManager.settings.LanguageSettings.LanguageData["options"]);
+                Console.WriteLine(backupManager.settings.LanguageSettings.LanguageData["go_back"]);
+                Console.WriteLine(backupManager.settings.LanguageSettings.LanguageData["manage_backup"]);
+                Console.WriteLine(backupManager.settings.LanguageSettings.LanguageData["launch_all_backups"]);
 
                 string userInputOption = Console.ReadLine();
 
@@ -40,7 +40,7 @@ namespace Frontend_console.View
                         // Do nothing, simply return to the main menu
                         break;
                     case "2":
-                        Console.WriteLine(string.Format(backupManager.Settings.LanguageSettings.LanguageData["backup_number_prompt"], backupManager.BackupList.Count));
+                        Console.WriteLine(string.Format(backupManager.settings.LanguageSettings.LanguageData["backup_number_prompt"], backupManager.BackupList.Count));
                         string userInputBackup = Console.ReadLine();
                         if (int.TryParse(userInputBackup, out int backupIndex) && backupIndex > 0 && backupIndex <= backupManager.BackupList.Count)
                         {
@@ -49,14 +49,14 @@ namespace Frontend_console.View
                         }
                         else
                         {
-                            Console.WriteLine(backupManager.Settings.LanguageSettings.LanguageData["invalid_backup_number"]);
+                            Console.WriteLine(backupManager.settings.LanguageSettings.LanguageData["invalid_backup_number"]);
                         }
                         break;
                     case "3":
                         //LaunchAllBackups(backupManager);
                         break;
                     default:
-                        Console.WriteLine(backupManager.Settings.LanguageSettings.LanguageData["invalid_choice"]);
+                        Console.WriteLine(backupManager.settings.LanguageSettings.LanguageData["invalid_choice"]);
                         break;
                 }
             }

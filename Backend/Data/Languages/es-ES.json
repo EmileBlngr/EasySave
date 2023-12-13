@@ -39,6 +39,7 @@
   "accessing_backups": "Consultando copias de seguridad existentes...",
   "accessing_logs": "Consultando registros...",
   "exiting": "Cerrando...",
+  "logs_folder_doest_exist": "El directorio de registros no existe.",
 
   "differential_backup_success": "La copia de seguridad diferencial se completó con éxito en {0} segundos",
   "error_copying_files": "Error al copiar archivos: {0}",

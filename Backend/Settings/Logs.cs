@@ -17,9 +17,8 @@ namespace Backend.Settings
         /// Initializes a new instance of the <see cref="Logs"/> class with the specified log format.
         /// </summary>
         /// <param name="logFormat">The log format.</param>
-        public Logs(EnumLogFormat logFormat)
+        public Logs()
         {
-            LogFormat = logFormat;
             WriteToJson = true;
             WriteToTxt = false;
         }
@@ -30,8 +29,7 @@ namespace Backend.Settings
         /// <param name="logEntry">The log entry to be written.</param>
         public void WriteLog(BackupLogEntry logEntry)
         {
-            string logMessage = FormatLogMessage(logEntry);
-            SaveLogMessage(logMessage);
+            FormatLogMessage(logEntry);
         }
 
         /// <summary>
@@ -39,37 +37,31 @@ namespace Backend.Settings
         /// </summary>
         /// <param name="logEntry">The log entry to be formatted.</param>
         /// <returns>The formatted log message.</returns>
-        private string FormatLogMessage(BackupLogEntry logEntry)
+        private void FormatLogMessage(BackupLogEntry logEntry)
         {
-            switch (LogFormat)
-            {
-                case EnumLogFormat.Json:
-                    // Format the message using JsonSerializer
-                    var options = new JsonSerializerOptions { WriteIndented = true };
-                    return JsonSerializer.Serialize(logEntry, options) + ",";
-                case EnumLogFormat.Txt:
-                default:
-                    // Format for a simple text file
-                    return $"{logEntry.Time}: Backup '{logEntry.Name}' from '{logEntry.FileSource}' to '{logEntry.FileTarget}' " +
-                           $"size {logEntry.FileSize} bytes took {logEntry.FileTransferTime}ms";
-            }
-        }
 
-        /// <summary>
-        /// Saves a log message to the log file.
-        /// </summary>
-        /// <param name="message">The log message to be saved.</param>
-        private void SaveLogMessage(string message)
-        {
-            string fileName = GetLogFileName();
-            File.AppendAllText(fileName, message + Environment.NewLine);
+            if (WriteToJson)
+            {
+                // Format the message using JsonSerializer
+                var options = new JsonSerializerOptions { WriteIndented = true };
+                string fileName = GetLogFileName(EnumLogFormat.Json);
+                File.AppendAllText(fileName, JsonSerializer.Serialize(logEntry, options) + "," + Environment.NewLine);
+            }
+            if (WriteToTxt)
+            {
+                // Format for a simple text file
+                string fileName = GetLogFileName(EnumLogFormat.Txt);
+                File.AppendAllText(fileName, $"{logEntry.Time}: Backup '{logEntry.Name}' from '{logEntry.FileSource}' to '{logEntry.FileTarget}' " +
+                       $"size {logEntry.FileSize} bytes took {logEntry.FileTransferTime}ms" + Environment.NewLine);
+            }
+
         }
 
         /// <summary>
         /// Gets the log file name based on the current date and log format.
         /// </summary>
         /// <returns>The full path of the log file.</returns>
-        private string GetLogFileName()
+        private string GetLogFileName(EnumLogFormat logFormat)
         {
             string logsDirectory = "Logs"; // Name of the directory for log files
             if (!Directory.Exists(logsDirectory))
@@ -80,7 +72,7 @@ namespace Backend.Settings
 
             // Build the file name based on the date and log format
             string date = DateTime.Now.ToString("yyyy-MM-dd");
-            string extension = LogFormat == EnumLogFormat.Json ? "json" : "txt";
+            string extension = logFormat == EnumLogFormat.Json ? "json" : "txt";
             string fileName = $"log_{date}.{extension}";
 
             // Return the full path of the log file
@@ -115,7 +107,7 @@ namespace Backend.Settings
             switch (logFormat)
             {
                 case EnumLogFormat.Json:
-                    WriteToJson = newState;
+                    WriteToJson = newState;                    
                     break;
                 case EnumLogFormat.Txt:
                     WriteToTxt = newState;
@@ -131,30 +123,15 @@ namespace Backend.Settings
         /// <param name="backup">The backup for which log files are created.</param>
         public void Createlogs(ABackup backup)
         {
-            var logEntries = new List<BackupLogEntry>
-    {
-        new BackupLogEntry
-        {
-            Name = backup.Name,
-            FileSource = backup.SourceDirectory,
-            FileTarget = backup.TargetDirectory,
-            FileSize = backup.TotalSize,
-            FileTransferTime = backup.FileTransferTime
-        },
-
-    };
-
-            if (WriteToJson)
+            BackupLogEntry backupLogEntry = new BackupLogEntry
             {
-                Logs jsonLogger = new(EnumLogFormat.Json);
-                logEntries.ForEach(jsonLogger.WriteLog);
-            }
-
-            if (WriteToTxt)
-            {
-                Logs txtLogger = new(EnumLogFormat.Txt);
-                logEntries.ForEach(txtLogger.WriteLog);
-            }
+                Name = backup.Name,
+                FileSource = backup.SourceDirectory,
+                FileTarget = backup.TargetDirectory,
+                FileSize = backup.TotalSize,
+                FileTransferTime = backup.FileTransferTime
+            };
+            WriteLog(backupLogEntry);        
         }
     }
 }
