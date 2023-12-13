@@ -58,7 +58,7 @@ namespace Backend.Backup
                 stopwatch.Stop();
                 ProgressDisplayTimer.Stop();
                 State.State = EnumState.Failed;
-                Console.WriteLine(string.Format(Settings.Settings.Instance.LanguageSettings.LanguageData["error_copying_files"], ex.Message));
+                Console.WriteLine(string.Format(Settings.Settings.GetInstance().LanguageSettings.LanguageData["error_copying_files"], ex.Message));
 
             }
             finally
@@ -67,8 +67,8 @@ namespace Backend.Backup
                 ProgressDisplayTimer.Stop();
                 FileTransferTime = (float)stopwatch.Elapsed.TotalSeconds;
                 State.State = EnumState.Finished;
-                Console.WriteLine(string.Format(Settings.Settings.Instance.LanguageSettings.LanguageData["differential_backup_success"], FileTransferTime));
-                Settings.Settings.Instance.LogSettings.Createlogs(this);
+                Console.WriteLine(string.Format(Settings.Settings.GetInstance().LanguageSettings.LanguageData["differential_backup_success"], FileTransferTime));
+                Settings.Settings.GetInstance().LogSettings.Createlogs(this);
             }
         }
 

@@ -70,7 +70,7 @@ namespace Backend.Backup
             }
             catch (Exception ex)
             {
-                Console.WriteLine(string.Format(Settings.Settings.Instance.LanguageSettings.LanguageData["error_scanning_files"], ex.Message));
+                Console.WriteLine(string.Format(Settings.Settings.GetInstance().LanguageSettings.LanguageData["error_scanning_files"], ex.Message));
 
             }
         }
@@ -97,7 +97,7 @@ namespace Backend.Backup
         /// <param name="e"></param>
         public void DisplayProgress(object sender, EventArgs e)
         {
-            Console.WriteLine(string.Format(Settings.Settings.Instance.LanguageSettings.LanguageData["backup_progress"], 
+            Console.WriteLine(string.Format(Settings.Settings.GetInstance().LanguageSettings.LanguageData["backup_progress"], 
                 State.Progress * 100, State.RemainingFiles, State.RemainingSize, State.CurrentFileSource, State.CurrentFileTarget));
 
 

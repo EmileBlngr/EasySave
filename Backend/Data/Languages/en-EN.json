@@ -39,6 +39,7 @@
   "accessing_backups": "Accessing existing backups...",
   "accessing_logs": "Accessing logs...",
   "exiting": "Exiting...",
+  "logs_folder_doest_exist": "The log folder doesnt exist",
 
   "differential_backup_success": "Differential Backup successfully finished in {0} seconds",
   "error_copying_files": "Error copying files: {0}",

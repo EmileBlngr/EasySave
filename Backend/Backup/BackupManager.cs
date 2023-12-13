@@ -2,7 +2,7 @@
 {
     public class BackupManager
     {
-        public Backend.Settings.Settings Settings { get; set; }
+        public Backend.Settings.Settings settings;
         public List<ABackup> BackupList { get; set; }
         /// <summary>
         /// Constructor of BackupManager.
@@ -10,7 +10,7 @@
         /// </summary>
         public BackupManager()
         {
-            Settings = new Backend.Settings.Settings();
+            settings = Settings.Settings.GetInstance();
             BackupList = new List<ABackup>();
         }
         /// <summary>
@@ -54,7 +54,7 @@
             }
             else
             {
-                string errorMessage = Settings.LanguageSettings.LanguageData["unsupported_backup_type"];
+                string errorMessage = settings.LanguageSettings.LanguageData["unsupported_backup_type"];
                 throw new ArgumentException(errorMessage);
             }
         }
@@ -72,7 +72,7 @@
             }
             catch (Exception ex)
             {
-                string errorMessageUNC = Settings.LanguageSettings.LanguageData["converting_path_unc_error"];
+                string errorMessageUNC = settings.LanguageSettings.LanguageData["converting_path_unc_error"];
                 Console.WriteLine($"{errorMessageUNC} {ex.Message}");
                 return null;
             }
