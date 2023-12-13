@@ -44,24 +44,24 @@
         </Style>
     </Page.Resources>
 
-    <!-- Contenu de la Page -->
+    <!-- Content of the page  -->
     <Grid Background="White">
         <GroupBox Header="Nouvelle sauvegarde" Margin="10">
             <StackPanel>
-                <!-- Grille pour le nom de la sauvegarde et le type de sauvegarde -->
+                <!-- grid for back up name -->
                 <Grid Margin="5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <!-- Nom de la sauvegarde -->
+                    <!-- backup name  -->
                     <StackPanel Grid.Column="0">
                         <TextBlock Text="Nom de votre sauvegarde" Margin="5"/>
                         <TextBox Style="{StaticResource TextBoxStyle}" Height="25" Width="300"/>
                     </StackPanel>
 
-                    <!-- Type de la sauvegarde -->
+                    <!-- Backup type  -->
                     <StackPanel Grid.Column="1" Margin="5,0,0,0">
                         <TextBlock Text="Type de sauvegarde" Margin="5"/>
                         <ComboBox Height="25" Width="300" Margin="5" SelectionChanged="ComboBox_SelectionChanged">
@@ -85,7 +85,7 @@
                     <Button Content="Parcourir" Style="{StaticResource ButtonStyle}" Width="100"/>
                 </StackPanel>
 
-                <!-- Bouton pour créer la sauvegarde -->
+                <!-- create back up button  -->
                 <Button Content="Créer la sauvegarde" Style="{StaticResource ButtonStyle}" Height="30" Width="200" Margin="5"/>
             </StackPanel>
         </GroupBox>

@@ -24,7 +24,7 @@ namespace WpfApp1
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            // Logique à exécuter lorsque la sélection change dans la ComboBox.
+
         }
     }
 }

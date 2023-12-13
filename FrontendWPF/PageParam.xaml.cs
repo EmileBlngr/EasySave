@@ -19,7 +19,7 @@ namespace WpfApp1
     {
         public PageParam()
         {
-            InitializeComponent(); // Ceci est essentiel pour initialiser les composants de la page
+            InitializeComponent(); //initialize components of my page so it can be displayed 
         }
     }
 }
