@@ -1,6 +1,7 @@
 ﻿
 using Backend.Backup;
 using System.Text.Json;
+using System.Xml.Serialization;
 
 namespace Backend.Settings
 {
@@ -12,6 +13,7 @@ namespace Backend.Settings
         public bool WriteToJson { get; set; }
         public bool WriteToTxt { get; set; }
 
+        public bool WriteToXml { get; set; }
         // <summary>
         /// Initializes a new instance of the <see cref="Logs"/> class with default settings.
         /// </summary>
@@ -19,6 +21,7 @@ namespace Backend.Settings
         {
             WriteToJson = true;
             WriteToTxt = false;
+            WriteToXml = false;
         }
 
         /// <summary>
@@ -50,6 +53,19 @@ namespace Backend.Settings
                 File.AppendAllText(fileName, $"{logEntry.Time}: Backup '{logEntry.Name}' from '{logEntry.FileSource}' to '{logEntry.FileTarget}' " +
                        $"size {logEntry.FileSize} bytes took {logEntry.FileTransferTime}ms" + Environment.NewLine);
             }
+            if (WriteToXml)
+            {
+                string fileName = GetLogFileName(EnumLogFormat.Xml);
+                Console.WriteLine(fileName);
+                XmlSerializer serializer = new XmlSerializer(typeof(BackupLogEntry));
+                using (StringWriter writer = new StringWriter())
+                {
+                    serializer.Serialize(writer, logEntry);
+                    File.AppendAllText(fileName, writer.ToString() + Environment.NewLine);
+                }
+            }
+
+
         }
 
         /// <summary>
@@ -68,7 +84,13 @@ namespace Backend.Settings
 
             // Build the file name based on the date and log format
             string date = DateTime.Now.ToString("yyyy-MM-dd");
-            string extension = logFormat == EnumLogFormat.Json ? "json" : "txt";
+            string extension = logFormat switch
+            {
+                EnumLogFormat.Json => "json",
+                EnumLogFormat.Txt => "txt",
+                EnumLogFormat.Xml => "xml",
+            };
+
             string fileName = $"log_{date}.{extension}";
 
             // Return the full path of the log file
@@ -88,6 +110,8 @@ namespace Backend.Settings
                     return WriteToJson;
                 case EnumLogFormat.Txt:
                     return WriteToTxt;
+                case EnumLogFormat.Xml:
+                    return WriteToXml;
                 default:
                     throw new ArgumentException("Format de log non pris en charge");
             }
@@ -107,6 +131,9 @@ namespace Backend.Settings
                     break;
                 case EnumLogFormat.Txt:
                     WriteToTxt = newState;
+                    break;
+                case EnumLogFormat.Xml:
+                    WriteToXml = newState;
                     break;
                 default:
                     throw new ArgumentException("Format de log non pris en charge");
