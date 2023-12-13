@@ -1,32 +1,42 @@
-﻿
-using System.Text.Json;
+﻿using System.Text.Json;
 
 namespace Backend.Settings
 {
+    /// <summary>
+    /// Class representing language management in the application.
+    /// </summary>
     public class Language
     {
         public string LanguageFile { get; set; }
-        public EnumLanguages CurrentLanguage { get; set; } // used already defined enum
+        public EnumLanguages CurrentLanguage { get; set; }
         public Dictionary<string, string> LanguageData { get; set; }
-
+        /// <summary>
+        /// Constructor of the Language class.
+        /// </summary>
         public Language()
         {
             CurrentLanguage = EnumLanguages.FR;
-            string basePath = AppDomain.CurrentDomain.BaseDirectory; // get the local path of the app
+            string basePath = AppDomain.CurrentDomain.BaseDirectory; // Get the local path of the app
 
             string languageCode = ConvertEnumToLanguageCode(CurrentLanguage);
-            //Console.WriteLine($"the local path catched is :{basePath}");
 
             LanguageFile = Path.Combine(basePath, "Data", "languages", $"{languageCode}.json"); // Create a local path to the json file language
-            //Console.WriteLine($"the local path created is :{LanguageFile}");
+            
             CreateLanguageFile();
         }
-
+        /// <summary>
+        /// Converts the language enum to a language code used in the file name.
+        /// </summary>
+        /// <param name="language">Enum representing the language.</param>
+        /// <returns>Language code.</returns>
         public string ConvertEnumToLanguageCode(EnumLanguages language)
         {
             string code = language.ToString().ToLower();
             return $"{code}-{code.ToUpper()}";
         }
+        /// <summary>
+        /// Creates the language file if it does not exist and loads the language data.
+        /// </summary>
         public void CreateLanguageFile()
         {
             if (LanguageData == null || !LanguageData.Any())
@@ -34,14 +44,15 @@ namespace Backend.Settings
                 loadFileLocal();
             }
         }
+        /// <summary>
+        /// Loads the language file locally from the file system.
+        /// </summary>
         public void loadFileLocal()
         {
-            //Console.WriteLine($"Trying to load language file at: {LanguageFile}");
-
-            if (File.Exists(LanguageFile)) //vérifier si le fichier existe
+            if (File.Exists(LanguageFile)) // Verify if the file exist
             {
                 string jsonString = File.ReadAllText(LanguageFile);
-                
+
                 try
                 {
                     LanguageData = JsonSerializer.Deserialize<Dictionary<string, string>>(jsonString); //affect deserialized data to the LanguageData property
@@ -53,33 +64,9 @@ namespace Backend.Settings
 
             }
             else
-            { 
-                Console.WriteLine("Language file not found");}
-
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        public void ShowFirstValue()
-        {
-
-
-            Console.WriteLine($"Attempting to load file at: {LanguageFile}");
-            // create the language folder if not already created
-            if (LanguageData == null || LanguageData.Count==0)
             {
-                loadFileLocal();
+                Console.WriteLine("Language file not found");
             }
-
-            // veryfying the key "new_backup_access" exist
-            if (LanguageData != null && LanguageData.TryGetValue("new_backup_access", out string value))
-
-                Console.WriteLine(value);
-
-            else
-
-                Console.WriteLine("La clé spécifiée est introuvable dans les données de langue.");
-
         }
     }
 }

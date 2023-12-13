@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Backend.Settings
 {
+    /// <summary>
+    /// Represents an entry for a backup log.
+    /// </summary>
     public class BackupLogEntry
     {
         public string Name { get; set; }
