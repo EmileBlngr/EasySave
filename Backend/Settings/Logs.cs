@@ -56,7 +56,6 @@ namespace Backend.Settings
             if (WriteToXml)
             {
                 string fileName = GetLogFileName(EnumLogFormat.Xml);
-                Console.WriteLine(fileName);
                 XmlSerializer serializer = new XmlSerializer(typeof(BackupLogEntry));
                 using (StringWriter writer = new StringWriter())
                 {

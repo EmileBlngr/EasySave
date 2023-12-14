@@ -41,7 +41,7 @@
   "exiting": "Exiting...",
   "logs_folder_doest_exist": "The log folder doesnt exist",
 
-  "differential_backup_success": "Differential Backup successfully finished in {0} seconds",
+  "full_backup_finished": "Full Backup successfully finished in {0} seconds",
   "error_copying_files": "Error copying files: {0}",
 
   "error_copying_modified_files": "Error copying modified or new files: {0}",

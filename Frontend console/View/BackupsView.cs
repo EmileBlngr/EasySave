@@ -53,7 +53,12 @@ namespace Frontend_console.View
                         }
                         break;
                     case "3":
-                        //LaunchAllBackups(backupManager);
+                        foreach ( ABackup backup in backupManager.BackupList)
+                        {
+                            backup.PerformBackup();
+                            Console.WriteLine("\n\n\n");
+                        }
+
                         break;
                     default:
                         Console.WriteLine(backupManager.settings.LanguageSettings.LanguageData["invalid_choice"]);

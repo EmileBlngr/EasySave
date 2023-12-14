@@ -67,7 +67,7 @@ namespace Backend.Backup
                 ProgressDisplayTimer.Stop();
                 FileTransferTime = (float)stopwatch.Elapsed.TotalSeconds;
                 State.State = EnumState.Finished;
-                Console.WriteLine(string.Format(Settings.Settings.GetInstance().LanguageSettings.LanguageData["differential_backup_success"], FileTransferTime));
+                Console.WriteLine(string.Format(Settings.Settings.GetInstance().LanguageSettings.LanguageData["full_backup_finished"], FileTransferTime));
                 Settings.Settings.GetInstance().LogSettings.Createlogs(this);
             }
         }

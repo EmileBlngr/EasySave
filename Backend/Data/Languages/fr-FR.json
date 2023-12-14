@@ -41,8 +41,7 @@
   "exiting": "Fermeture en cours...",
   "logs_folder_doest_exist": "Le dossier des logs n'existe pas.",
 
-
-  "differential_backup_success": "La sauvegarde différentielle s'est terminée avec succès en {0} secondes",
+  "full_backup_finished": "La sauvegarde totale s'est terminée avec succès en {0} secondes",
   "error_copying_files": "Erreur lors de la copie des fichiers : {0}",
 
   "error_copying_modified_files": "Erreur lors de la copie des fichiers modifiés ou nouveaux : {0}",
