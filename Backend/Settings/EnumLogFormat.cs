@@ -12,6 +12,7 @@ namespace Backend.Settings
     public enum EnumLogFormat
     {
         Txt,
-        Json
+        Json,
+        Xml
     }
 }

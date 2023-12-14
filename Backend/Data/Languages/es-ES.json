@@ -41,7 +41,7 @@
   "exiting": "Cerrando...",
   "logs_folder_doest_exist": "El directorio de registros no existe.",
 
-  "differential_backup_success": "La copia de seguridad diferencial se completó con éxito en {0} segundos",
+  "full_backup_full": "La copia de seguridad completa se completó con éxito en {0} segundos",
   "error_copying_files": "Error al copiar archivos: {0}",
 
   "error_copying_modified_files": "Error al copiar archivos modificados o nuevos: {0}",
