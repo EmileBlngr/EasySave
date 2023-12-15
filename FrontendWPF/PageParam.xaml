@@ -58,7 +58,7 @@
             <GroupBox HorizontalAlignment="Stretch" Margin="10" VerticalAlignment="Stretch">
                 <GroupBox.Header>
                     <TextBlock Text="Paramètres" FontSize="22" FontWeight="Bold"/>
-                    <!-- Taille de police ajustée ici -->
+                    <!-- police size adjusted here  -->
                 </GroupBox.Header>
                 <Grid>
                     <Grid.RowDefinitions>
@@ -81,12 +81,14 @@
 
                     <!-- Section Format des Logs -->
                     <TextBlock Text="Format des Logs" Style="{StaticResource LabelStyle}" Grid.Column="1" Grid.Row="0"/>
-                    <StackPanel Grid.Column="1" Grid.Row="1">
-                        <RadioButton Content=".JSON" GroupName="Formats" Style="{StaticResource RadioButtonStyle}"/>
-                        <RadioButton Content=".TXT" GroupName="Formats" IsChecked="True" Style="{StaticResource RadioButtonStyle}"/>
-                    </StackPanel>
+                <StackPanel Grid.Column="1" Grid.Row="1">
+                    <CheckBox Content=".JSON" />
+                    <CheckBox Content=".TXT" IsChecked="True"/>
+                    <CheckBox Content=".XML" IsChecked="True"/>
 
-                    <!-- Bouton Appliquer -->
+                </StackPanel>
+
+                <!-- Bouton Appliquer -->
                     <Button Content="Appliquer les changements" Style="{StaticResource ButtonStyle}" Grid.Row="3" Grid.ColumnSpan="2" Margin="166,140,162,24"/>
                 </Grid>
             </GroupBox>

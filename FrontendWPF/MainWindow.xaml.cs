@@ -37,12 +37,18 @@ namespace WpfApp1
         }
         private void LogsButton_Click(object sender, RoutedEventArgs e)
         {
+            // Ajout d'un message de débogage pour suivre les appels à cette méthode
+            System.Diagnostics.Debug.WriteLine("LogsButton_Click called");
+
             string logPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
 
             try
             {
                 if (System.IO.Directory.Exists(logPath))
                 {
+                    // Ajout d'un message de débogage pour suivre l'exécution conditionnelle
+                    System.Diagnostics.Debug.WriteLine("Directory exists, attempting to open.");
+
                     // Le dossier existe, ouvrir l'explorateur de fichiers sur ce chemin
                     System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo()
                     {
@@ -53,14 +59,23 @@ namespace WpfApp1
                 }
                 else
                 {
+
                     // Si le dossier n'existe pas, informer l'utilisateur
                     MessageBox.Show("Le dossier des logs n'existe pas dans le répertoire de l'application.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
+                } 
             }
-  
+            catch (Exception ex)
+            {
+                
+
+                // En cas d'erreur lors de la tentative d'ouverture du dossier, informer l'utilisateur
+                MessageBox.Show($"Impossible d'ouvrir le dossier des logs : {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
 
-
     }
+
+
+
 }
