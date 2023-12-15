@@ -21,7 +21,7 @@ EasySave est un logiciel de sauvegarde conçu pour vous permettre de créer des 
 
 6. **Quitter**: Permet de quitter l'application.
 
-Sauvegardez vos données en toute confiance et simplicité grâce à notre logiciel de sauvegarde efficace. Merci de faire partie de notre communauté !
+##Sauvegardez vos données en toute confiance et simplicité grâce à notre logiciel de sauvegarde efficace. Merci de faire partie de notre communauté !
 
 # EasySave(EN)
 
