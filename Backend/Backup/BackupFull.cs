@@ -79,6 +79,7 @@ namespace Backend.Backup
                 {
                     State.State = EnumState.Finished;
                     Console.WriteLine(string.Format(Settings.Settings.GetInstance().LanguageSettings.LanguageData["full_backup_finished"], FileTransferTime));
+                    Console.WriteLine("\n\n\n");
                     Settings.Settings.GetInstance().LogSettings.Createlogs(this);
                 }
             }

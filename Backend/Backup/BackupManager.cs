@@ -44,13 +44,13 @@
             {
 
                 BackupList.Add(new BackupFull(name, sourceDirectory, targetDirectory));
-                
+
 
             }
             else if (backupType == "2")
             {
                 BackupList.Add(new BackupDifferential(name, sourceDirectory, targetDirectory));
-                
+
             }
             else
             {
@@ -78,5 +78,16 @@
             }
         }
 
+        public void PerformAllBackups()
+        {
+            List<Task> backupTasks = new List<Task>();
+
+            foreach (ABackup backup in BackupList)
+            {
+                Task backupTask = Task.Run(() => backup.PerformBackup());
+                backupTasks.Add(backupTask);
+            }
+            Task.WaitAll(backupTasks.ToArray());
+        }
     }
 }
