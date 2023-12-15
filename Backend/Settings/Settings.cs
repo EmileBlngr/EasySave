@@ -11,6 +11,8 @@ namespace Backend.Settings
         public Language LanguageSettings { get; set; }
         public Logs LogSettings { get; set; }
 
+        public List<string> ExtensionsToEncrypt { get; set; }
+
         public string IgnoredFile { get; set; }
 
         /// <summary>
@@ -21,7 +23,8 @@ namespace Backend.Settings
             // Initialize the default language, can be changed later
             LanguageSettings = new Language();
             LogSettings = new Logs();
-
+            ExtensionsToEncrypt = new List<string>();
+            AddExtensionsToEncrypt(".txt");
         }
 
         /// <summary>
@@ -56,6 +59,24 @@ namespace Backend.Settings
             LanguageSettings.LanguageFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data", "languages", $"{languageCode}.json");
             LanguageSettings.loadFileLocal();
             LanguageSettings.CreateLanguageFile();
+        }
+
+        /// <summary>
+        /// Adds an extension to the list of extensions to encrypt.
+        /// </summary>
+        /// <param name="extension">The extension to add.</param>
+        public void AddExtensionsToEncrypt(string extension)
+        {
+            ExtensionsToEncrypt.Add(extension);
+        }
+
+        /// <summary>
+        /// Removes an extension from the list of extensions to encrypt.
+        /// </summary>
+        /// <param name="extension">The extension to remove.</param>
+        public void RemoveExtensionToEncrypt(string extension)
+        {
+            ExtensionsToEncrypt.Remove(extension);
         }
 
         public void SetIgnoreFile(string fileName)

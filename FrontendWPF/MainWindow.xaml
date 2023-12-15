@@ -45,7 +45,7 @@
             </Style.Triggers>
         </Style>
 
-        <!-- STYLE BOUTON QUITTER -->
+        <!-- LOG OUT BUTTON PROPERTIES -->
         <Style x:Key="QuitButtonStyle" TargetType="Button">
             <Setter Property="Height" Value="40"/>
             <Setter Property="FontSize" Value="14"/>
@@ -65,15 +65,15 @@
         </Style>
     </Window.Resources>
     <Grid>
-        <!-- Définition des colonnes pour organiser le contenu -->
+        <!-- ORGANIZING CONTENT-->
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
-            <!-- Sidebar, environ 20% de la largeur totale -->
+            <!-- Sidebar,  20 pourcent of total largeur  -->
             <ColumnDefinition Width="4*"/>
-            <!-- Espace de contenu principal, environ 80% de la largeur totale -->
+            <!-- Content area 80 pourcent  -->
         </Grid.ColumnDefinitions>
 
-        <!-- Sidebar avec arrière-plan en dégradé -->
+        <!-- Sidebar dégradée  -->
         <Grid Grid.Column="0">
             <Grid.Background>
                 <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
@@ -82,7 +82,7 @@
                 </LinearGradientBrush>
             </Grid.Background>
 
-            <!-- Définition des rangées pour organiser le contenu de la sidebar -->
+            <!-- side bar rows  -->
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="20*"/>
@@ -95,12 +95,12 @@
 
             <StackPanel Grid.Column="0" Grid.Row="2" VerticalAlignment="Center">
                 <Button Content="📁 Nouvelle sauvegarde" Style="{StaticResource AnimatedButtonStyle}" Click="NewSaveButton_Click" />
-                <Button Content="📜 Accès aux logs" Style="{StaticResource AnimatedButtonStyle}" />
+                <Button x:Name="LogsButton"  Content="📜 Accès aux logs" Style="{StaticResource AnimatedButtonStyle}" Click="LogsButton_Click"/>
                 <Button Content="⚙️ Paramètres" Style="{StaticResource AnimatedButtonStyle}" Click="SettingsButton_Click" />
                 <Button Content="🔍 Suivi des sauvegardes" Style="{StaticResource AnimatedButtonStyle}" />
             </StackPanel>       
 
-              <!-- Bouton Quitter -->
+              <!-- log out button  -->
             <Button Content="❌ Quitter" Style="{StaticResource QuitButtonStyle}" Grid.Row="4"/>
         </Grid>
 
