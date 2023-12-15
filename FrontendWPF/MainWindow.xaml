@@ -8,7 +8,7 @@
         Title="MainWindow" Height="450" Width="800"
         FontFamily="Raleway Light">
     <Window.Resources>
-        <!-- Style pour les boutons avec animation au survol de la souris -->
+        <!-- Style pour les boutons animés -->
         <Style x:Key="AnimatedButtonStyle" TargetType="Button">
             <Setter Property="Height" Value="50"/>
             <Setter Property="FontSize" Value="14"/>
