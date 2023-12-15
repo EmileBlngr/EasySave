@@ -66,11 +66,58 @@ namespace Backend.Backup
                 stopwatch.Stop();
                 ProgressDisplayTimer.Stop();
                 FileTransferTime = (float)stopwatch.Elapsed.TotalSeconds;
-                State.State = EnumState.Finished;
-                Console.WriteLine(string.Format(Settings.Settings.GetInstance().LanguageSettings.LanguageData["full_backup_finished"], FileTransferTime));
-                Settings.Settings.GetInstance().LogSettings.Createlogs(this);
+
+                try
+                {
+                    Encrypt();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }
+                finally
+                {
+                    State.State = EnumState.Finished;
+                    Console.WriteLine(string.Format(Settings.Settings.GetInstance().LanguageSettings.LanguageData["full_backup_finished"], FileTransferTime));
+                    Settings.Settings.GetInstance().LogSettings.Createlogs(this);
+                }
             }
         }
+        public void Encrypt()
+        {
+            Process cryptosoftProcess = new Process();
+            string[] targetFiles = Directory.GetFiles(TargetDirectory);
 
+            string backendDirectory = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\..\\..\\Backend\\Data\\Cryptosoft"));
+            cryptosoftProcess.StartInfo.WorkingDirectory = backendDirectory;
+            string cryptosoftPath = Path.Combine(backendDirectory, "Cryptosoft.exe");
+            cryptosoftProcess.StartInfo.FileName = cryptosoftPath;
+
+            cryptosoftProcess.StartInfo.RedirectStandardOutput = true;
+            cryptosoftProcess.StartInfo.RedirectStandardError = true;
+            Stopwatch encryptionStopwatch = new Stopwatch();
+            encryptionStopwatch.Start();
+
+            foreach (string targetFile in targetFiles)
+            {
+                string fileName = Path.GetFileName(targetFile);
+                string extension = Path.GetExtension(targetFile);
+                if (Settings.Settings.GetInstance().ExtensionsToEncrypt.Contains(extension))
+                {
+                    string targetFilePath = Path.Combine(TargetDirectory, fileName);
+                    cryptosoftProcess.StartInfo.Arguments = $"-d \"{targetFilePath}\"";
+
+                    cryptosoftProcess.Start();
+                    cryptosoftProcess.WaitForExit();
+                }
+            }
+
+            encryptionStopwatch.Stop();
+            EncryptTime = (float)encryptionStopwatch.Elapsed.TotalSeconds * 1000;
+            Console.WriteLine($"Encrypt time: {EncryptTime}");
+
+            string output = cryptosoftProcess.StandardOutput.ReadToEnd();
+            string error = cryptosoftProcess.StandardError.ReadToEnd();
+        }
     }
 }

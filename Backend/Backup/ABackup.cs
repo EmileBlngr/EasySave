@@ -13,6 +13,7 @@ namespace Backend.Backup
         public int TotalFiles { get; set; }
         public uint TotalSize { get; set; }
         public float FileTransferTime { get; set; }
+        public float EncryptTime { get; set; }
         public DateTime StartTime { get; set; }
         public BackupState State { get; set; }
         public event EventHandler ProgressUpdated;
@@ -31,6 +32,7 @@ namespace Backend.Backup
             TargetDirectory = targetDirectory;
             ScanFiles();
             FileTransferTime = 0.0f;
+            EncryptTime = 0.0f;
             StartTime = DateTime.Now;
             State = new BackupState();
 
