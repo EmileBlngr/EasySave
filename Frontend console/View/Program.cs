@@ -6,6 +6,7 @@ using Frontend_console.View;
 
 BackupManager backupManager;
 backupManager = new BackupManager();
+backupManager.AddBackup("2", "test", "C:\\backupSource", "C:\\backupTarget");
 bool run = true;
 
 while (run)

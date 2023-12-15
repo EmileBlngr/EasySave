@@ -10,6 +10,8 @@
         public Language LanguageSettings { get; set; }
         public Logs LogSettings { get; set; }
 
+        public List<string> ExtensionsToEncrypt { get; set; }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Settings"/> class.
         /// </summary>
@@ -18,7 +20,8 @@
             // Initialize the default language, can be changed later
             LanguageSettings = new Language();
             LogSettings = new Logs();
-
+            ExtensionsToEncrypt = new List<string>();
+            AddExtensionsToEncrypt(".txt");
         }
 
         /// <summary>
@@ -53,6 +56,24 @@
             LanguageSettings.LanguageFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data", "languages", $"{languageCode}.json");
             LanguageSettings.loadFileLocal();
             LanguageSettings.CreateLanguageFile();
+        }
+
+        /// <summary>
+        /// Adds an extension to the list of extensions to encrypt.
+        /// </summary>
+        /// <param name="extension">The extension to add.</param>
+        public void AddExtensionsToEncrypt(string extension)
+        {
+            ExtensionsToEncrypt.Add(extension);
+        }
+
+        /// <summary>
+        /// Removes an extension from the list of extensions to encrypt.
+        /// </summary>
+        /// <param name="extension">The extension to remove.</param>
+        public void RemoveExtensionToEncrypt(string extension)
+        {
+            ExtensionsToEncrypt.Remove(extension);
         }
     }
 }

@@ -151,7 +151,8 @@ namespace Backend.Settings
                 FileSource = backup.SourceDirectory,
                 FileTarget = backup.TargetDirectory,
                 FileSize = backup.TotalSize,
-                FileTransferTime = backup.FileTransferTime
+                FileTransferTime = backup.FileTransferTime,
+                EncryptTime = backup.EncryptTime,
             };
             WriteLog(backupLogEntry);        
         }
