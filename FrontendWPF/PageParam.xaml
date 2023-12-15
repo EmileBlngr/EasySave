@@ -53,43 +53,47 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        </Page.Resources>
-        <Grid Background="Azure">
-            <GroupBox HorizontalAlignment="Stretch" Margin="10" VerticalAlignment="Stretch">
-                <GroupBox.Header>
-                    <TextBlock Text="Paramètres" FontSize="22" FontWeight="Bold"/>
-                    <!-- Taille de police ajustée ici -->
-                </GroupBox.Header>
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*"/>
-                        <ColumnDefinition Width="1*"/>
-                    </Grid.ColumnDefinitions>
+    </Page.Resources>
+    <Grid Background="Azure">
+        <GroupBox HorizontalAlignment="Stretch" Margin="10" VerticalAlignment="Stretch">
+            <GroupBox.Header>
+                <TextBlock Text="Paramètres" FontSize="22" FontWeight="Bold"/>
+                <!-- Taille de police ajustée ici -->
+            </GroupBox.Header>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
 
-                    <!-- Section Langue -->
-                    <TextBlock Text="Langues" Style="{StaticResource LabelStyle}" Grid.Column="0" Grid.Row="0"/>
-                    <StackPanel Grid.Column="0" Grid.Row="1">
-                        <RadioButton Content="English " GroupName="Langues" Style="{StaticResource RadioButtonStyle}"/>
-                        <RadioButton Content="Français 🇫🇷" GroupName="Langues" IsChecked="True" Style="{StaticResource RadioButtonStyle}"/>
-                    </StackPanel>
+                <!-- Section Langue -->
+                <TextBlock Text="Langues" Style="{StaticResource LabelStyle}" Grid.Column="0" Grid.Row="0"/>
+                <StackPanel Grid.Column="0" Grid.Row="1">
+                    <RadioButton Content="English " GroupName="Langues" Style="{StaticResource RadioButtonStyle}"/>
+                    <RadioButton Content="Français 🇫🇷" GroupName="Langues" IsChecked="True" Style="{StaticResource RadioButtonStyle}"/>
+                </StackPanel>
 
-                    <!-- Section Format des Logs -->
-                    <TextBlock Text="Format des Logs" Style="{StaticResource LabelStyle}" Grid.Column="1" Grid.Row="0"/>
-                    <StackPanel Grid.Column="1" Grid.Row="1">
-                        <RadioButton Content=".JSON" GroupName="Formats" Style="{StaticResource RadioButtonStyle}"/>
-                        <RadioButton Content=".TXT" GroupName="Formats" IsChecked="True" Style="{StaticResource RadioButtonStyle}"/>
-                    </StackPanel>
+                <!-- Section Format des Logs -->
+                <TextBlock Text="Format des Logs" Style="{StaticResource LabelStyle}" Grid.Column="1" Grid.Row="0"/>
+                <StackPanel Grid.Column="1" Grid.Row="1">
+                    <RadioButton Content=".JSON" GroupName="Formats" Style="{StaticResource RadioButtonStyle}"/>
+                    <RadioButton Content=".TXT" GroupName="Formats" IsChecked="True" Style="{StaticResource RadioButtonStyle}"/>
+                </StackPanel>
 
-                    <!-- Bouton Appliquer -->
-                    <Button Content="Appliquer les changements" Style="{StaticResource ButtonStyle}" Grid.Row="3" Grid.ColumnSpan="2" Margin="166,140,162,24"/>
-                </Grid>
-            </GroupBox>
-        </Grid>
+                <!-- Bouton Appliquer -->
+                <Button x:Name="applyChanges" Content="Appliquer les changements" Style="{StaticResource ButtonStyle}" Grid.Row="3" Grid.ColumnSpan="2" Margin="166,140,162,24"/>
+
+                <!-- Bouton Sélectionner le fichier à ignorer -->
+                <Button x:Name="btnSelectFile" Grid.Column="1" Content="" HorizontalAlignment="Left" Margin="200,13,0,0" Grid.Row="1" VerticalAlignment="Top" Click="btnSelectFile_Click" Width="73"/>
+                <TextBlock x:Name="txtIgnoredFile" Text="{Binding IgnoredFile}" Grid.Column="1" HorizontalAlignment="Left" Margin="212,47,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Grid.RowSpan="3"/>
+            </Grid>
+        </GroupBox>
+    </Grid>
 </Page>
 

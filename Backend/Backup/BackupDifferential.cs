@@ -41,6 +41,11 @@ namespace Backend.Backup
                 foreach (string sourceFilePath in sourceFiles)
                 {
                     string fileName = Path.GetFileName(sourceFilePath);
+                    if (fileName.Equals(Settings.Settings.GetInstance().GetIgnoredFile()))
+                    {
+                        continue; 
+                    }
+
                     string targetFilePath = Path.Combine(TargetDirectory, fileName);
                     State.CurrentFileSource = sourceFilePath;
                     State.CurrentFileTarget = targetFilePath;

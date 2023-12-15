@@ -1,4 +1,5 @@
-﻿namespace Backend.Settings
+﻿
+namespace Backend.Settings
 {
     /// <summary>
     /// Singleton class responsible for managing application settings.
@@ -9,6 +10,8 @@
         private static Settings _instance;
         public Language LanguageSettings { get; set; }
         public Logs LogSettings { get; set; }
+
+        public string IgnoredFile { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Settings"/> class.
@@ -53,6 +56,16 @@
             LanguageSettings.LanguageFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data", "languages", $"{languageCode}.json");
             LanguageSettings.loadFileLocal();
             LanguageSettings.CreateLanguageFile();
+        }
+
+        public void SetIgnoreFile(string fileName)
+        {
+            IgnoredFile = fileName;
+        }
+
+        public string GetIgnoredFile()
+        { 
+            return IgnoredFile; 
         }
     }
 }
