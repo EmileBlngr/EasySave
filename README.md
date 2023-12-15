@@ -1,5 +1,5 @@
 # Projet EasySave groupe 2
-# EasySave
+# EasySave(FR)
 
 EasySave est un logiciel de sauvegarde conçu pour vous permettre de créer des sauvegardes de vos données en toute simplicité et sécurité.
 
@@ -23,7 +23,7 @@ EasySave est un logiciel de sauvegarde conçu pour vous permettre de créer des 
 
 Sauvegardez vos données en toute confiance et simplicité grâce à notre logiciel de sauvegarde efficace. Merci de faire partie de notre communauté !
 
-# EasySave
+# EasySave(EN)
 
 EasySave is a backup software designed to enable you to create backups of your data with ease and security.
 
@@ -49,7 +49,7 @@ When you launch the application for the first time, you will be prompted to view
 
 ---
 
-# EasySave (en espagnol)
+# EasySave (ES)
 
 Un software de respaldo diseñado para permitirte crear copias de seguridad de tus datos con facilidad y seguridad.
 
