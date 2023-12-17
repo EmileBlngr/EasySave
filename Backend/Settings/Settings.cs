@@ -1,4 +1,5 @@
-﻿namespace Backend.Settings
+﻿
+namespace Backend.Settings
 {
     /// <summary>
     /// Singleton class responsible for managing application settings.
@@ -9,8 +10,13 @@
         private static Settings _instance;
         public Language LanguageSettings { get; set; }
         public Logs LogSettings { get; set; }
-
+        public List<string> PriorityExtensionsToBackup { get; set; }
         public List<string> ExtensionsToEncrypt { get; set; }
+        public int MaxParallelTransferSizeKB { get; set; }
+        private int cumulativeTransferSizeKB = 0;
+        private readonly object lockObject = new object();
+
+        public string BusinessSoftware { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Settings"/> class.
@@ -21,7 +27,12 @@
             LanguageSettings = new Language();
             LogSettings = new Logs();
             ExtensionsToEncrypt = new List<string>();
+            PriorityExtensionsToBackup = new List<string>();
             AddExtensionsToEncrypt(".txt");
+            AddPriorityExtensionToBackup(".png");
+            MaxParallelTransferSizeKB = 1024;
+            BusinessSoftware = "CalculatorApp";
+
         }
 
         /// <summary>
@@ -74,6 +85,52 @@
         public void RemoveExtensionToEncrypt(string extension)
         {
             ExtensionsToEncrypt.Remove(extension);
+        }
+
+        /// <summary>
+        /// Adds a priority extension to the list of extensions to backup.
+        /// </summary>
+        /// <param name="extension">The priority extension to add.</param>
+        public void AddPriorityExtensionToBackup(string extension)
+        {
+            PriorityExtensionsToBackup.Add(extension);
+        }
+
+        /// <summary>
+        /// Removes a priority extension from the list of extensions to backup.
+        /// </summary>
+        /// <param name="extension">The priority extension to remove.</param>
+        public void RemovePriorityExtensionToBackup(string extension)
+        {
+            PriorityExtensionsToBackup.Remove(extension);
+        }
+
+        public void SetBusinessSoftware(string fileName)
+        {
+            BusinessSoftware = fileName;
+        }
+
+        public string GetBusinessSoftware()
+        { 
+            return BusinessSoftware; 
+        }
+
+        public int CumulativeTransferSizeKB
+        {
+            get
+            {
+                lock (lockObject)
+                {
+                    return cumulativeTransferSizeKB;
+                }
+            }
+            set
+            {
+                lock (lockObject)
+                {
+                    cumulativeTransferSizeKB = value;
+                }
+            }
         }
     }
 }

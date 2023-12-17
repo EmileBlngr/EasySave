@@ -28,6 +28,11 @@ namespace Backend.Backup
         /// </summary>
         public override void PerformBackup()
         {
+            if (BackupManager.IsBusinessSoftwareRunning())
+            {
+                Console.WriteLine("Le logiciel métier est en cours d'exécution. La sauvegarde ne peut pas être lancée.");
+                return;
+            }
             ScanFiles();
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
@@ -38,23 +43,33 @@ namespace Backend.Backup
                 string[] sourceFiles = Directory.GetFiles(SourceDirectory);
                 State.RemainingFiles = sourceFiles.Length;
                 State.RemainingSize = TotalSize;
+
+                // Process priority extensions first
                 foreach (string sourceFilePath in sourceFiles)
                 {
+                    string extension = Path.GetExtension(sourceFilePath);
                     string fileName = Path.GetFileName(sourceFilePath);
+                    
+
                     string targetFilePath = Path.Combine(TargetDirectory, fileName);
                     State.CurrentFileSource = sourceFilePath;
                     State.CurrentFileTarget = targetFilePath;
 
-                    if (!File.Exists(targetFilePath) || File.GetLastWriteTimeUtc(sourceFilePath) > File.GetLastWriteTimeUtc(targetFilePath))
+                    if (Settings.Settings.GetInstance().PriorityExtensionsToBackup.Any(ext => extension.EndsWith(ext, StringComparison.OrdinalIgnoreCase)))
                     {
-                        File.Copy(sourceFilePath, targetFilePath, true);
-                        Thread.Sleep(500);
+                        ProcessFile(sourceFilePath);
                     }
+                }
 
-                    State.RemainingFiles--;
-                    FileInfo fileInfo = new FileInfo(sourceFilePath);
-                    State.RemainingSize -= fileInfo.Length;
-                    UpdateProgress();
+                // Process other extensions
+                foreach (string sourceFilePath in sourceFiles)
+                {
+                    string extension = Path.GetExtension(sourceFilePath);
+
+                    if (!Settings.Settings.GetInstance().PriorityExtensionsToBackup.Any(ext => extension.EndsWith(ext, StringComparison.OrdinalIgnoreCase)))
+                    {
+                        ProcessFile(sourceFilePath);
+                    }
                 }
             }
             catch (Exception ex)
@@ -83,12 +98,17 @@ namespace Backend.Backup
                 {
                     State.State = EnumState.Finished;
                     Console.WriteLine(string.Format(Settings.Settings.GetInstance().LanguageSettings.LanguageData["full_backup_finished"], FileTransferTime));
+                    Console.WriteLine("\n\n\n");
                     Settings.Settings.GetInstance().LogSettings.Createlogs(this);
                 }
             }
         }
-        public void Encrypt()
+        /// <summary>
+        /// Encrypts files using the Cryptosoft utility.
+        /// </summary>
+        private void Encrypt()
         {
+            // Create a new process to execute Cryptosoft
             Process cryptosoftProcess = new Process();
             string[] targetFiles = Directory.GetFiles(TargetDirectory);
 
@@ -122,6 +142,55 @@ namespace Backend.Backup
 
             string output = cryptosoftProcess.StandardOutput.ReadToEnd();
             string error = cryptosoftProcess.StandardError.ReadToEnd();
+        }
+
+        /// <summary>
+        /// Processes a file, copying it to the target directory if necessary.
+        /// </summary>
+        /// <param name="sourceFilePath">The path of the source file to be processed.</param>
+        private void ProcessFile(string sourceFilePath)
+        {
+            string fileName = Path.GetFileName(sourceFilePath);
+            string targetFilePath = Path.Combine(TargetDirectory, fileName);
+            State.CurrentFileSource = sourceFilePath;
+            State.CurrentFileTarget = targetFilePath;
+
+            int fileSizeKB = (int)(new FileInfo(sourceFilePath).Length / 1024);
+            if (Settings.Settings.GetInstance().CumulativeTransferSizeKB <= 0)
+                Settings.Settings.GetInstance().CumulativeTransferSizeKB = 0;
+            int currentCumulativeSize = Settings.Settings.GetInstance().CumulativeTransferSizeKB;
+
+            try
+            {
+                // Copy files if cumulative currently copying size is less than the maximum
+                if (currentCumulativeSize <= Settings.Settings.GetInstance().MaxParallelTransferSizeKB)
+                {
+                    if (!File.Exists(targetFilePath) || File.GetLastWriteTimeUtc(sourceFilePath) > File.GetLastWriteTimeUtc(targetFilePath))
+                    {
+                        Settings.Settings.GetInstance().CumulativeTransferSizeKB += fileSizeKB;
+                        File.Copy(sourceFilePath, targetFilePath, true);
+
+                        State.RemainingFiles--;
+                        State.RemainingSize -= fileSizeKB * 1024;
+                        UpdateProgress();
+                        Thread.Sleep(250);
+                        Settings.Settings.GetInstance().CumulativeTransferSizeKB -= fileSizeKB;
+                        // Update cumulative transfer size
+                    }
+                }
+                else
+                {
+                    Thread.Sleep(250);
+                    ProcessFile(sourceFilePath);
+                }
+            }
+            catch (IOException)
+            {
+                Console.WriteLine($"Error while copying files : {sourceFilePath} is used by another process.");
+                Settings.Settings.GetInstance().CumulativeTransferSizeKB -= fileSizeKB;
+                Thread.Sleep(250);
+                ProcessFile(sourceFilePath);
+            }
         }
     }
 }
