@@ -14,20 +14,6 @@
             BackupList = new List<ABackup>();
         }
         /// <summary>
-        /// Updates daily logs for the backups.
-        /// </summary>
-        public void UpdateDailyLogs()
-        {
-
-        }
-        /// <summary>
-        /// Updates real-time logs for the backups.
-        /// </summary>
-        public void UpdateRealTimeLogs()
-        {
-
-        }
-        /// <summary>
         /// Adds a new backup to the BackupManager, in BackupList.
         /// </summary>
         /// <param name="backupType"></param>
@@ -44,13 +30,13 @@
             {
 
                 BackupList.Add(new BackupFull(name, sourceDirectory, targetDirectory));
-                
+
 
             }
             else if (backupType == "2")
             {
                 BackupList.Add(new BackupDifferential(name, sourceDirectory, targetDirectory));
-                
+
             }
             else
             {
@@ -78,5 +64,16 @@
             }
         }
 
+        public void PerformAllBackups()
+        {
+            List<Task> backupTasks = new List<Task>();
+
+            foreach (ABackup backup in BackupList)
+            {
+                Task backupTask = Task.Run(() => backup.PerformBackup());
+                backupTasks.Add(backupTask);
+            }
+            Task.WaitAll(backupTasks.ToArray());
+        }
     }
 }

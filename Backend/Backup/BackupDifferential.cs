@@ -38,8 +38,11 @@ namespace Backend.Backup
                 string[] sourceFiles = Directory.GetFiles(SourceDirectory);
                 State.RemainingFiles = sourceFiles.Length;
                 State.RemainingSize = TotalSize;
+
+                // Process priority extensions first
                 foreach (string sourceFilePath in sourceFiles)
                 {
+                    string extension = Path.GetExtension(sourceFilePath);
                     string fileName = Path.GetFileName(sourceFilePath);
                     if (fileName.Equals(Settings.Settings.GetInstance().GetIgnoredFile()))
                     {
@@ -50,16 +53,21 @@ namespace Backend.Backup
                     State.CurrentFileSource = sourceFilePath;
                     State.CurrentFileTarget = targetFilePath;
 
-                    if (!File.Exists(targetFilePath) || File.GetLastWriteTimeUtc(sourceFilePath) > File.GetLastWriteTimeUtc(targetFilePath))
+                    if (Settings.Settings.GetInstance().PriorityExtensionsToBackup.Any(ext => extension.EndsWith(ext, StringComparison.OrdinalIgnoreCase)))
                     {
-                        File.Copy(sourceFilePath, targetFilePath, true);
-                        Thread.Sleep(500);
+                        ProcessFile(sourceFilePath);
                     }
+                }
 
-                    State.RemainingFiles--;
-                    FileInfo fileInfo = new FileInfo(sourceFilePath);
-                    State.RemainingSize -= fileInfo.Length;
-                    UpdateProgress();
+                // Process other extensions
+                foreach (string sourceFilePath in sourceFiles)
+                {
+                    string extension = Path.GetExtension(sourceFilePath);
+
+                    if (!Settings.Settings.GetInstance().PriorityExtensionsToBackup.Any(ext => extension.EndsWith(ext, StringComparison.OrdinalIgnoreCase)))
+                    {
+                        ProcessFile(sourceFilePath);
+                    }
                 }
             }
             catch (Exception ex)
@@ -88,12 +96,17 @@ namespace Backend.Backup
                 {
                     State.State = EnumState.Finished;
                     Console.WriteLine(string.Format(Settings.Settings.GetInstance().LanguageSettings.LanguageData["full_backup_finished"], FileTransferTime));
+                    Console.WriteLine("\n\n\n");
                     Settings.Settings.GetInstance().LogSettings.Createlogs(this);
                 }
             }
         }
-        public void Encrypt()
+        /// <summary>
+        /// Encrypts files using the Cryptosoft utility.
+        /// </summary>
+        private void Encrypt()
         {
+            // Create a new process to execute Cryptosoft
             Process cryptosoftProcess = new Process();
             string[] targetFiles = Directory.GetFiles(TargetDirectory);
 
@@ -127,6 +140,29 @@ namespace Backend.Backup
 
             string output = cryptosoftProcess.StandardOutput.ReadToEnd();
             string error = cryptosoftProcess.StandardError.ReadToEnd();
+        }
+
+        /// <summary>
+        /// Processes a file, copying it to the target directory if necessary.
+        /// </summary>
+        /// <param name="sourceFilePath">The path of the source file to be processed.</param>
+        private void ProcessFile(string sourceFilePath)
+        {
+            string fileName = Path.GetFileName(sourceFilePath);
+            string targetFilePath = Path.Combine(TargetDirectory, fileName);
+            State.CurrentFileSource = sourceFilePath;
+            State.CurrentFileTarget = targetFilePath;
+
+            if (!File.Exists(targetFilePath) || File.GetLastWriteTimeUtc(sourceFilePath) > File.GetLastWriteTimeUtc(targetFilePath))
+            {
+                File.Copy(sourceFilePath, targetFilePath, true);
+                Thread.Sleep(500);
+            }
+
+            State.RemainingFiles--;
+            FileInfo fileInfo = new FileInfo(sourceFilePath);
+            State.RemainingSize -= fileInfo.Length;
+            UpdateProgress();
         }
     }
 }

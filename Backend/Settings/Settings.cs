@@ -10,7 +10,7 @@ namespace Backend.Settings
         private static Settings _instance;
         public Language LanguageSettings { get; set; }
         public Logs LogSettings { get; set; }
-
+        public List<string> PriorityExtensionsToBackup { get; set; }
         public List<string> ExtensionsToEncrypt { get; set; }
 
         public string IgnoredFile { get; set; }
@@ -24,7 +24,10 @@ namespace Backend.Settings
             LanguageSettings = new Language();
             LogSettings = new Logs();
             ExtensionsToEncrypt = new List<string>();
+            PriorityExtensionsToBackup = new List<string>();
             AddExtensionsToEncrypt(".txt");
+            AddPriorityExtensionToBackup(".png");
+
         }
 
         /// <summary>
@@ -77,6 +80,24 @@ namespace Backend.Settings
         public void RemoveExtensionToEncrypt(string extension)
         {
             ExtensionsToEncrypt.Remove(extension);
+        }
+
+        /// <summary>
+        /// Adds a priority extension to the list of extensions to backup.
+        /// </summary>
+        /// <param name="extension">The priority extension to add.</param>
+        public void AddPriorityExtensionToBackup(string extension)
+        {
+            PriorityExtensionsToBackup.Add(extension);
+        }
+
+        /// <summary>
+        /// Removes a priority extension from the list of extensions to backup.
+        /// </summary>
+        /// <param name="extension">The priority extension to remove.</param>
+        public void RemovePriorityExtensionToBackup(string extension)
+        {
+            PriorityExtensionsToBackup.Remove(extension);
         }
 
         public void SetIgnoreFile(string fileName)
