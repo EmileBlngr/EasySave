@@ -12,6 +12,9 @@ namespace Backend.Settings
         public Logs LogSettings { get; set; }
         public List<string> PriorityExtensionsToBackup { get; set; }
         public List<string> ExtensionsToEncrypt { get; set; }
+        public int MaxParallelTransferSizeKB { get; set; }
+        private int cumulativeTransferSizeKB = 0;
+        private readonly object lockObject = new object();
 
         public string BusinessSoftware { get; set; }
 
@@ -27,6 +30,7 @@ namespace Backend.Settings
             PriorityExtensionsToBackup = new List<string>();
             AddExtensionsToEncrypt(".txt");
             AddPriorityExtensionToBackup(".png");
+            MaxParallelTransferSizeKB = 1024;
             BusinessSoftware = "CalculatorApp";
 
         }
@@ -109,6 +113,24 @@ namespace Backend.Settings
         public string GetBusinessSoftware()
         { 
             return BusinessSoftware; 
+        }
+
+        public int CumulativeTransferSizeKB
+        {
+            get
+            {
+                lock (lockObject)
+                {
+                    return cumulativeTransferSizeKB;
+                }
+            }
+            set
+            {
+                lock (lockObject)
+                {
+                    cumulativeTransferSizeKB = value;
+                }
+            }
         }
     }
 }
