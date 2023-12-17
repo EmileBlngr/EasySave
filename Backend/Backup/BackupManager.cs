@@ -14,20 +14,6 @@
             BackupList = new List<ABackup>();
         }
         /// <summary>
-        /// Updates daily logs for the backups.
-        /// </summary>
-        public void UpdateDailyLogs()
-        {
-
-        }
-        /// <summary>
-        /// Updates real-time logs for the backups.
-        /// </summary>
-        public void UpdateRealTimeLogs()
-        {
-
-        }
-        /// <summary>
         /// Adds a new backup to the BackupManager, in BackupList.
         /// </summary>
         /// <param name="backupType"></param>
