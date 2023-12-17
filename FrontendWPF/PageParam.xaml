@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="clr-namespace:WpfApp1"
       mc:Ignorable="d"
-      Title="Paramètres">
+      Name="Paramètres">
     <Page.Resources>
         <!-- Style pour TextBlock -->
         <Style x:Key="LabelStyle" TargetType="TextBlock">
@@ -57,8 +57,8 @@
         <Grid Background="Azure">
             <GroupBox HorizontalAlignment="Stretch" Margin="10" VerticalAlignment="Stretch">
                 <GroupBox.Header>
-                    <TextBlock Text="Paramètres" FontSize="22" FontWeight="Bold"/>
-                    <!-- police size adjusted here  -->
+                <TextBlock Name="txtGroupBoxTitle" Text="Paramètres" FontSize="22" FontWeight="Bold"/>
+                <!-- police size adjusted here  -->
                 </GroupBox.Header>
                 <Grid>
                     <Grid.RowDefinitions>
@@ -72,25 +72,27 @@
                         <ColumnDefinition Width="1*"/>
                     </Grid.ColumnDefinitions>
 
-                    <!-- language selection -->
-                    <TextBlock Text="Langues" Style="{StaticResource LabelStyle}" Grid.Column="0" Grid.Row="0"/>
-                    <StackPanel Grid.Column="0" Grid.Row="1">
-                        <RadioButton Content="English " GroupName="Langues" Style="{StaticResource RadioButtonStyle}"/>
-                        <RadioButton Content="Français 🇫🇷" GroupName="Langues" IsChecked="True" Style="{StaticResource RadioButtonStyle}"/>
-                    </StackPanel>
+                
+                <!-- Language Selection Section -->
+                <TextBlock Name="txtLanguages" Text="Langues" Grid.Column="0" Grid.Row="0"/>
+                <StackPanel Grid.Column="0" Grid.Row="1">
+                    <RadioButton Name="radioEnglish" Content="Anglais" GroupName="Langues"/>
+                    <RadioButton Name="radioFrench" Content="Français 🇫🇷" GroupName="Langues" IsChecked="True"/>
+                    <RadioButton Name="radioSpanish" Content="Espagnol" GroupName="Langues"/>
+                </StackPanel>
 
-                    <!-- Section Format des Logs -->
-                    <TextBlock Text="Format des Logs" Style="{StaticResource LabelStyle}" Grid.Column="1" Grid.Row="0"/>
+                <!-- Log Format Section -->
+                <TextBlock Name="txtLogFormat" Text="Format des Logs" Grid.Column="1" Grid.Row="0"/>
                 <StackPanel Grid.Column="1" Grid.Row="1">
                     <CheckBox Content=".JSON" />
                     <CheckBox Content=".TXT" IsChecked="True"/>
                     <CheckBox Content=".XML" IsChecked="True"/>
-
                 </StackPanel>
 
-                <!-- Bouton Appliquer -->
-                    <Button Content="Appliquer les changements" Style="{StaticResource ButtonStyle}" Grid.Row="3" Grid.ColumnSpan="2" Margin="166,140,162,24"/>
-                </Grid>
+                <!-- Apply Changes Button -->
+                <Button Name="btnApplyChanges" Content="Appliquer les changements" Style="{StaticResource ButtonStyle}" Grid.Row="3" Grid.ColumnSpan="2" Margin="166,140,162,24" Click="btnApplyChanges_Click"/>
+
+            </Grid>
             </GroupBox>
         </Grid>
 </Page>

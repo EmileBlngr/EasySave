@@ -84,5 +84,22 @@
   "enter_your_choice": "Introduzca su elección:",
 
   "enter_settings": "¿Qué configuración desea configurar?",
-  "choose_language": "Introduzca un idioma de los disponibles:"
+  "choose_language": "Introduzca un idioma de los disponibles:",
+
+
+  "ApplyButtonText": "Aplicar cambios",
+  "PageTitle": "Configuraciones",
+  "Languages": "Idiomas",
+  "English": "Inglés",
+  "French": "Francés",
+  "Spanish": "Español",
+  "LogFormat": "Formato de Registro",
+  "JSON": ".JSON",
+  "TXT": ".TXT",
+  "XML": ".XML",
+  "ApplyChanges": "Aplicar Cambios",
+  "GroupBoxTitle": "Configuraciones"
+
+
+
 }

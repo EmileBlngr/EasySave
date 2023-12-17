@@ -84,5 +84,22 @@
   "enter_your_choice": "Entrez votre choix :",
 
   "enter_settings": "Quel paramètre voulez-vous configurer ?",
-  "choose_language": "Rentrez une langue parmis celles disponibles :"
+  "choose_language": "Rentrez une langue parmi celles disponibles :",
+
+
+  "ApplyButtonText": "Appliquer les changements",
+  "PageTitle": "Paramètres",
+  "Languages": "Langues",
+  "English": "Anglais",
+  "French": "Français",
+  "Spanish": "Espagnol",
+  "LogFormat": "Format des Logs",
+  "JSON": ".JSON",
+  "TXT": ".TXT",
+  "XML": ".XML",
+  "ApplyChanges": "Appliquer les changements",
+  "GroupBoxTitle": "Paramètres"
+
+
+
 }

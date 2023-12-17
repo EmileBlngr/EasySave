@@ -1,5 +1,7 @@
 ﻿using System.IO;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading.Tasks.Sources;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -24,6 +26,20 @@ namespace WpfApp1
             LogsButton.Click += LogsButton_Click;
         }
 
+
+
+            /* 
+            ResourceDictionary dict = new ResourceDictionary();
+
+             this.Resources.MergedDictionaries.Clear();
+
+            switch 
+            {
+
+            }
+
+              add (dict)*/
+
         private void NewSaveButton_Click(object sender, RoutedEventArgs e)
         {
             MainContentFrame.Navigate(new PageNew()); 
@@ -35,6 +51,8 @@ namespace WpfApp1
 
 
         }
+
+
         private void LogsButton_Click(object sender, RoutedEventArgs e)
         {
             System.Diagnostics.Debug.WriteLine("LogsButton_Click called");

@@ -84,5 +84,22 @@
   "enter_your_choice": "Enter your choice:",
 
   "enter_settings": "Which setting do you want to configure?",
-  "choose_language": "Enter a language from those available:"
+  "choose_language": "Enter a language from those available:",
+
+
+
+  "ApplyButtonText": "Apply Changes",
+  "PageTitle": "Settings",
+  "Languages": "Languages",
+  "English": "English",
+  "French": "French",
+  "Spanish": "Spanish",
+  "LogFormat": "Log Format",
+  "JSON": ".JSON",
+  "TXT": ".TXT",
+  "XML": ".XML",
+  "ApplyChanges": "Apply Changes",
+  "GroupBoxTitle": "Settings"
+
+
 }

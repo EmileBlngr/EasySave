@@ -9,21 +9,25 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Data\Languages\en-EN.json" />
-    <None Remove="Data\Languages\es-ES.json" />
-    <None Remove="Data\Languages\fr-FR.json" />
+    <None Remove="Data\Languages\en.json" />
+    <None Remove="Data\Languages\es.json" />
+    <None Remove="Data\Languages\fr.json" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Data\Languages\en-EN.json">
+    <Content Include="Data\Languages\en.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\Languages\es-ES.json">
+    <Content Include="Data\Languages\es.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\Languages\fr-FR.json">
+    <Content Include="Data\Languages\fr.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
 </Project>
