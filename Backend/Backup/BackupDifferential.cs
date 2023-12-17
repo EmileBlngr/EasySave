@@ -28,6 +28,11 @@ namespace Backend.Backup
         /// </summary>
         public override void PerformBackup()
         {
+            if (BackupManager.IsBusinessSoftwareRunning())
+            {
+                Console.WriteLine("Le logiciel métier est en cours d'exécution. La sauvegarde ne peut pas être lancée.");
+                return;
+            }
             ScanFiles();
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
@@ -44,10 +49,7 @@ namespace Backend.Backup
                 {
                     string extension = Path.GetExtension(sourceFilePath);
                     string fileName = Path.GetFileName(sourceFilePath);
-                    if (fileName.Equals(Settings.Settings.GetInstance().GetIgnoredFile()))
-                    {
-                        continue; 
-                    }
+                    
 
                     string targetFilePath = Path.Combine(TargetDirectory, fileName);
                     State.CurrentFileSource = sourceFilePath;

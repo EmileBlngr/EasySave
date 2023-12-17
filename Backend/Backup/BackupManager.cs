@@ -1,4 +1,6 @@
-﻿namespace Backend.Backup
+﻿using System.Diagnostics;
+
+namespace Backend.Backup
 {
     public class BackupManager
     {
@@ -74,6 +76,20 @@
                 backupTasks.Add(backupTask);
             }
             Task.WaitAll(backupTasks.ToArray());
+        }
+
+        public static bool IsBusinessSoftwareRunning()
+        {
+            string businessSoftware = Settings.Settings.GetInstance().GetBusinessSoftware();         
+            if (string.IsNullOrEmpty(businessSoftware))
+            {
+                
+                return false;
+            }
+
+            string processName = Path.GetFileNameWithoutExtension(businessSoftware);
+            var runningProcesses = Process.GetProcessesByName(processName);
+            return runningProcesses.Length > 0;
         }
     }
 }

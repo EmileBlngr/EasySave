@@ -28,6 +28,11 @@ namespace Backend.Backup
         /// </summary>
         public override void PerformBackup()
         {
+            if (BackupManager.IsBusinessSoftwareRunning())
+            {
+                Console.WriteLine("Le logiciel métier est en cours d'exécution. La sauvegarde ne peut pas être lancée.");
+                return; 
+            }
             ScanFiles();
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
@@ -44,12 +49,9 @@ namespace Backend.Backup
 
                 // Copy priority files first
                 foreach (string sourceFilePath in priorityFiles)
-                {
-                    string fileName = Path.GetFileName(sourceFilePath);
-                    if (fileName.Equals(Settings.Settings.GetInstance().GetIgnoredFile()))
-                    {
-                        continue;
-                    }
+
+                {                   
+                    string fileName = Path.GetFileName(sourceFilePath);                   
                     string targetFilePath = Path.Combine(TargetDirectory, fileName);
                     State.CurrentFileSource = sourceFilePath;
                     State.CurrentFileTarget = targetFilePath;

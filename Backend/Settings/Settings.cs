@@ -13,7 +13,7 @@ namespace Backend.Settings
         public List<string> PriorityExtensionsToBackup { get; set; }
         public List<string> ExtensionsToEncrypt { get; set; }
 
-        public string IgnoredFile { get; set; }
+        public string BusinessSoftware { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Settings"/> class.
@@ -27,6 +27,7 @@ namespace Backend.Settings
             PriorityExtensionsToBackup = new List<string>();
             AddExtensionsToEncrypt(".txt");
             AddPriorityExtensionToBackup(".png");
+            BusinessSoftware = "CalculatorApp";
 
         }
 
@@ -100,14 +101,14 @@ namespace Backend.Settings
             PriorityExtensionsToBackup.Remove(extension);
         }
 
-        public void SetIgnoreFile(string fileName)
+        public void SetBusinessSoftware(string fileName)
         {
-            IgnoredFile = fileName;
+            BusinessSoftware = fileName;
         }
 
-        public string GetIgnoredFile()
+        public string GetBusinessSoftware()
         { 
-            return IgnoredFile; 
+            return BusinessSoftware; 
         }
     }
 }
