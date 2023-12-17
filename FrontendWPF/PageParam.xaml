@@ -53,24 +53,24 @@
                 </Setter.Value>
             </Setter>
         </Style>
-    </Page.Resources>
-    <Grid Background="Azure">
-        <GroupBox HorizontalAlignment="Stretch" Margin="10" VerticalAlignment="Stretch">
-            <GroupBox.Header>
-                <TextBlock Text="Paramètres" FontSize="22" FontWeight="Bold"/>
-                <!-- Taille de police ajustée ici -->
-            </GroupBox.Header>
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="1*"/>
-                </Grid.ColumnDefinitions>
+        </Page.Resources>
+        <Grid Background="Azure">
+            <GroupBox HorizontalAlignment="Stretch" Margin="10" VerticalAlignment="Stretch">
+                <GroupBox.Header>
+                    <TextBlock Text="Paramètres" FontSize="22" FontWeight="Bold"/>
+                    <!-- police size adjusted here  -->
+                </GroupBox.Header>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
 
                 <!-- Section Langue -->
                 <TextBlock Text="Langues" Style="{StaticResource LabelStyle}" Grid.Column="0" Grid.Row="0"/>
@@ -79,11 +79,13 @@
                     <RadioButton Content="Français 🇫🇷" GroupName="Langues" IsChecked="True" Style="{StaticResource RadioButtonStyle}"/>
                 </StackPanel>
 
-                <!-- Section Format des Logs -->
-                <TextBlock Text="Format des Logs" Style="{StaticResource LabelStyle}" Grid.Column="1" Grid.Row="0"/>
+                    <!-- Section Format des Logs -->
+                    <TextBlock Text="Format des Logs" Style="{StaticResource LabelStyle}" Grid.Column="1" Grid.Row="0"/>
                 <StackPanel Grid.Column="1" Grid.Row="1">
-                    <RadioButton Content=".JSON" GroupName="Formats" Style="{StaticResource RadioButtonStyle}"/>
-                    <RadioButton Content=".TXT" GroupName="Formats" IsChecked="True" Style="{StaticResource RadioButtonStyle}"/>
+                    <CheckBox Content=".JSON" />
+                    <CheckBox Content=".TXT" IsChecked="True"/>
+                    <CheckBox Content=".XML" IsChecked="True"/>
+
                 </StackPanel>
 
                 <!-- Bouton Appliquer -->

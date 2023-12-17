@@ -11,8 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
-
+using System.Windows.Shapes; 
 namespace WpfApp1
 {
     public partial class PageNew : Page

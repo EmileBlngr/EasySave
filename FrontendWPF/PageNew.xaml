@@ -30,7 +30,7 @@
             <Setter Property="Padding" Value="5"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="BorderBrush" Value="#FFABADB3"/>
-            <Setter Property="Background" Value="#FFDDDDDD"/>
+            <Setter Property="Background" Value="Azure"/>
             <Setter Property="FontWeight" Value="Bold"/>
             <Setter Property="Template">
                 <Setter.Value>
@@ -45,7 +45,7 @@
     </Page.Resources>
 
     <!-- Content of the page  -->
-    <Grid Background="White">
+    <Grid Background="Azure">
         <GroupBox Header="Nouvelle sauvegarde" Margin="10">
             <StackPanel>
                 <!-- grid for back up name -->
@@ -89,6 +89,6 @@
                 <Button Content="Créer la sauvegarde" Style="{StaticResource ButtonStyle}" Height="30" Width="200" Margin="5"/>
             </StackPanel>
         </GroupBox>
-    </Grid>
+    </Grid>             
 
 </Page>
