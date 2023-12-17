@@ -11,6 +11,9 @@
         public Logs LogSettings { get; set; }
         public List<string> PriorityExtensionsToBackup { get; set; }
         public List<string> ExtensionsToEncrypt { get; set; }
+        public int MaxParallelTransferSizeKB { get; set; }
+        private int cumulativeTransferSizeKB = 0;
+        private readonly object lockObject = new object();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Settings"/> class.
@@ -24,6 +27,7 @@
             PriorityExtensionsToBackup = new List<string>();
             AddExtensionsToEncrypt(".txt");
             AddPriorityExtensionToBackup(".png");
+            MaxParallelTransferSizeKB = 1024;
 
         }
 
@@ -95,6 +99,24 @@
         public void RemovePriorityExtensionToBackup(string extension)
         {
             PriorityExtensionsToBackup.Remove(extension);
+        }
+
+        public int CumulativeTransferSizeKB
+        {
+            get
+            {
+                lock (lockObject)
+                {
+                    return cumulativeTransferSizeKB;
+                }
+            }
+            set
+            {
+                lock (lockObject)
+                {
+                    cumulativeTransferSizeKB = value;
+                }
+            }
         }
     }
 }

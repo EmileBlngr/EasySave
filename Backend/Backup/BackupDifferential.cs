@@ -144,16 +144,42 @@ namespace Backend.Backup
             State.CurrentFileSource = sourceFilePath;
             State.CurrentFileTarget = targetFilePath;
 
-            if (!File.Exists(targetFilePath) || File.GetLastWriteTimeUtc(sourceFilePath) > File.GetLastWriteTimeUtc(targetFilePath))
-            {
-                File.Copy(sourceFilePath, targetFilePath, true);
-                Thread.Sleep(500);
-            }
+            int fileSizeKB = (int)(new FileInfo(sourceFilePath).Length / 1024);
+            if (Settings.Settings.GetInstance().CumulativeTransferSizeKB <= 0)
+                Settings.Settings.GetInstance().CumulativeTransferSizeKB = 0;
+            int currentCumulativeSize = Settings.Settings.GetInstance().CumulativeTransferSizeKB;
 
-            State.RemainingFiles--;
-            FileInfo fileInfo = new FileInfo(sourceFilePath);
-            State.RemainingSize -= fileInfo.Length;
-            UpdateProgress();
+            try
+            {
+                // Copy files if cumulative currently copying size is less than the maximum
+                if (currentCumulativeSize <= Settings.Settings.GetInstance().MaxParallelTransferSizeKB)
+                {
+                    if (!File.Exists(targetFilePath) || File.GetLastWriteTimeUtc(sourceFilePath) > File.GetLastWriteTimeUtc(targetFilePath))
+                    {
+                        Settings.Settings.GetInstance().CumulativeTransferSizeKB += fileSizeKB;
+                        File.Copy(sourceFilePath, targetFilePath, true);
+
+                        State.RemainingFiles--;
+                        State.RemainingSize -= fileSizeKB * 1024;
+                        UpdateProgress();
+                        Thread.Sleep(250);
+                        Settings.Settings.GetInstance().CumulativeTransferSizeKB -= fileSizeKB;
+                        // Update cumulative transfer size
+                    }
+                }
+                else
+                {
+                    Thread.Sleep(250);
+                    ProcessFile(sourceFilePath);
+                }
+            }
+            catch (IOException)
+            {
+                Console.WriteLine($"Error while copying files : {sourceFilePath} is used by another process.");
+                Settings.Settings.GetInstance().CumulativeTransferSizeKB -= fileSizeKB;
+                Thread.Sleep(250);
+                ProcessFile(sourceFilePath);
+            }
         }
     }
 }
