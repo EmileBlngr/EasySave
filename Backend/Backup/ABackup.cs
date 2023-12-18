@@ -118,5 +118,18 @@ namespace Backend.Backup
             State.State = EnumState.Cancelled;
 
         }
+
+        public void PauseBackup()
+        {
+            State.State = EnumState.Paused;
+
+        }
+
+        public void ResumeBackup()
+        {
+            State.State = EnumState.InProgress;
+
+        } 
+
     }
 }

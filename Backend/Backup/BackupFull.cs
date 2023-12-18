@@ -43,32 +43,38 @@ namespace Backend.Backup
                 State.RemainingFiles = sourceFiles.Length;
                 State.RemainingSize = TotalSize;
 
+                //create an array with the priority files
                 var priorityFiles = sourceFiles
      .Where(file => Settings.Settings.GetInstance().PriorityExtensionsToBackup.Any(ext => file.EndsWith(ext, StringComparison.OrdinalIgnoreCase)))
      .ToArray();
 
-                // Copy priority files first
-                foreach (string sourceFilePath in priorityFiles)
-
-                {                   
-                    if (State.State == EnumState.Cancelled)
-                    {
-                        break;
-                    }                   
-                    CopyFile(sourceFilePath);
-                }
-
-                // Filter remaining files (non prioritary)
+                //create an array with the remaining files
                 var remainingFiles = sourceFiles.Except(priorityFiles).ToArray();
 
-                // Copy remaining files
-                foreach (string sourceFilePath in remainingFiles)
+                //merge both array into one with priority files in first
+                string[] allFiles = priorityFiles.Concat(remainingFiles).ToArray();
+
+
+                // browse all files starting with the priority ones
+                for (int i = State.CurrentFileIndex; i < allFiles.Length; i++)
                 {
                     if (State.State == EnumState.Cancelled)
                     {
                         break;
                     }
+
+                    else if (State.State == EnumState.Paused)
+                    {
+                        // save current index and leave without breaking the loop
+                        State.CurrentFileIndex = i;
+                        return;
+                    }
+
+                    string sourceFilePath = allFiles[i];
                     CopyFile(sourceFilePath);
+
+                    // updating current index
+                    State.CurrentFileIndex = i + 1;
                 }
             }
             catch (Exception ex)
