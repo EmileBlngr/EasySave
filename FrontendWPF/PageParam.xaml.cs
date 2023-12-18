@@ -16,6 +16,9 @@ namespace WpfApp1
         private static string currentLanguage = "fr-FR"; // Default to French
         private Dictionary<string, string> localizedResources;
 
+        public delegate void LanguageChangedEventHandler(string newLanguage);
+        public static event LanguageChangedEventHandler LanguageChanged;
+
         public static string CurrentLanguage
         {
             get { return currentLanguage; }
@@ -53,6 +56,9 @@ namespace WpfApp1
                 CurrentLanguage = "es-ES";
 
             UpdateLanguage(CurrentLanguage); // Use static property
+
+            // Trigger the LanguageChanged event
+            LanguageChanged?.Invoke(CurrentLanguage);
         }
 
 

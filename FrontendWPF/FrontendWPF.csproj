@@ -12,11 +12,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="easysavelogo.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="ES-icon.ico" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="easysavelogo.png" />
   </ItemGroup>
 
 </Project>

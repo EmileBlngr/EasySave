@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using Newtonsoft.Json;
+using System.IO;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks.Sources;
@@ -20,34 +21,81 @@ namespace WpfApp1
 
     public partial class MainWindow : Window
     {
+        private Dictionary<string, string> localizedResources;
+
         public MainWindow()
         {
             InitializeComponent();
             LogsButton.Click += LogsButton_Click;
+
+            // Subscribe to the LanguageChanged event
+            PageParam.LanguageChanged += PageParam_LanguageChanged;
+        }
+        private void PageParam_LanguageChanged(string newLanguage)
+        {
+            // Update language-dependent content in MainWindow
+            UpdateLanguage(newLanguage);
+        }
+
+        private void UpdateLanguage(string cultureCode)
+        {
+            // Form the relative path from the executable to the JSON files
+            string relativePath = $"../../../../Backend/Data/Languages/{cultureCode}.json";
+            string fullPath = System.IO.Path.GetFullPath(relativePath, AppDomain.CurrentDomain.BaseDirectory);
+
+            if (File.Exists(fullPath))
+            {
+                string json = File.ReadAllText(fullPath);
+                localizedResources = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+
+                if (localizedResources != null)
+                {
+
+                    NewSaveButton.Content = localizedResources["NewBackup"];
+                    LogsButton.Content = localizedResources["AccessLogs"];
+                    SettingsButton.Content = localizedResources["Settings"];
+                    TrackSavesButton.Content = localizedResources["TrackSaves"];
+                    CloseButton.Content = localizedResources["CloseButton"];
+                    mySaves.Text = localizedResources["mySaves"];
+                    newSave.Text = localizedResources["newSave"];
+                    estimatedTime.Text = localizedResources["estimatedTime"];
+
+                }
+            }
+            else
+            {
+                MessageBox.Show($"Language file not found: {fullPath}");
+            }
+        }
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Close the application when the CloseButton is clicked
+            Application.Current.Shutdown();
         }
 
 
 
-            /* 
-            ResourceDictionary dict = new ResourceDictionary();
 
-             this.Resources.MergedDictionaries.Clear();
+        /* 
+        ResourceDictionary dict = new ResourceDictionary();
 
-            switch 
-            {
+         this.Resources.MergedDictionaries.Clear();
 
-            }
+        switch 
+        {
 
-              add (dict)*/
+        }
+
+          add (dict)*/
 
         private void NewSaveButton_Click(object sender, RoutedEventArgs e)
         {
-            MainContentFrame.Navigate(new PageNew()); 
+            MainContentFrame.Navigate(new PageNew());
         }
 
         private void SettingsButton_Click(object sender, RoutedEventArgs e)
         {
-            MainContentFrame.Navigate(new PageParam()); 
+            MainContentFrame.Navigate(new PageParam());
 
 
         }
@@ -65,7 +113,7 @@ namespace WpfApp1
                 {
                     System.Diagnostics.Debug.WriteLine("Directory exists, attempting to open.");
 
-                 
+
                     System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo()
                     {
                         FileName = "explorer.exe",
@@ -77,11 +125,11 @@ namespace WpfApp1
                 {
 
                     MessageBox.Show("Le dossier des logs n'existe pas dans le répertoire de l'application.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
-                } 
+                }
             }
             catch (Exception ex)
             {
-                
+
 
                 MessageBox.Show($"Impossible d'ouvrir le dossier des logs : {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
             }

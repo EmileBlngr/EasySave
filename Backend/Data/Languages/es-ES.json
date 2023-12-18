@@ -98,7 +98,18 @@
   "TXT": ".TXT",
   "XML": ".XML",
   "ApplyChanges": "Aplicar Cambios",
-  "GroupBoxTitle": "Configuraciones"
+  "GroupBoxTitle": "Configuraciones",
+  "NewBackup": "📁 Nueva copia de seguridad",
+  "AccessLogs": "📜 Acceso a los registros",
+  "Settings": "⚙️ Configuraciones",
+  "TrackSaves": "🔍 Seguimiento de copias",
+  "CloseButton": "❌ Salir",
+  "mySaves": "MIS RESPALDOS",
+  "newSave": "Nuevo Guardar",
+  "estimatedTime": "Tiempo Estimado"
+
+
+
 
 
 

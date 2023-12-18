@@ -99,7 +99,16 @@
   "TXT": ".TXT",
   "XML": ".XML",
   "ApplyChanges": "Apply Changes",
-  "GroupBoxTitle": "Settings"
+  "GroupBoxTitle": "Settings",
+  "NewBackup": "📁 New Backup",
+  "AccessLogs": "📜 Access Logs",
+  "Settings": "⚙️ Settings",
+  "TrackSaves": "🔍 Track Backups",
+  "CloseButton": "❌ Close",
+  "mySaves": "MY SAVES",
+  "newSave": "New Save",
+  "estimatedTime": "Estimated Time"
+
 
 
 }
