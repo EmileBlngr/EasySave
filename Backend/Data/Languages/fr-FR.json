@@ -87,6 +87,7 @@
   "choose_language": "Rentrez une langue parmi celles disponibles :",
 
 
+
   "ApplyButtonText": "Appliquer les changements",
   "PageTitle": "Paramètres",
   "Languages": "Langues",
@@ -106,7 +107,18 @@
   "CloseButton": "❌ Quitter",
   "mySaves": "MES SAUVEGARDES",
   "newSave": "Nouvelle Sauvegarde",
-  "estimatedTime": "Temps Estimé"
+  "estimatedTime": "Temps Estimé",
+  "NewBackupHeader": "Nouvelle sauvegarde",
+  "saveName": "Nom de la sauvegarde",
+  "saveType": "Type de la sauvegarde",
+  "totalSave": "Sauvegarde total",
+  "diffSave": "Sauvegarde différentielle",
+  "sourcePath": "Répertoire source",
+  "browse": "Parcourir",
+  "destinationPath": "Répertoire destination",
+  "browse2": "Parcourir",
+  "createSave": "Créer la sauvegarde"
+
 
 
 
