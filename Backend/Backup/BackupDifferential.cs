@@ -44,34 +44,37 @@ namespace Backend.Backup
                 State.RemainingFiles = sourceFiles.Length;
                 State.RemainingSize = TotalSize;
 
-                // Process priority extensions first
-                foreach (string sourceFilePath in sourceFiles)
+                //create an array with the priority files
+                var priorityFiles = sourceFiles.Where(file =>
+                    Settings.Settings.GetInstance().PriorityExtensionsToBackup.Any(ext =>
+                        file.EndsWith(ext, StringComparison.OrdinalIgnoreCase))).ToArray();
+
+                //create an array with the remaining files
+
+                var remainingFiles = sourceFiles.Except(priorityFiles).ToArray();
+
+                //merge both array into one with priority files in first
+                string[] allFiles = priorityFiles.Concat(remainingFiles).ToArray();
+
+                // browse all files starting with the priority ones
+                for (int i = State.CurrentFileIndex; i < allFiles.Length; i++)
                 {
                     if (State.State == EnumState.Cancelled)
-                    {
+                    {                        
                         break;
                     }
-                    string extension = Path.GetExtension(sourceFilePath);
-
-                    if (Settings.Settings.GetInstance().PriorityExtensionsToBackup.Any(ext => extension.EndsWith(ext, StringComparison.OrdinalIgnoreCase)))
+                    else if (State.State == EnumState.Paused)
                     {
-                        ProcessFile(sourceFilePath);
+                        // save current index and leave without breaking the loop
+                        State.CurrentFileIndex = i;
+                        return;
                     }
-                }
 
-                // Process other extensions
-                foreach (string sourceFilePath in sourceFiles)
-                {
-                    if (State.State == EnumState.Cancelled)
-                    {
-                        break;
-                    }
-                    string extension = Path.GetExtension(sourceFilePath);
+                    string sourceFilePath = allFiles[i];
+                    ProcessFile(sourceFilePath);
 
-                    if (!Settings.Settings.GetInstance().PriorityExtensionsToBackup.Any(ext => extension.EndsWith(ext, StringComparison.OrdinalIgnoreCase)))
-                    {
-                        ProcessFile(sourceFilePath);
-                    }
+                    // updating current index
+                    State.CurrentFileIndex = i + 1;
                 }
             }
             catch (Exception ex)
