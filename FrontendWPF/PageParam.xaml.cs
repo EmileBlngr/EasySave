@@ -13,7 +13,7 @@ namespace WpfApp1
 {
     public partial class PageParam : Page
     {
-        private static string currentLanguage = "fr"; // Default to French
+        private static string currentLanguage = "fr-FR"; // Default to French
         private Dictionary<string, string> localizedResources;
 
         public static string CurrentLanguage
@@ -30,13 +30,13 @@ namespace WpfApp1
             // Set the radio button based on the current language
             switch (CurrentLanguage)
             {
-                case "en":
+                case "en-EN":
                     radioEnglish.IsChecked = true;
                     break;
-                case "fr":
+                case "fr-FR":
                     radioFrench.IsChecked = true;
                     break;
-                case "es":
+                case "es-ES":
                     radioSpanish.IsChecked = true;
                     break;
             }
@@ -46,11 +46,11 @@ namespace WpfApp1
         private void btnApplyChanges_Click(object sender, RoutedEventArgs e)
         {
             if (radioEnglish.IsChecked == true)
-                CurrentLanguage = "en";
+                CurrentLanguage = "en-EN";
             else if (radioFrench.IsChecked == true)
-                CurrentLanguage = "fr";
+                CurrentLanguage = "fr-FR";
             else if (radioSpanish.IsChecked == true)
-                CurrentLanguage = "es";
+                CurrentLanguage = "es-ES";
 
             UpdateLanguage(CurrentLanguage); // Use static property
         }
