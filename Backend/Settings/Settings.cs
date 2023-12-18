@@ -132,5 +132,14 @@ namespace Backend.Settings
                 }
             }
         }
+
+        /// <summary>
+        /// Sets the maximum parallel transfer size in kilobytes.
+        /// </summary>
+        /// <param name="maxkB">The maximum parallel transfer size in kilobytes to be set.</param>
+        public void SetMaxParallelTransferSizeKB(int maxkB)
+        {
+            MaxParallelTransferSizeKB = maxkB;
+        }
     }
 }
