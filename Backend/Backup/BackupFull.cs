@@ -51,20 +51,23 @@ namespace Backend.Backup
                 foreach (string sourceFilePath in priorityFiles)
 
                 {                   
-                    string fileName = Path.GetFileName(sourceFilePath);                   
-                    string targetFilePath = Path.Combine(TargetDirectory, fileName);
-                    State.CurrentFileSource = sourceFilePath;
-                    State.CurrentFileTarget = targetFilePath;
-                    File.Copy(sourceFilePath, targetFilePath, true);
+                    if (State.State == EnumState.Cancelled)
+                    {
+                        break;
+                    }                   
                     CopyFile(sourceFilePath);
                 }
 
                 // Filter remaining files (non prioritary)
                 var remainingFiles = sourceFiles.Except(priorityFiles).ToArray();
 
-                // Coy remaining files
+                // Copy remaining files
                 foreach (string sourceFilePath in remainingFiles)
                 {
+                    if (State.State == EnumState.Cancelled)
+                    {
+                        break;
+                    }
                     CopyFile(sourceFilePath);
                 }
             }
@@ -84,7 +87,11 @@ namespace Backend.Backup
 
                 try
                 {
-                    Encrypt();
+                    if (State.State != EnumState.Cancelled)
+                    {
+                        Encrypt();
+                    }
+                    
                 }
                 catch (Exception ex)
                 {
@@ -92,9 +99,13 @@ namespace Backend.Backup
                 }
                 finally
                 {
-                    State.State = EnumState.Finished;
-                    Console.WriteLine(string.Format(Settings.Settings.GetInstance().LanguageSettings.LanguageData["full_backup_finished"], FileTransferTime));
-                    Console.WriteLine("\n\n\n");
+                    if (State.State != EnumState.Cancelled)
+                    {
+                        State.State = EnumState.Finished;
+                        Console.WriteLine(string.Format(Settings.Settings.GetInstance().LanguageSettings.LanguageData["full_backup_finished"], FileTransferTime));
+                        Console.WriteLine("\n\n\n");
+                    }
+                    
                     Settings.Settings.GetInstance().LogSettings.Createlogs(this);
                 }
             }
@@ -121,6 +132,7 @@ namespace Backend.Backup
 
             foreach (string targetFile in targetFiles)
             {
+
                 string fileName = Path.GetFileName(targetFile);
                 string extension = Path.GetExtension(targetFile);
                 if (Settings.Settings.GetInstance().ExtensionsToEncrypt.Contains(extension))
@@ -137,8 +149,7 @@ namespace Backend.Backup
             EncryptTime = (float)encryptionStopwatch.Elapsed.TotalSeconds * 1000;
             Console.WriteLine($"Encrypt time: {EncryptTime}");
 
-            string output = cryptosoftProcess.StandardOutput.ReadToEnd();
-            string error = cryptosoftProcess.StandardError.ReadToEnd();
+           
         }
 
         /// <summary>

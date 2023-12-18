@@ -112,5 +112,11 @@ namespace Backend.Backup
         {
             ProgressUpdated?.Invoke(this, EventArgs.Empty);
         }
+
+        public void CancelBackup()
+        {
+            State.State = EnumState.Cancelled;
+
+        }
     }
 }
