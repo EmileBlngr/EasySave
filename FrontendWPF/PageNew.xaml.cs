@@ -84,7 +84,6 @@ namespace WpfApp1
             try
             {
                 backupManager.AddBackup(backendBackupType, backupName, sourceDirectory, targetDirectory);
-                backupManager.PerformAllBackups();
                 MessageBox.Show("Backup created successfully.");
             }
             catch (Exception ex)

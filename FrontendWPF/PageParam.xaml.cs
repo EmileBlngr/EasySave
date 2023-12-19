@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using Backend.Settings;
 using FrontendWPF;
 using Newtonsoft.Json;
 
@@ -19,7 +14,9 @@ namespace WpfApp1
 
         public delegate void LanguageChangedEventHandler(string newLanguage);
         public static event LanguageChangedEventHandler LanguageChanged;
-
+        public bool IsJsonChecked { get; set; }
+        public bool IsTxtChecked { get; set; }
+        public bool IsXmlChecked { get; set; }
         public static string CurrentLanguage
         {
             get { return currentLanguage; }
@@ -28,7 +25,14 @@ namespace WpfApp1
 
         public PageParam()
         {
+            DataContext = this;
+
+            IsJsonChecked = Settings.GetInstance().LogSettings.WriteToJson;
+            IsTxtChecked = Settings.GetInstance().LogSettings.WriteToTxt;
+            IsXmlChecked = Settings.GetInstance().LogSettings.WriteToXml;
+
             InitializeComponent();
+
             UpdateLanguage(CurrentLanguage); // Use static property
 
             // Set the radio button based on the current language
@@ -44,6 +48,18 @@ namespace WpfApp1
                     radioSpanish.IsChecked = true;
                     break;
             }
+            txtMaxFileSizeInput.Text = Settings.GetInstance().MaxParallelTransferSizeKB.ToString();
+            txtBusinessSoftwareInput.Text = Settings.GetInstance().GetBusinessSoftware();
+            foreach (string extensionToEncrypt in Settings.GetInstance().ExtensionsToEncrypt)
+
+            {
+                listEncryptFileExtensions.Items.Add(extensionToEncrypt);
+            }
+
+            foreach (string PrioritaryExtension in Settings.GetInstance().PriorityExtensionsToBackup)
+            {
+                listPrioritaryFileExtensions.Items.Add(PrioritaryExtension);
+            }
         }
 
 
@@ -57,6 +73,16 @@ namespace WpfApp1
                 CurrentLanguage = "es-ES";
 
             UpdateLanguage(CurrentLanguage); // Use static property
+            if (int.TryParse(txtMaxFileSizeInput.Text, out int maxFileSize))
+            {
+                Settings.GetInstance().SetMaxParallelTransferSizeKB(maxFileSize);
+            }
+
+            Settings.GetInstance().SetBusinessSoftware(txtBusinessSoftwareInput.Text);
+
+            Settings.GetInstance().LogSettings.WriteToJson = IsJsonChecked;
+            Settings.GetInstance().LogSettings.WriteToTxt = IsTxtChecked;
+            Settings.GetInstance().LogSettings.WriteToXml = IsXmlChecked;
 
             // Trigger the global LanguageChanged event
             App.OnLanguageChanged(CurrentLanguage);
@@ -92,7 +118,70 @@ namespace WpfApp1
             }
         }
 
+        private void btnAddEncryptExtension_Click(object sender, RoutedEventArgs e)
+        {
+            string newExtension = txtEncryptFileExtensionInput.Text.Trim();
+            if (!string.IsNullOrEmpty(newExtension))
+            {
+                listEncryptFileExtensions.Items.Add(newExtension);
+                Settings.GetInstance().AddExtensionsToEncrypt(newExtension);
+                txtEncryptFileExtensionInput.Clear();
+            }
+        }
 
+        private void btnRemoveEncryptExtension_Click(object sender, RoutedEventArgs e)
+        {
+            if (listEncryptFileExtensions.SelectedIndex != -1)
+            {
+                Settings.GetInstance().RemoveExtensionToEncrypt(listEncryptFileExtensions.SelectedItem.ToString());
+                listEncryptFileExtensions.Items.RemoveAt(listEncryptFileExtensions.SelectedIndex);
+            }
+        }
+        private void btnAddPrioritaryExtension_Click(object sender, RoutedEventArgs e)
+        {
+            string newExtension = txtPrioritaryFileExtensionInput.Text.Trim();
+            if (!string.IsNullOrEmpty(newExtension))
+            {
+                listPrioritaryFileExtensions.Items.Add(newExtension);
+                Settings.GetInstance().AddPriorityExtensionToBackup(newExtension);
+                txtPrioritaryFileExtensionInput.Clear();
+            }
+        }
+
+        private void btnRemovePrioritaryExtension_Click(object sender, RoutedEventArgs e)
+        {
+            if (listPrioritaryFileExtensions.SelectedIndex != -1)
+            {
+                Settings.GetInstance().RemovePriorityExtensionToBackup(listPrioritaryFileExtensions.SelectedItem.ToString());
+                listPrioritaryFileExtensions.Items.RemoveAt(listPrioritaryFileExtensions.SelectedIndex);
+            }
+        }
+
+        private void CheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            if (sender is CheckBox checkBox)
+            {
+                if (checkBox.Content.ToString() == ".JSON")
+                    IsJsonChecked = true;
+                else if (checkBox.Content.ToString() == ".TXT")
+                    IsTxtChecked = true;
+                else if (checkBox.Content.ToString() == ".XML")
+                    IsXmlChecked = true;
+            }
+        }
+
+        private void CheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            if (sender is CheckBox checkBox)
+            {
+                if (checkBox.Content.ToString() == ".JSON")
+                    IsJsonChecked = false;
+                else if (checkBox.Content.ToString() == ".TXT")
+                    IsTxtChecked = false;
+                else if (checkBox.Content.ToString() == ".XML")
+                    IsXmlChecked = false;
+            }
+        }
 
     }
 }
