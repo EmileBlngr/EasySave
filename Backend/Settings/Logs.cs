@@ -111,7 +111,7 @@ namespace Backend.Settings
                 case EnumLogFormat.Xml:
                     return WriteToXml;
                 default:
-                    throw new ArgumentException("Format de log non pris en charge");
+                    throw new ArgumentException(Settings.GetInstance().LanguageSettings.LanguageData["logs_format_incompatible"]);
             }
         }
 
@@ -134,7 +134,7 @@ namespace Backend.Settings
                     WriteToXml = newState;
                     break;
                 default:
-                    throw new ArgumentException("Format de log non pris en charge");
+                    throw new ArgumentException(Settings.GetInstance().LanguageSettings.LanguageData["logs_format_incompatible"]);
             }
         }
 

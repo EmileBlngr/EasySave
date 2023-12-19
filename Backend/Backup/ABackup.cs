@@ -16,6 +16,7 @@ namespace Backend.Backup
         public float EncryptTime { get; set; }
         public DateTime StartTime { get; set; }
         public BackupState State { get; set; }
+
         public event EventHandler ProgressUpdated;
         public Timer ProgressDisplayTimer { get; set; }
 

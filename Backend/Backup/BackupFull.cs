@@ -54,17 +54,17 @@ namespace Backend.Backup
                 //merge both array into one with priority files in first
                 string[] allFiles = priorityFiles.Concat(remainingFiles).ToArray();
 
-
                 // browse all files starting with the priority ones
                 for (int i = State.CurrentFileIndex; i < allFiles.Length; i++)
                 {
                     if (State.State == EnumState.Cancelled)
                     {
                         break;
-                    }
+                    }                  
 
-                    else if (State.State == EnumState.Paused)
+                    else if (State.State == EnumState.Paused || BackupManager.IsBusinessSoftwareRunning())
                     {
+                        State.State = EnumState.Paused;
                         // save current index and leave without breaking the loop
                         State.CurrentFileIndex = i;
                         return;
@@ -75,6 +75,9 @@ namespace Backend.Backup
 
                     // updating current index
                     State.CurrentFileIndex = i + 1;
+
+                    
+
                 }
             }
             catch (Exception ex)

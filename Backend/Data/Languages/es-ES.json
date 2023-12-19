@@ -40,6 +40,7 @@
   "accessing_logs": "Consultando registros...",
   "exiting": "Cerrando...",
   "logs_folder_doest_exist": "El directorio de registros no existe.",
+  "logs_format_incompatible": "El formato de registro es incompatible.",
 
   "full_backup_full": "La copia de seguridad completa se completó con éxito en {0} segundos",
   "error_copying_files": "Error al copiar archivos: {0}",

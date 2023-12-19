@@ -63,8 +63,10 @@ namespace Backend.Backup
                     {                        
                         break;
                     }
-                    else if (State.State == EnumState.Paused)
+
+                    else if (State.State == EnumState.Paused || BackupManager.IsBusinessSoftwareRunning())
                     {
+                        State.State = EnumState.Paused;
                         // save current index and leave without breaking the loop
                         State.CurrentFileIndex = i;
                         return;
