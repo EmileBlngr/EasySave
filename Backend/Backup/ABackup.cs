@@ -113,23 +113,29 @@ namespace Backend.Backup
             ProgressUpdated?.Invoke(this, EventArgs.Empty);
         }
 
+        /// <summary>
+        /// Cancels the ongoing backup operation, setting the state to 'Cancelled'.
+        /// </summary>
         public void CancelBackup()
         {
             State.State = EnumState.Cancelled;
-
         }
 
+        /// <summary>
+        /// Pauses the ongoing backup operation, setting the state to 'Paused'.
+        /// </summary>
         public void PauseBackup()
         {
             State.State = EnumState.Paused;
-
         }
 
+        /// <summary>
+        /// Resumes a paused backup operation, setting the state to 'InProgress'.
+        /// </summary>
         public void ResumeBackup()
         {
             State.State = EnumState.InProgress;
-
-        } 
+        }
 
     }
 }

@@ -1,5 +1,4 @@
-﻿using Backend.Settings;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 
 namespace Backend.Backup
 {
@@ -150,12 +149,9 @@ namespace Backend.Backup
                     cryptosoftProcess.WaitForExit();
                 }
             }
-
             encryptionStopwatch.Stop();
             EncryptTime = (float)encryptionStopwatch.Elapsed.TotalSeconds * 1000;
-            Console.WriteLine($"Encrypt time: {EncryptTime}");
-
-           
+            Console.WriteLine($"Encrypt time: {EncryptTime}");         
         }
 
         /// <summary>

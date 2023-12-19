@@ -1,16 +1,19 @@
 ﻿using Backend.Backup;
 using Backend.Settings;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Frontend_console.View
 {
+
+    /// <summary>
+    /// Represents the view for accessing and modifying application settings in the console application.
+    /// </summary>
     public class SettingsView
     {
 
+        /// <summary>
+        /// Displays prompts and options for accessing and modifying application settings.
+        /// </summary>
+        /// <param name="backupManager">The instance of BackupManager for managing backups.</param>
         public static void AccessSettings(BackupManager backupManager)
         {
             string inputLanguage;
@@ -28,7 +31,7 @@ namespace Frontend_console.View
                 case "2":
                     Console.WriteLine("Choisissez le ou les formats de logs à activer/désactiver :");
 
-                    // Afficher tous les formats de logs disponibles
+                    // Display all available log formats
                     foreach (var enum_log in Enum.GetValues(typeof(EnumLogFormat)))
                     {
                         Console.WriteLine(enum_log);
@@ -40,7 +43,7 @@ namespace Frontend_console.View
                         bool currentState = backupManager.settings.LogSettings.GetLogFormatState(selectedLogFormat);
                         Console.WriteLine($"Le format de log '{selectedLogFormat}' est actuellement {(currentState ? "activé" : "désactivé")}.");
 
-                        // Demander à l'utilisateur de modifier l'état
+                        // Ask the user to modify the state
                         Console.WriteLine("Entrez 'true' pour activer ou 'false' pour désactiver ce format de log:");
                         string newStateInput = Console.ReadLine();
                         if (bool.TryParse(newStateInput, out bool newState))
@@ -68,19 +71,19 @@ namespace Frontend_console.View
                 case "3":
                     Console.WriteLine(backupManager.settings.LanguageSettings.LanguageData["choose_language"]);
 
-                    // Afficher toutes les langues disponibles
+                    // Display all available languages
                     foreach (var enum_language in Enum.GetValues(typeof(EnumLanguages)))
                     {
                         Console.WriteLine(enum_language);
                     }
 
-                    // Récupérer l'entrée de l'utilisateur
+                    // Get user input
                     inputLanguage = Console.ReadLine();
 
-                    // Essayer de convertir l'entrée en EnumLanguages
+                    // Try to convert the input into EnumLanguages
                     if (Enum.TryParse(inputLanguage, true, out EnumLanguages selectedLanguage))
                     {
-                        // Appeler SetLanguage avec la langue sélectionnée
+                        // Call SetLanguage with the selected language
                         backupManager.settings.SetLanguage(selectedLanguage);
                         Console.WriteLine("Language changed successfully.");
                     }
