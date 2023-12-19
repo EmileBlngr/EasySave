@@ -40,6 +40,7 @@
   "accessing_logs": "Accessing logs...",
   "exiting": "Exiting...",
   "logs_folder_doest_exist": "The log folder doesnt exist",
+  "logs_format_incompatible": "The log format is incompatible",
 
   "full_backup_finished": "Full Backup successfully finished in {0} seconds",
   "error_copying_files": "Error copying files: {0}",

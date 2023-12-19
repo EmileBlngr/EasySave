@@ -16,6 +16,7 @@ namespace Backend.Backup
         public float EncryptTime { get; set; }
         public DateTime StartTime { get; set; }
         public BackupState State { get; set; }
+
         public event EventHandler ProgressUpdated;
         public Timer ProgressDisplayTimer { get; set; }
 
@@ -36,7 +37,7 @@ namespace Backend.Backup
             StartTime = DateTime.Now;
             State = new BackupState();
 
-            ProgressDisplayTimer = new Timer(500);
+            ProgressDisplayTimer = new Timer(100);
             ProgressDisplayTimer.Elapsed += ProgressDisplayTimerElapsed;
             ProgressDisplayTimer.AutoReset = true;
             ProgressDisplayTimer.Enabled = false;

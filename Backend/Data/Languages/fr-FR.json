@@ -40,6 +40,7 @@
   "accessing_logs": "Consultation des logs...",
   "exiting": "Fermeture en cours...",
   "logs_folder_doest_exist": "Le dossier des logs n'existe pas.",
+  "logs_format_incompatible": "Format de log non pris en charge",
 
   "full_backup_finished": "La sauvegarde totale s'est terminée avec succès en {0} secondes",
   "error_copying_files": "Erreur lors de la copie des fichiers : {0}",
