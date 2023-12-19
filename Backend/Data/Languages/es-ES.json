@@ -88,6 +88,7 @@
   "choose_language": "Introduzca un idioma de los disponibles:",
 
 
+
   "ApplyButtonText": "Aplicar cambios",
   "PageTitle": "Configuraciones",
   "Languages": "Idiomas",
@@ -107,7 +108,17 @@
   "CloseButton": "❌ Salir",
   "mySaves": "MIS RESPALDOS",
   "newSave": "Nuevo Guardar",
-  "estimatedTime": "Tiempo Estimado"
+  "estimatedTime": "Tiempo Estimado",
+  "NewBackupHeader": "Nueva Copia de Seguridad",
+  "saveName": "Nombre de la copia de seguridad",
+  "saveType": "Tipo de copia de seguridad",
+  "totalSave": "Copia de seguridad total",
+  "diffSave": "Copia de seguridad diferencial",
+  "sourcePath": "Directorio fuente",
+  "browse": "Navegue por",
+  "destinationPath": "Directorio de destinos",
+  "browse2": "Navegue por",
+  "createSave": "Crear la copia de seguridad"
 
 
 

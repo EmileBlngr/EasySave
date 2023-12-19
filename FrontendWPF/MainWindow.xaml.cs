@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using FrontendWPF;
+using Newtonsoft.Json;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -25,17 +26,19 @@ namespace WpfApp1
 
         public MainWindow()
         {
+
             InitializeComponent();
+            UpdateLanguage(App.CurrentLanguage); // Use global language setting
+            App.LanguageChanged += UpdateLanguage; // Subscribe to the global event
+
             LogsButton.Click += LogsButton_Click;
 
-            // Subscribe to the LanguageChanged event
-            PageParam.LanguageChanged += PageParam_LanguageChanged;
         }
         private void PageParam_LanguageChanged(string newLanguage)
         {
-            // Update language-dependent content in MainWindow
             UpdateLanguage(newLanguage);
         }
+
 
         private void UpdateLanguage(string cultureCode)
         {

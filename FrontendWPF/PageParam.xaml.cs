@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using FrontendWPF;
 using Newtonsoft.Json;
 
 namespace WpfApp1
@@ -57,9 +58,10 @@ namespace WpfApp1
 
             UpdateLanguage(CurrentLanguage); // Use static property
 
-            // Trigger the LanguageChanged event
-            LanguageChanged?.Invoke(CurrentLanguage);
+            // Trigger the global LanguageChanged event
+            App.OnLanguageChanged(CurrentLanguage);
         }
+
 
 
         private void UpdateLanguage(string cultureCode)

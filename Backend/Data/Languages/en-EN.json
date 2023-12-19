@@ -88,7 +88,6 @@
   "choose_language": "Enter a language from those available:",
 
 
-
   "ApplyButtonText": "Apply Changes",
   "PageTitle": "Settings",
   "Languages": "Languages",
@@ -108,7 +107,17 @@
   "CloseButton": "❌ Close",
   "mySaves": "MY SAVES",
   "newSave": "New Save",
-  "estimatedTime": "Estimated Time"
+  "estimatedTime": "Estimated Time",
+  "NewBackupHeader": "New Backup",
+  "saveName": "Name of the save",
+  "saveType": "Type of the save",
+  "totalSave": "Full save",
+  "diffSave": "Differential save",
+  "sourcePath": "Source Path",
+  "browse": "Browse",
+  "destinationPath": "Destination Path",
+  "browse2": "Browse",
+  "createSave": "Create Save"
 
 
 

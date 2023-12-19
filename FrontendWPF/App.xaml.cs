@@ -10,7 +10,14 @@ namespace FrontendWPF
     public partial class App : Application
     {
         private Mutex mutex;
+        public static string CurrentLanguage { get; set; } = "fr-FR";
 
+        public static event Action<string> LanguageChanged;
+        public static void OnLanguageChanged(string newLanguage)
+        {
+            CurrentLanguage = newLanguage;
+            LanguageChanged?.Invoke(newLanguage);
+        }
         /// <summary>
         /// Overrides the OnStartup method to handle the application startup logic.
         /// </summary>
@@ -47,5 +54,7 @@ namespace FrontendWPF
             }
         }
     }
+
+
 
 }
