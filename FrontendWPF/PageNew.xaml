@@ -46,7 +46,7 @@
 
     <!-- Content of the page  -->
     <Grid Background="Azure">
-        <GroupBox Header="Nouvelle sauvegarde" Margin="10">
+        <GroupBox Name="gbNewBackup" Header="Nouvelle sauvegarde" Margin="10">
             <StackPanel>
                 <!-- grid for back up name -->
                 <Grid Margin="5">
@@ -57,38 +57,38 @@
 
                     <!-- backup name  -->
                     <StackPanel Grid.Column="0">
-                        <TextBlock Text="Nom de votre sauvegarde" Margin="5"/>
+                        <TextBlock Name="saveName" Text="Nom de votre sauvegarde" Margin="5"/>
                         <TextBox Style="{StaticResource TextBoxStyle}" Height="25" Width="300"/>
                     </StackPanel>
 
                     <!-- Backup type  -->
                     <StackPanel Grid.Column="1" Margin="5,0,0,0">
-                        <TextBlock Text="Type de sauvegarde" Margin="5"/>
+                        <TextBlock Name="saveType" Text="Type de sauvegarde" Margin="5"/>
                         <ComboBox Height="25" Width="300" Margin="5" SelectionChanged="ComboBox_SelectionChanged">
-                            <ComboBoxItem Content="Totale"/>
-                            <ComboBoxItem Content="Différentielle"/>
+                            <ComboBoxItem Name="totalSave" Content="Totale"/>
+                            <ComboBoxItem Name="diffSave" Content="Différentielle"/>
                         </ComboBox>
                     </StackPanel>
                 </Grid>
 
                 <!-- Répertoire source -->
-                <TextBlock Text="Répertoire source" Margin="5"/>
+                <TextBlock Name="sourcePath" Text="Répertoire source" Margin="5"/>
                 <StackPanel Orientation="Horizontal" Margin="5">
                     <TextBox Style="{StaticResource TextBoxStyle}" Height="25" Width="200"/>
-                    <Button Content="Parcourir" Style="{StaticResource ButtonStyle}" Width="100"/>
+                    <Button Name="browse" Content="Parcourir" Style="{StaticResource ButtonStyle}" Width="100"/>
                 </StackPanel>
 
                 <!-- Répertoire destination -->
-                <TextBlock Text="Répertoire destination" Margin="5"/>
+                <TextBlock Name="destinationPath" Text="Répertoire destination" Margin="5"/>
                 <StackPanel Orientation="Horizontal" Margin="5">
                     <TextBox Style="{StaticResource TextBoxStyle}" Height="25" Width="200"/>
-                    <Button Content="Parcourir" Style="{StaticResource ButtonStyle}" Width="100"/>
+                    <Button Name="browse2" Content="Parcourir" Style="{StaticResource ButtonStyle}" Width="100"/>
                 </StackPanel>
 
                 <!-- create back up button  -->
-                <Button Content="Créer la sauvegarde" Style="{StaticResource ButtonStyle}" Height="30" Width="200" Margin="5"/>
+                <Button Name="createSave" Content="Créer la sauvegarde" Style="{StaticResource ButtonStyle}" Height="30" Width="200" Margin="5"/>
             </StackPanel>
         </GroupBox>
-    </Grid>             
+    </Grid>
 
 </Page>
