@@ -32,6 +32,7 @@ namespace WpfApp1
             App.LanguageChanged += UpdateLanguage; // Subscribe to the global event
 
             LogsButton.Click += LogsButton_Click;
+            MainContentFrame.Navigate(new PageTrack());
 
         }
         private void PageParam_LanguageChanged(string newLanguage)
@@ -59,9 +60,7 @@ namespace WpfApp1
                     SettingsButton.Content = localizedResources["Settings"];
                     TrackSavesButton.Content = localizedResources["TrackSaves"];
                     CloseButton.Content = localizedResources["CloseButton"];
-                    mySaves.Text = localizedResources["mySaves"];
-                    newSave.Text = localizedResources["newSave"];
-                    estimatedTime.Text = localizedResources["estimatedTime"];
+                    
 
                 }
             }
@@ -102,7 +101,7 @@ namespace WpfApp1
 
 
         }
-
+     
 
         private void LogsButton_Click(object sender, RoutedEventArgs e)
         {
@@ -137,6 +136,13 @@ namespace WpfApp1
                 MessageBox.Show($"Impossible d'ouvrir le dossier des logs : {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+        private void TracksButton_Click(object sender, RoutedEventArgs e)
+        {
+            MainContentFrame.Navigate(new PageTrack());
+
+
+        }
+
     }
 
 

@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:WpfApp1"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="NewSave" IsEnabled="False">
+      Title="NewSave">
 
     <!-- Les ressources de la Page -->
     <Page.Resources>
@@ -46,49 +46,42 @@
 
     <!-- Content of the page  -->
     <Grid Background="Azure">
-        <GroupBox Name="gbNewBackup" Header="Nouvelle sauvegarde" Margin="10">
+        <GroupBox x:Name="gbNewBackup" Header="Nouvelle sauvegarde" Margin="10">
             <StackPanel>
-                <!-- grid for back up name -->
                 <Grid Margin="5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <!-- backup name  -->
                     <StackPanel Grid.Column="0">
-                        <TextBlock Name="saveName" Text="Nom de votre sauvegarde" Margin="5"/>
-                        <TextBox Style="{StaticResource TextBoxStyle}" Height="25" Width="300"/>
+                        <TextBlock x:Name="saveName" Text="Nom de votre sauvegarde" Margin="5"/>
+                        <TextBox x:Name="txtBackupName" Style="{StaticResource TextBoxStyle}" Height="25" Width="300"/>
                     </StackPanel>
 
-                    <!-- Backup type  -->
                     <StackPanel Grid.Column="1" Margin="5,0,0,0">
-                        <TextBlock Name="saveType" Text="Type de sauvegarde" Margin="5"/>
-                        <ComboBox Height="25" Width="300" Margin="5" SelectionChanged="ComboBox_SelectionChanged">
+                        <TextBlock x:Name="saveType" Text="Type de sauvegarde" Margin="5"/>
+                        <ComboBox x:Name="cmbBackupType" Height="25" Width="300" Margin="5" SelectedValuePath="Content">
                             <ComboBoxItem Name="totalSave" Content="Totale"/>
                             <ComboBoxItem Name="diffSave" Content="Différentielle"/>
                         </ComboBox>
                     </StackPanel>
                 </Grid>
 
-                <!-- Répertoire source -->
-                <TextBlock Name="sourcePath" Text="Répertoire source" Margin="5"/>
+                <TextBlock x:Name="sourcePath" Text="Répertoire source" Margin="5"/>
                 <StackPanel Orientation="Horizontal" Margin="5">
-                    <TextBox Style="{StaticResource TextBoxStyle}" Height="25" Width="200"/>
-                    <Button Name="browse" Content="Parcourir" Style="{StaticResource ButtonStyle}" Width="100"/>
+                    <TextBox x:Name="txtSourceDirectory" Style="{StaticResource TextBoxStyle}" Height="25" Width="300" Margin="5"/>
+                    <Button x:Name="btnBrowseSource" Content="Parcourir" Style="{StaticResource ButtonStyle}" Width="100" Click="BtnBrowseSource_Click"/>
                 </StackPanel>
 
-                <!-- Répertoire destination -->
-                <TextBlock Name="destinationPath" Text="Répertoire destination" Margin="5"/>
+                <TextBlock x:Name="destinationPath" Text="Répertoire destination" Margin="5"/>
                 <StackPanel Orientation="Horizontal" Margin="5">
-                    <TextBox Style="{StaticResource TextBoxStyle}" Height="25" Width="200"/>
-                    <Button Name="browse2" Content="Parcourir" Style="{StaticResource ButtonStyle}" Width="100"/>
+                    <TextBox x:Name="txtTargetDirectory" Style="{StaticResource TextBoxStyle}" Height="25" Width="300" Margin="5"/>
+                    <Button x:Name="btnBrowseTarget" Content="Parcourir" Style="{StaticResource ButtonStyle}" Width="100" Click="BtnBrowseTarget_Click"/>
                 </StackPanel>
 
-                <!-- create back up button  -->
-                <Button Name="createSave" Content="Créer la sauvegarde" Style="{StaticResource ButtonStyle}" Height="30" Width="200" Margin="5"/>
+                <Button x:Name="btnCreateBackup" Content="Créer la sauvegarde" Style="{StaticResource ButtonStyle}" Height="30" Width="200" Margin="5" Click="btnCreateBackup_Click"/>
             </StackPanel>
         </GroupBox>
     </Grid>
-
 </Page>
