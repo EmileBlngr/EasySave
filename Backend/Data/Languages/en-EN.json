@@ -117,8 +117,14 @@
   "browse": "Browse",
   "destinationPath": "Destination Path",
   "browse2": "Browse",
-  "createSave": "Create Save"
+  "createSave": "Create Save",
 
-
-
+  "MaxParallelFileSize": "Maximum File Size (kB)",
+  "BusinessSoftware": "Business Software",
+  "FileExtensionsToEncrypt": "File Extensions to Encrypt",
+  "FileExtensionsPrioritary": "Prioritary File Extensions",
+  "AddButton": "Add",
+  "DeleteButton": "Remove",
+  "ErrorMaxParallelFileSize": "Please enter an integer value for the maximum file size.",
+  "InputError": "Input error."
 }

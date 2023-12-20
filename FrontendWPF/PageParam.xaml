@@ -31,6 +31,7 @@
         </Style>
         <!-- Style pour SmallButton -->
         <Style x:Key="SmallButtonStyle" TargetType="Button">
+            <Setter Property="BorderThickness" Value="1"/>
         </Style>
         <!-- Style pour Button avec un template personnalisé -->
         <Style x:Key="ButtonStyle" TargetType="Button">
@@ -126,8 +127,8 @@
                     <TextBox Name="txtEncryptFileExtensionInput" Grid.Row="1"/>
 
                     <StackPanel Orientation="Vertical" Grid.Row="2">
-                        <Button Content="Ajouter" Click="btnAddEncryptExtension_Click" Style="{StaticResource SmallButtonStyle}"/>
-                        <Button Content="Supprimer" Click="btnRemoveEncryptExtension_Click" Style="{StaticResource SmallButtonStyle}"/>
+                        <Button Name="txtAddEncrypt" Content="Ajouter" Click="btnAddEncryptExtension_Click" Style="{StaticResource SmallButtonStyle}"/>
+                        <Button Name="txtRemoveEncrypt" Content="Supprimer" Click="btnRemoveEncryptExtension_Click" Style="{StaticResource SmallButtonStyle}"/>
                         <ListBox Name="listEncryptFileExtensions" Style="{StaticResource ListBoxStyle}" />
                     </StackPanel>
                 </Grid>
@@ -140,12 +141,12 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
-                    <TextBlock Name="txtPrioritaryFileExtensions" Text="SExtensions de fichiers prioritaires" Grid.Row="0" />
+                    <TextBlock Name="txtPrioritaryFileExtensions" Text="Extensions de fichiers prioritaires" Grid.Row="0" />
                     <TextBox Name="txtPrioritaryFileExtensionInput" Grid.Row="1"/>
 
                     <StackPanel Orientation="Vertical" Grid.Row="2">
-                        <Button Content="Ajouter" Click="btnAddPrioritaryExtension_Click" Style="{StaticResource SmallButtonStyle}"/>
-                        <Button Content="Supprimer" Click="btnRemovePrioritaryExtension_Click" Style="{StaticResource SmallButtonStyle}"/>
+                        <Button Name="txtAddPrioritary" Content="Ajouter" Click="btnAddPrioritaryExtension_Click" Style="{StaticResource SmallButtonStyle}"/>
+                        <Button Name="txtRemovePrioritary" Content="Supprimer" Click="btnRemovePrioritaryExtension_Click" Style="{StaticResource SmallButtonStyle}"/>
                         <ListBox Name="listPrioritaryFileExtensions" Style="{StaticResource ListBoxStyle}" />
                     </StackPanel>
                 </Grid>
