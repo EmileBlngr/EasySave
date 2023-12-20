@@ -96,10 +96,10 @@
             </Viewbox>
 
             <StackPanel Grid.Column="0" Grid.Row="2" VerticalAlignment="Center">
-                <Button x:Name="NewSaveButton" Content="📁 Nouvelle sauvegarde" Style="{StaticResource AnimatedButtonStyle}" Click="NewSaveButton_Click" />
-                <Button x:Name="LogsButton" Content="📜 Accès aux logs" Style="{StaticResource AnimatedButtonStyle}" Click="LogsButton_Click"/>
-                <Button x:Name="SettingsButton" Content="⚙️ Paramètres" Style="{StaticResource AnimatedButtonStyle}" Click="SettingsButton_Click" />
-                <Button x:Name="TrackSavesButton" Content="🔍 Suivi des sauvegardes" Style="{StaticResource AnimatedButtonStyle}" Click="TracksButton_Click" />
+                <Button x:Name="NewSaveButton" Content="📁 Nouvelle sauvegarde" Style="{StaticResource AnimatedButtonStyle}" Click="NewSaveButton_Click" Cursor="Hand" />
+                <Button x:Name="LogsButton" Content="📜 Accès aux logs" Style="{StaticResource AnimatedButtonStyle}" Click="LogsButton_Click" Cursor="Hand"/>
+                <Button x:Name="SettingsButton" Content="⚙️ Paramètres" Style="{StaticResource AnimatedButtonStyle}" Click="SettingsButton_Click" Cursor="Hand"/>
+                <Button x:Name="TrackSavesButton" Content="🔍 Suivi des sauvegardes" Style="{StaticResource AnimatedButtonStyle}" Click="TracksButton_Click" Cursor="Hand"/>
             </StackPanel>
 
 

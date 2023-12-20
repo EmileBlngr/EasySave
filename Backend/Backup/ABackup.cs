@@ -1,11 +1,15 @@
-﻿using Timer = System.Timers.Timer;
+﻿using System;
+using System.ComponentModel; 
+using System.IO;
+using System.Timers;
+
 namespace Backend.Backup
 {
 
     /// <summary>
     /// Abstract class ABackup defines the logic for backups.
     /// </summary>
-    public abstract class ABackup : IBackup
+    public abstract class ABackup : IBackup, INotifyPropertyChanged
     {
         public string Name { get; set; }
         public string SourceDirectory { get; set; }
@@ -17,8 +21,10 @@ namespace Backend.Backup
         public DateTime StartTime { get; set; }
         public BackupState State { get; set; }
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public event EventHandler ProgressUpdated;
-        public Timer ProgressDisplayTimer { get; set; }
+        public System.Timers.Timer ProgressDisplayTimer { get; set; }
 
         /// <summary>
         /// Constructor method of ABackup, initialize all the attributes and set up the timer
@@ -37,7 +43,7 @@ namespace Backend.Backup
             StartTime = DateTime.Now;
             State = new BackupState();
 
-            ProgressDisplayTimer = new Timer(100);
+            ProgressDisplayTimer = new System.Timers.Timer(100);
             ProgressDisplayTimer.Elapsed += ProgressDisplayTimerElapsed;
             ProgressDisplayTimer.AutoReset = true;
             ProgressDisplayTimer.Enabled = false;
@@ -82,8 +88,17 @@ namespace Backend.Backup
         /// </summary>
         public void UpdateProgress()
         {
-            State.Progress = 1.0f - (float)State.RemainingSize / TotalSize;
+            // Calculate progress as a fraction of work done
+            float progress = 1.0f - (float)State.RemainingSize / TotalSize;
+
+            // Ensure progress does not exceed 100%
+            State.Progress = Math.Min(progress, 1.0f);
+
+            OnProgressUpdated(); // Raise the ProgressUpdated event
         }
+
+
+
         /// <summary>
         /// ProgressDisplayTimerElapsed method shows the progress of the backups, once the timer reaches the end of his interval.
         /// </summary>
@@ -105,13 +120,24 @@ namespace Backend.Backup
 
 
         }
-        /// <summary>
-        /// Raises the event indicating that the progress has been updated.
-        /// This method is called when the progress of the backup operation is updated.
-        /// </summary>
-        protected virtual void OnProgressUpdated()
+
+        protected void OnPropertyChanged(string propertyName)
         {
-            ProgressUpdated?.Invoke(this, EventArgs.Empty);
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private float _progress;
+        public float Progress
+        {
+            get => _progress;
+            set
+            {
+                if (_progress != value)
+                {
+                    _progress = value;
+                    OnPropertyChanged(nameof(Progress));
+                }
+            }
         }
 
         /// <summary>
@@ -119,7 +145,13 @@ namespace Backend.Backup
         /// </summary>
         public void CancelBackup()
         {
-            State.State = EnumState.Cancelled;
+
+            if (State.State != EnumState.NotStarted && State.State != EnumState.Finished)
+            {
+                State.State = EnumState.Cancelled;
+            }
+               
+
         }
 
         /// <summary>
@@ -127,7 +159,11 @@ namespace Backend.Backup
         /// </summary>
         public void PauseBackup()
         {
-            State.State = EnumState.Paused;
+            if (State.State != EnumState.NotStarted && State.State != EnumState.Finished)
+            {
+                State.State = EnumState.Paused;
+            }
+            
         }
 
         /// <summary>
@@ -135,7 +171,9 @@ namespace Backend.Backup
         /// </summary>
         public void ResumeBackup()
         {
+            
             State.State = EnumState.InProgress;
+            PerformBackup();
         }
 
     }

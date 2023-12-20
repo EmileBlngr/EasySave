@@ -8,14 +8,20 @@ namespace WpfApp1
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
-
+    
     public partial class MainWindow : Window
     {
+        
         private Dictionary<string, string> localizedResources;
         private BackupManager backupManager = new BackupManager();
 
         public MainWindow()
         {
+            backupManager.AddBackup("1", "bruh", "C:\\Users\\romeo\\OneDrive\\Bureau\\NE PAS OUVRIR", "C:\\Users\\romeo\\OneDrive\\Bureau\\NE PAS OUVRIR2");
+            backupManager.AddBackup("1", "bruh", "C:\\Users\\romeo\\OneDrive\\Bureau\\NE PAS OUVRIR", "C:\\Users\\romeo\\OneDrive\\Bureau\\NE PAS OUVRIR2");
+            backupManager.AddBackup("1", "bruh", "C:\\Users\\romeo\\OneDrive\\Bureau\\NE PAS OUVRIR", "C:\\Users\\romeo\\OneDrive\\Bureau\\NE PAS OUVRIR2");
+            backupManager.AddBackup("1", "bruh", "C:\\Users\\romeo\\OneDrive\\Bureau\\NE PAS OUVRIR", "C:\\Users\\romeo\\OneDrive\\Bureau\\NE PAS OUVRIR2");
+            backupManager.AddBackup("1", "bruh", "C:\\Users\\romeo\\OneDrive\\Bureau\\NE PAS OUVRIR", "C:\\Users\\romeo\\OneDrive\\Bureau\\NE PAS OUVRIR2");
 
             InitializeComponent();
             UpdateLanguage(App.CurrentLanguage); // Use global language setting
@@ -50,7 +56,7 @@ namespace WpfApp1
                     SettingsButton.Content = localizedResources["Settings"];
                     TrackSavesButton.Content = localizedResources["TrackSaves"];
                     CloseButton.Content = localizedResources["CloseButton"];
-
+                    
 
                 }
             }
@@ -91,7 +97,7 @@ namespace WpfApp1
 
 
         }
-
+     
 
         private void LogsButton_Click(object sender, RoutedEventArgs e)
         {
