@@ -14,7 +14,8 @@ namespace Backend.Settings
         public bool WriteToJson { get; set; }
         public bool WriteToTxt { get; set; }
         public bool WriteToXml { get; set; }
-        // <summary>
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="Logs"/> class with default settings.
         /// </summary>
         public Logs()

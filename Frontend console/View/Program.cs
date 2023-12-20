@@ -1,7 +1,6 @@
-﻿//Frontend version console
+﻿//Frontend console version
 using Backend.Backup;
-using Backend.Settings;
-using Frontend_console;
+
 using Frontend_console.View;
 
 BackupManager backupManager;

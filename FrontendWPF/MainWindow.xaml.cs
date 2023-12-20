@@ -102,7 +102,7 @@ namespace WpfApp1
 
 
         }
-
+     
 
         private void LogsButton_Click(object sender, RoutedEventArgs e)
         {

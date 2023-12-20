@@ -1,5 +1,10 @@
 ﻿namespace Backend.Backup
 {
+
+    /// <summary>
+    /// Represents the state of a backup operation, including the current state, progress, remaining files, remaining size,
+    /// and information about the current source and target files.
+    /// </summary>
     public class BackupState
     {
         public EnumState State { get; set; }
