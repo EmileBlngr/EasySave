@@ -57,18 +57,19 @@ namespace WpfApp1
                 Button startButton = new Button { Content = "▶", Width = 33 };
                 Button pauseButton = new Button { Content = "⏸", Width = 33 };
                 Button stopButton = new Button { Content = "■", Width = 33 };
-                Button logButton = new Button { Content = "📃", Width = 33 };
+                
 
-                // Define click events
+               
                 startButton.Click += (s, e) => Task.Run(() => backup.PerformBackup());
-                // pauseButton and stopButton events need to be implemented according to your backup logic
+                pauseButton.Click += (s, e) => Task.Run(() => backup.PauseBackup());
+                stopButton.Click += (s, e) => Task.Run(() => backup.CancelBackup());
 
                 panel.Children.Add(nameText);
                 panel.Children.Add(progressBar);
                 panel.Children.Add(startButton);
                 panel.Children.Add(pauseButton);
                 panel.Children.Add(stopButton);
-                panel.Children.Add(logButton);
+                
 
                 lvBackups.Items.Add(panel);
             }
