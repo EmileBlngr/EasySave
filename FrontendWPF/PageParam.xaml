@@ -115,12 +115,12 @@
                 </StackPanel>
 
                 <!-- File extensions to encrypt Section -->
-                <Grid Grid.Column="0" Grid.Row="5">
+                <Grid Grid.Column="0" Grid.Row="3" Margin="0,18,0,57" Grid.RowSpan="3">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
                     <TextBlock Name="txtEncryptFileExtensions" Text="Extensions de fichiers à chiffrer" Grid.Row="0" />
@@ -129,7 +129,7 @@
                     <StackPanel Orientation="Vertical" Grid.Row="2">
                         <Button Name="txtAddEncrypt" Content="Ajouter" Click="btnAddEncryptExtension_Click" Style="{StaticResource SmallButtonStyle}"/>
                         <Button Name="txtRemoveEncrypt" Content="Supprimer" Click="btnRemoveEncryptExtension_Click" Style="{StaticResource SmallButtonStyle}"/>
-                        <ListBox Name="listEncryptFileExtensions" Style="{StaticResource ListBoxStyle}" />
+                        <ListBox Name="listEncryptFileExtensions" Style="{StaticResource ListBoxStyle}" SelectionMode="Extended" Height="Auto" MaxHeight="80" VerticalAlignment="Top"/>
                     </StackPanel>
                 </Grid>
                 <!-- File extensions to encrypt Section -->
@@ -147,12 +147,12 @@
                     <StackPanel Orientation="Vertical" Grid.Row="2">
                         <Button Name="txtAddPrioritary" Content="Ajouter" Click="btnAddPrioritaryExtension_Click" Style="{StaticResource SmallButtonStyle}"/>
                         <Button Name="txtRemovePrioritary" Content="Supprimer" Click="btnRemovePrioritaryExtension_Click" Style="{StaticResource SmallButtonStyle}"/>
-                        <ListBox Name="listPrioritaryFileExtensions" Style="{StaticResource ListBoxStyle}" />
+                        <ListBox Name="listPrioritaryFileExtensions" Style="{StaticResource ListBoxStyle}" Height="Auto" MaxHeight="80" VerticalAlignment="Top"/>
                     </StackPanel>
                 </Grid>
 
                 <!-- Apply Changes Button -->
-                <Button Name="btnApplyChanges" Content="Appliquer les changements" Style="{StaticResource ButtonStyle}" Grid.Row="5" Grid.ColumnSpan="2" Margin="166,140,162,24" Click="btnApplyChanges_Click"/>
+                <Button Name="btnApplyChanges" Content="Appliquer les changements" Style="{StaticResource ButtonStyle}" Grid.Row="5" Grid.ColumnSpan="2" Margin="166,152,162,12" Click="btnApplyChanges_Click"/>
 
             </Grid>
         </GroupBox>

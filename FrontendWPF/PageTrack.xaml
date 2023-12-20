@@ -65,7 +65,7 @@
                 <TextBlock x:Name="estimatedTime" Text="temps estimé" FontWeight="Bold" FontSize="10" Margin="10,0"/>
             </ListView>
         </StackPanel>
-
+       
         
     </Grid>
 
