@@ -77,6 +77,10 @@ namespace WpfApp1
             {
                 Settings.GetInstance().SetMaxParallelTransferSizeKB(maxFileSize);
             }
+            else
+            {
+                MessageBox.Show(localizedResources["ErrorMaxParallelFileSize"], localizedResources["InputError"], MessageBoxButton.OK, MessageBoxImage.Error);
+            }
 
             Settings.GetInstance().SetBusinessSoftware(txtBusinessSoftwareInput.Text);
 
@@ -108,6 +112,17 @@ namespace WpfApp1
                     radioFrench.Content = localizedResources["French"];
                     radioSpanish.Content = localizedResources["Spanish"];
                     txtLogFormat.Text = localizedResources["LogFormat"];
+
+                    txtMaxFileSize.Text = localizedResources["MaxParallelFileSize"];
+                    txtBusinessSoftware.Text = localizedResources["BusinessSoftware"];
+                    txtEncryptFileExtensions.Text = localizedResources["FileExtensionsToEncrypt"];
+                    txtPrioritaryFileExtensions.Text = localizedResources["FileExtensionsPrioritary"];
+                    txtAddEncrypt.Content = localizedResources["AddButton"];
+                    txtRemoveEncrypt.Content = localizedResources["DeleteButton"];
+                    txtAddPrioritary.Content = localizedResources["AddButton"];
+                    txtRemovePrioritary.Content = localizedResources["DeleteButton"];
+
+
                     btnApplyChanges.Content = localizedResources["ApplyChanges"];
                     txtGroupBoxTitle.Text = localizedResources["GroupBoxTitle"]; // Update GroupBox title
                 }

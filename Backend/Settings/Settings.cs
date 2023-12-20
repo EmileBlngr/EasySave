@@ -30,9 +30,8 @@ namespace Backend.Settings
             PriorityExtensionsToBackup = new List<string>();
             AddExtensionsToEncrypt(".txt");
             AddPriorityExtensionToBackup(".png");
-            MaxParallelTransferSizeKB = 1024;
+            MaxParallelTransferSizeKB = 2048;
             BusinessSoftware = "CalculatorApp";
-
         }
 
         /// <summary>
