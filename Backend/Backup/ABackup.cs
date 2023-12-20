@@ -82,8 +82,17 @@ namespace Backend.Backup
         /// </summary>
         public void UpdateProgress()
         {
-            State.Progress = 1.0f - (float)State.RemainingSize / TotalSize;
+            // Calculate progress as a fraction of work done
+            float progress = 1.0f - (float)State.RemainingSize / TotalSize;
+
+            // Ensure progress does not exceed 100%
+            State.Progress = Math.Min(progress, 1.0f);
+
+            OnProgressUpdated(); // Raise the ProgressUpdated event
         }
+
+
+
         /// <summary>
         /// ProgressDisplayTimerElapsed method shows the progress of the backups, once the timer reaches the end of his interval.
         /// </summary>

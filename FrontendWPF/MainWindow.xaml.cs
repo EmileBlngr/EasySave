@@ -1,4 +1,5 @@
-﻿using FrontendWPF;
+﻿using Backend.Backup;
+using FrontendWPF;
 using Newtonsoft.Json;
 using System.IO;
 using System.Runtime.CompilerServices;
@@ -23,6 +24,7 @@ namespace WpfApp1
     public partial class MainWindow : Window
     {
         private Dictionary<string, string> localizedResources;
+        private BackupManager backupManager = new BackupManager();
 
         public MainWindow()
         {
@@ -32,6 +34,7 @@ namespace WpfApp1
             App.LanguageChanged += UpdateLanguage; // Subscribe to the global event
 
             LogsButton.Click += LogsButton_Click;
+            MainContentFrame.Navigate(new PageTrack(backupManager));
 
         }
         private void PageParam_LanguageChanged(string newLanguage)
@@ -59,9 +62,7 @@ namespace WpfApp1
                     SettingsButton.Content = localizedResources["Settings"];
                     TrackSavesButton.Content = localizedResources["TrackSaves"];
                     CloseButton.Content = localizedResources["CloseButton"];
-                    mySaves.Text = localizedResources["mySaves"];
-                    newSave.Text = localizedResources["newSave"];
-                    estimatedTime.Text = localizedResources["estimatedTime"];
+                    
 
                 }
             }
@@ -93,7 +94,7 @@ namespace WpfApp1
 
         private void NewSaveButton_Click(object sender, RoutedEventArgs e)
         {
-            MainContentFrame.Navigate(new PageNew());
+            MainContentFrame.Navigate(new PageNew(backupManager));
         }
 
         private void SettingsButton_Click(object sender, RoutedEventArgs e)
@@ -102,7 +103,7 @@ namespace WpfApp1
 
 
         }
-
+     
 
         private void LogsButton_Click(object sender, RoutedEventArgs e)
         {
@@ -137,6 +138,11 @@ namespace WpfApp1
                 MessageBox.Show($"Impossible d'ouvrir le dossier des logs : {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+        private void TracksButton_Click(object sender, RoutedEventArgs e)
+        {
+            MainContentFrame.Navigate(new PageTrack(backupManager));
+        }
+
     }
 
 

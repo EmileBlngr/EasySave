@@ -108,15 +108,24 @@ namespace Backend.Backup
                 }
                 finally
                 {
+                    // set to 100% only if the backup wasn't cancelled
                     if (State.State != EnumState.Cancelled)
                     {
-                        State.State = EnumState.Finished;
+                        this.State.Progress = 1.0f; // Set to 100%
+                        OnProgressUpdated();
+                        State.State = EnumState.Finished; // Mark as finished
                         Console.WriteLine(string.Format(Settings.Settings.GetInstance().LanguageSettings.LanguageData["full_backup_finished"], FileTransferTime));
                         Console.WriteLine("\n\n\n");
                     }
-                    
+                    else
+                    {
+                        Console.WriteLine("Backup was cancelled.");
+                    }
+
                     Settings.Settings.GetInstance().LogSettings.Createlogs(this);
+
                 }
+
             }
         }
 

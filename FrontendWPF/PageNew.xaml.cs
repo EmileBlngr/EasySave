@@ -16,19 +16,26 @@ using Newtonsoft.Json;
 using System.IO;
 using FrontendWPF;
 using System.Security.AccessControl;
+using Backend.Backup;
+using Microsoft.Win32; 
 
 
 namespace WpfApp1
 {
     public partial class PageNew : Page
     {
-        private Dictionary<string, string> localizedResources;
 
-        public PageNew()
+        
+        private Dictionary<string, string> localizedResources;
+        private BackupManager backupManager;
+
+        public PageNew(BackupManager backupManager)
         {
             InitializeComponent();
             UpdateLanguage(App.CurrentLanguage); // Use global language setting
             App.LanguageChanged += UpdateLanguage; // Subscribe to the global event
+            this.backupManager = backupManager;
+
         }
 
         private void PageNew_Unloaded(object sender, RoutedEventArgs e)
@@ -37,7 +44,84 @@ namespace WpfApp1
         }
 
 
+        private void btnCreateBackup_Click(object sender, RoutedEventArgs e) // Corrected method name
+        {
+            string backupName = txtBackupName.Text;
+            string sourceDirectory = txtSourceDirectory.Text;
+            string targetDirectory = txtTargetDirectory.Text;
+            string backupType = cmbBackupType.SelectedValue as string;
 
+            if (string.IsNullOrEmpty(backupName) || string.IsNullOrEmpty(sourceDirectory) ||
+                string.IsNullOrEmpty(targetDirectory) || string.IsNullOrEmpty(backupType))
+            {
+                MessageBox.Show("Please fill in all fields and select a backup type.");
+                return;
+            }
+
+            // Validate input
+            if (string.IsNullOrWhiteSpace(backupName) || string.IsNullOrWhiteSpace(sourceDirectory) || string.IsNullOrWhiteSpace(targetDirectory))
+            {
+                MessageBox.Show("Please fill in all fields.");
+                return;
+            }
+
+            if (!Directory.Exists(sourceDirectory))
+            {
+                MessageBox.Show("Source directory does not exist.");
+                return;
+            }
+
+            if (!Directory.Exists(targetDirectory))
+            {
+                MessageBox.Show("Target directory does not exist.");
+                return;
+            }
+
+            // Translate backup type to a type recognized by the backend
+            string backendBackupType = backupType == localizedResources["totalSave"] ? "1" : "2";
+
+            // Add the backup configuration
+            try
+            {
+                backupManager.AddBackup(backendBackupType, backupName, sourceDirectory, targetDirectory);
+                MessageBox.Show("Backup configuration saved.");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Failed to save backup configuration: {ex.Message}");
+            }
+            
+
+        }
+        private void BtnBrowseSource_Click(object sender, RoutedEventArgs e)
+        {
+            // Utilisation de OpenFileDialog pour sélectionner un fichier dans le dossier désiré
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.ValidateNames = false; // permet de sélectionner des dossiers
+            openFileDialog.CheckFileExists = false; // laisse choisir des dossiers qui n'ont pas de fichiers
+            openFileDialog.CheckPathExists = true; // vérifie que le chemin existe
+            openFileDialog.FileName = "Dossier sélection"; // texte pour la sélection de dossier
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                txtSourceDirectory.Text = System.IO.Path.GetDirectoryName(openFileDialog.FileName);
+            }
+        }
+
+        private void BtnBrowseTarget_Click(object sender, RoutedEventArgs e)
+        {
+            // Utilisation de OpenFileDialog pour sélectionner un fichier dans le dossier désiré
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.ValidateNames = false; // permet de sélectionner des dossiers
+            openFileDialog.CheckFileExists = false; // laisse choisir des dossiers qui n'ont pas de fichiers
+            openFileDialog.CheckPathExists = true; // vérifie que le chemin existe
+            openFileDialog.FileName = "Dossier sélection"; // texte pour la sélection de dossier
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                txtTargetDirectory.Text = System.IO.Path.GetDirectoryName(openFileDialog.FileName);
+            }
+        }
 
         private void UpdateLanguage(string cultureCode)
         {
@@ -56,11 +140,11 @@ namespace WpfApp1
                     saveType.Text = localizedResources["saveType"];
                     totalSave.Content = localizedResources["totalSave"];
                     diffSave.Content = localizedResources["diffSave"];
-                    browse.Content = localizedResources["browse"];
+                    btnBrowseSource.Content = localizedResources["browse"];
                     sourcePath.Text = localizedResources["sourcePath"];
                     destinationPath.Text = localizedResources["destinationPath"];
-                    browse2.Content = localizedResources["browse2"];
-                    createSave.Content = localizedResources["createSave"];
+                    btnBrowseTarget.Content = localizedResources["browse2"];
+                    btnCreateBackup.Content = localizedResources["createSave"];
 
                 }
             }
