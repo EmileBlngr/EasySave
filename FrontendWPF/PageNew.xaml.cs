@@ -17,7 +17,7 @@ using System.IO;
 using FrontendWPF;
 using System.Security.AccessControl;
 using Backend.Backup;
-using Microsoft.Win32; 
+using Microsoft.Win32;
 
 
 namespace WpfApp1
@@ -25,16 +25,16 @@ namespace WpfApp1
     public partial class PageNew : Page
     {
 
-        
+
         private Dictionary<string, string> localizedResources;
         private BackupManager backupManager;
 
-        public PageNew()
+        public PageNew(BackupManager backupManager)
         {
             InitializeComponent();
             UpdateLanguage(App.CurrentLanguage); // Use global language setting
             App.LanguageChanged += UpdateLanguage; // Subscribe to the global event
-            backupManager = new BackupManager(); // Initialize the BackupManager
+            this.backupManager = backupManager;
 
         }
 
@@ -43,22 +43,6 @@ namespace WpfApp1
             App.LanguageChanged -= UpdateLanguage; // Unsubscribe from the global event
         }
 
-
-
-        private void BtnBrowseSource_Click(object sender, RoutedEventArgs e)
-        {
-            // Utilisation de OpenFileDialog pour sélectionner un fichier dans le dossier désiré
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.ValidateNames = false; // permet de sélectionner des dossiers
-            openFileDialog.CheckFileExists = false; // laisse choisir des dossiers qui n'ont pas de fichiers
-            openFileDialog.CheckPathExists = true; // vérifie que le chemin existe
-            openFileDialog.FileName = "Dossier sélection"; // texte pour la sélection de dossier
-
-            if (openFileDialog.ShowDialog() == true)
-            {
-                txtSourceDirectory.Text = System.IO.Path.GetDirectoryName(openFileDialog.FileName);
-            }
-        }
 
         private void btnCreateBackup_Click(object sender, RoutedEventArgs e) // Corrected method name
         {
@@ -96,18 +80,33 @@ namespace WpfApp1
             // Translate backup type to a type recognized by the backend
             string backendBackupType = backupType == localizedResources["totalSave"] ? "1" : "2";
 
-            // Add and perform backup
+            // Add the backup configuration
             try
             {
                 backupManager.AddBackup(backendBackupType, backupName, sourceDirectory, targetDirectory);
-                MessageBox.Show("Backup created successfully.");
+                MessageBox.Show("Backup configuration saved.");
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Failed to create backup: {ex.Message}");
+                MessageBox.Show($"Failed to save backup configuration: {ex.Message}");
+            }
+
+
+        }
+        private void BtnBrowseSource_Click(object sender, RoutedEventArgs e)
+        {
+            // Utilisation de OpenFileDialog pour sélectionner un fichier dans le dossier désiré
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.ValidateNames = false; // permet de sélectionner des dossiers
+            openFileDialog.CheckFileExists = false; // laisse choisir des dossiers qui n'ont pas de fichiers
+            openFileDialog.CheckPathExists = true; // vérifie que le chemin existe
+            openFileDialog.FileName = "Dossier sélection"; // texte pour la sélection de dossier
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                txtSourceDirectory.Text = System.IO.Path.GetDirectoryName(openFileDialog.FileName);
             }
         }
-        
 
         private void BtnBrowseTarget_Click(object sender, RoutedEventArgs e)
         {

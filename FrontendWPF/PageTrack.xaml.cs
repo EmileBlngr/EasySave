@@ -8,29 +8,60 @@ namespace WpfApp1
     {
         private BackupManager backupManager;
 
-        public PageTrack()
+        public PageTrack(BackupManager backupManager)
         {
             InitializeComponent();
-            backupManager = new BackupManager(); // Assume this is already populated with backups
+            this.backupManager = backupManager;
+
+            // Subscribe to the Loaded event
+            this.Loaded += PageTrack_Loaded;
         }
+        private void LoadBackups()
+        {
+            lvBackups.Items.Clear();
+
+            if (backupManager.BackupList.Count == 0)
+            {
+                // No backups, show the message
+                txtNoBackups.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                // There are backups, hide the message and list them
+                txtNoBackups.Visibility = Visibility.Collapsed;
+
+                foreach (var backup in backupManager.BackupList)
+                {
+                    StackPanel panel = new StackPanel { Orientation = Orientation.Horizontal };
+                    TextBlock nameText = new TextBlock { Text = backup.Name, Width = 100 };
+                    ProgressBar progressBar = new ProgressBar { Width = 100 };
+                    // Configure progress bar, buttons, etc.
+
+                    // Add panel to ListView
+                    lvBackups.Items.Add(panel);
+                }
+            }
+        }
+
 
         private void PageTrack_Loaded(object sender, RoutedEventArgs e)
         {
-            foreach (var backup in backupManager.BackupList)
-            {
-                StackPanel panel = new StackPanel() { Orientation = Orientation.Horizontal };
-                TextBlock nameText = new TextBlock() { Text = backup.Name, Width = 100 };
-                ProgressBar progressBar = new ProgressBar() { Value = backup.State.Progress, Width = 100 };
-                Button startButton = new Button() { Content = "▶", Width = 33 };
-                Button pauseButton = new Button() { Content = "⏸", Width = 33 };
-                Button stopButton = new Button() { Content = "■", Width = 33 };
-                Button logButton = new Button() { Content = "📃", Width = 33 };
+            LoadBackups();
+            lvBackups.Items.Clear();
 
-                // Set click events for each button
-                startButton.Click += (s, e) => backup.PerformBackup();
-                pauseButton.Click += (s, e) => backup.PauseBackup();
-                stopButton.Click += (s, e) => backup.CancelBackup();
-                // logButton.Click event needs to be defined to show the log.
+            foreach (ABackup backup in backupManager.BackupList)
+            {
+                StackPanel panel = new StackPanel { Orientation = Orientation.Horizontal };
+                TextBlock nameText = new TextBlock { Text = backup.Name, Width = 100 };
+                ProgressBar progressBar = new ProgressBar { Value = 0 /* Update as per backup state */, Width = 100 };
+                Button startButton = new Button { Content = "▶", Width = 33 };
+                Button pauseButton = new Button { Content = "⏸", Width = 33 };
+                Button stopButton = new Button { Content = "■", Width = 33 };
+                Button logButton = new Button { Content = "📃", Width = 33 };
+
+                // Define click events
+                startButton.Click += (s, e) => Task.Run(() => backup.PerformBackup());
+                // pauseButton and stopButton events need to be implemented according to your backup logic
 
                 panel.Children.Add(nameText);
                 panel.Children.Add(progressBar);
@@ -39,8 +70,9 @@ namespace WpfApp1
                 panel.Children.Add(stopButton);
                 panel.Children.Add(logButton);
 
-              //lvBackups.Items.Add(new ListViewItem() { Content = panel });
+                lvBackups.Items.Add(panel);
             }
         }
+
     }
 }
