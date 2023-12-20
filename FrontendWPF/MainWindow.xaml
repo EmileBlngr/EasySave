@@ -108,6 +108,5 @@
         <!-- PageTrack content -->
         
         <Frame x:Name="MainContentFrame" Grid.Column="1" Margin="10"/>
-        <Frame x:Name="MainContentFrame" Grid.Column="1" Margin="10"/>
     </Grid>
 </Window>

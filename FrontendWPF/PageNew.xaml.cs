@@ -44,53 +44,7 @@ namespace WpfApp1
         }
 
 
-        private void btnCreateBackup_Click(object sender, RoutedEventArgs e) // Corrected method name
-        {
-            string backupName = txtBackupName.Text;
-            string sourceDirectory = txtSourceDirectory.Text;
-            string targetDirectory = txtTargetDirectory.Text;
-            string backupType = cmbBackupType.SelectedValue as string;
 
-            if (string.IsNullOrEmpty(backupName) || string.IsNullOrEmpty(sourceDirectory) ||
-                string.IsNullOrEmpty(targetDirectory) || string.IsNullOrEmpty(backupType))
-            {
-                MessageBox.Show("Please fill in all fields and select a backup type.");
-                return;
-            }
-
-            // Validate input
-            if (string.IsNullOrWhiteSpace(backupName) || string.IsNullOrWhiteSpace(sourceDirectory) || string.IsNullOrWhiteSpace(targetDirectory))
-            {
-                MessageBox.Show("Please fill in all fields.");
-                return;
-            }
-
-            if (!Directory.Exists(sourceDirectory))
-            {
-                MessageBox.Show("Source directory does not exist.");
-                return;
-            }
-
-            if (!Directory.Exists(targetDirectory))
-            {
-                MessageBox.Show("Target directory does not exist.");
-                return;
-            }
-
-            // Translate backup type to a type recognized by the backend
-            string backendBackupType = backupType == localizedResources["totalSave"] ? "1" : "2";
-
-            // Add and perform backup
-            try
-            {
-                backupManager.AddBackup(backendBackupType, backupName, sourceDirectory, targetDirectory);
-                MessageBox.Show("Backup created successfully.");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Failed to create backup: {ex.Message}");
-            }
-        }
         private void BtnBrowseSource_Click(object sender, RoutedEventArgs e)
         {
             // Utilisation de OpenFileDialog pour sélectionner un fichier dans le dossier désiré
@@ -146,7 +100,6 @@ namespace WpfApp1
             try
             {
                 backupManager.AddBackup(backendBackupType, backupName, sourceDirectory, targetDirectory);
-                backupManager.PerformAllBackups();
                 MessageBox.Show("Backup created successfully.");
             }
             catch (Exception ex)
@@ -154,20 +107,7 @@ namespace WpfApp1
                 MessageBox.Show($"Failed to create backup: {ex.Message}");
             }
         }
-        private void BtnBrowseSource_Click(object sender, RoutedEventArgs e)
-        {
-            // Utilisation de OpenFileDialog pour sélectionner un fichier dans le dossier désiré
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.ValidateNames = false; // permet de sélectionner des dossiers
-            openFileDialog.CheckFileExists = false; // laisse choisir des dossiers qui n'ont pas de fichiers
-            openFileDialog.CheckPathExists = true; // vérifie que le chemin existe
-            openFileDialog.FileName = "Dossier sélection"; // texte pour la sélection de dossier
-
-            if (openFileDialog.ShowDialog() == true)
-            {
-                txtSourceDirectory.Text = System.IO.Path.GetDirectoryName(openFileDialog.FileName);
-            }
-        }
+        
 
         private void BtnBrowseTarget_Click(object sender, RoutedEventArgs e)
         {
