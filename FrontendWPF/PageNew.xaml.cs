@@ -17,7 +17,7 @@ using System.IO;
 using FrontendWPF;
 using System.Security.AccessControl;
 using Backend.Backup;
-using Microsoft.Win32; 
+using Microsoft.Win32;
 
 
 namespace WpfApp1
@@ -25,7 +25,7 @@ namespace WpfApp1
     public partial class PageNew : Page
     {
 
-        
+
         private Dictionary<string, string> localizedResources;
         private BackupManager backupManager;
 
@@ -90,7 +90,7 @@ namespace WpfApp1
             {
                 MessageBox.Show($"Failed to save backup configuration: {ex.Message}");
             }
-            
+
 
         }
         private void BtnBrowseSource_Click(object sender, RoutedEventArgs e)

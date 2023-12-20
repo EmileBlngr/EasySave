@@ -133,20 +133,24 @@ namespace WpfApp1
                 // ProgressUpdated Event
                 backup.ProgressUpdated += (s, args) =>
                 {
-                    // Update on UI thread
                     Dispatcher.Invoke(() =>
                     {
                         float progressPercentage = backup.State.Progress * 100;
                         progressBar.Value = progressPercentage;
                         progressText.Text = $"{progressPercentage:F0}%";
 
-                        // Check if backup is completed
-                        if (backup.State.State == EnumState.Finished)
+                        // Directly update status based on progress percentage
+                        if (progressPercentage >= 100.0f)
                         {
                             backupStatusText.Text = "Backup finished";
                         }
+                        else
+                        {
+                            backupStatusText.Text = "Backup in progress";
+                        }
                     });
                 };
+
 
                 // Add elements to the grid
                 grid.Children.Add(backupStatusText);
