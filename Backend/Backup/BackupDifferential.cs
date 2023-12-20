@@ -74,9 +74,6 @@ namespace Backend.Backup
 
                     string sourceFilePath = allFiles[i];
                     ProcessFile(sourceFilePath);
-
-                    // updating current index
-                    State.CurrentFileIndex = i + 1;
                 }
             }
             catch (Exception ex)
@@ -181,7 +178,7 @@ namespace Backend.Backup
                         File.Copy(sourceFilePath, targetFilePath, true);
 
                         State.RemainingFiles--;
-                        State.RemainingSize -= fileSizeKB * 1024;
+                        State.RemainingSize -= (int)(new FileInfo(sourceFilePath).Length);
                         UpdateProgress();
                         Thread.Sleep(250);
                         Settings.Settings.GetInstance().CumulativeTransferSizeKB -= fileSizeKB;

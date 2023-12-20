@@ -1,10 +1,19 @@
 ﻿using Backend.Backup;
-using Backend.Settings;
 
 namespace Frontend_console.View
 {
+
+    /// <summary>
+    /// Represents the view for managing backups in the console application.
+    /// </summary>
     public class ManageBackupView
     {
+
+        /// <summary>
+        /// Displays prompts and options for managing a specific backup using the provided BackupManager.
+        /// </summary>
+        /// <param name="backup">The backup instance to be managed.</param>
+        /// <param name="backupManager">The instance of BackupManager for managing backups.</param>
         public static void ManageBackup(ABackup backup , BackupManager backupManager)
         {
             Console.WriteLine(string.Format(backupManager.settings.LanguageSettings.LanguageData["managing_backup"], backup.Name));
@@ -61,16 +70,12 @@ namespace Frontend_console.View
                     backup.PerformBackup();
                     break;
                 case "2":
-                    //HandleOption2(backup);
                     break;
                 case "3":
-                    //HandleOption3(backup);
                     break;
                 case "4":
-                    //HandleOption2(backup);
                     break;
                 case "5":
-                    //HandleOption2(backup);
                     break;
                 default:
                     Console.WriteLine(backupManager.settings.LanguageSettings.LanguageData["invalid_choice"]);

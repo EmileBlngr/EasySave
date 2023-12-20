@@ -2,6 +2,9 @@
 
 namespace Backend.Backup
 {
+    /// <summary>
+    /// Manages backup operations and provides functionality to add, convert paths, and perform backups.
+    /// </summary>
     public class BackupManager
     {
         public Backend.Settings.Settings settings;
@@ -66,6 +69,9 @@ namespace Backend.Backup
             }
         }
 
+        /// <summary>
+        /// Performs all backup operations asynchronously, running each backup in a separate task.
+        /// </summary>
         public void PerformAllBackups()
         {
             List<Task> backupTasks = new List<Task>();
@@ -78,6 +84,10 @@ namespace Backend.Backup
             Task.WaitAll(backupTasks.ToArray());
         }
 
+        /// <summary>
+        /// Checks if the business software associated with the backups is currently running.
+        /// </summary>
+        /// <returns>True if the business software is running; otherwise, false.</returns>
         public static bool IsBusinessSoftwareRunning()
         {
             string businessSoftware = Settings.Settings.GetInstance().GetBusinessSoftware();         

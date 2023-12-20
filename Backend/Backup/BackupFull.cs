@@ -1,5 +1,4 @@
-﻿using Backend.Settings;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 
 namespace Backend.Backup
 {
@@ -72,12 +71,6 @@ namespace Backend.Backup
 
                     string sourceFilePath = allFiles[i];
                     CopyFile(sourceFilePath);
-
-                    // updating current index
-                    State.CurrentFileIndex = i + 1;
-
-                    
-
                 }
             }
             catch (Exception ex)
@@ -153,12 +146,9 @@ namespace Backend.Backup
                     cryptosoftProcess.WaitForExit();
                 }
             }
-
             encryptionStopwatch.Stop();
             EncryptTime = (float)encryptionStopwatch.Elapsed.TotalSeconds * 1000;
-            Console.WriteLine($"Encrypt time: {EncryptTime}");
-
-           
+            Console.WriteLine($"Encrypt time: {EncryptTime}");         
         }
 
         /// <summary>
@@ -186,7 +176,7 @@ namespace Backend.Backup
                     File.Copy(sourceFilePath, targetFilePath, true);
 
                     State.RemainingFiles--;
-                    State.RemainingSize -= fileSizeKB * 1024;
+                    State.RemainingSize -= (int)(new FileInfo(sourceFilePath).Length);
                     UpdateProgress();
                     Thread.Sleep(250);
                     Settings.Settings.GetInstance().CumulativeTransferSizeKB -= fileSizeKB;
