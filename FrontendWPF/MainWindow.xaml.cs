@@ -137,6 +137,12 @@ namespace WpfApp1
                 MessageBox.Show($"Impossible d'ouvrir le dossier des logs : {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
+        private void TrackSavesButton_Click(object sender, RoutedEventArgs e)
+        {
+            MainContentFrame.Content = null;
+        }
+
     }
 
 

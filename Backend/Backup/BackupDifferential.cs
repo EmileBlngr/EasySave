@@ -75,8 +75,6 @@ namespace Backend.Backup
                     string sourceFilePath = allFiles[i];
                     ProcessFile(sourceFilePath);
 
-                    // updating current index
-                    State.CurrentFileIndex = i + 1;
                 }
             }
             catch (Exception ex)

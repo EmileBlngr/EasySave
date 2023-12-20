@@ -97,24 +97,21 @@
                 <Button x:Name="NewSaveButton" Content="📁 Nouvelle sauvegarde" Style="{StaticResource AnimatedButtonStyle}" Click="NewSaveButton_Click" />
                 <Button x:Name="LogsButton" Content="📜 Accès aux logs" Style="{StaticResource AnimatedButtonStyle}" Click="LogsButton_Click"/>
                 <Button x:Name="SettingsButton" Content="⚙️ Paramètres" Style="{StaticResource AnimatedButtonStyle}" Click="SettingsButton_Click" />
-                <Button x:Name="TrackSavesButton" Content="🔍 Suivi des sauvegardes" Style="{StaticResource AnimatedButtonStyle}" />
+                <Button x:Name="TrackSavesButton" Content="🔍 Suivi des sauvegardes" Style="{StaticResource AnimatedButtonStyle}" Click="TrackSavesButton_Click" />
             </StackPanel>
 
 
             <!-- log out button  -->
             <Button x:Name="CloseButton" Content="❌ Quitter" Style="{StaticResource QuitButtonStyle}" Grid.Row="4" Click="CloseButton_Click"/>
         </Grid>
-
-        <!-- Main content area -->
         <StackPanel Grid.Column="1" Margin="10">
             <TextBlock x:Name="mySaves" Text="MES SAUVEGARDES" FontWeight="Bold" FontSize="30" Margin="0,20,0,100" HorizontalAlignment="Center"/>
-
-            <ListView Width="Auto" Margin="0,10">
+            <ListView Width="Auto">
 
 
 
                 <ListView.ItemContainerStyle>
-                    <Style TargetType="ListViewItem">
+                    <Style TargetType="{x:Type ListViewItem}">
                         <Setter Property="HorizontalAlignment" Value="Stretch"/>
                         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                     </Style>
@@ -123,8 +120,8 @@
 
                 <StackPanel Orientation="Horizontal">
                     <TextBlock x:Name="newSave" Text="nouvelle sauvegarde" FontWeight="Bold" FontSize="15" Margin="10,0" VerticalAlignment="Center"/>
-                    <Button Content="▶ "  Width="33" Height="20" Background="white"/>
-                    <Button Content="⏸" Margin="5" Width="33" Height="20" Background="white"/>
+                    <Button Content="▶ "  Width="33" Height="20" Background="white" />
+                    <Button Content="⏸" Margin="5" Width="33" Height="20" Background="white" />
                     <Button Content="■ " Margin="5" Width="33" Height="20"  Background="White"/>
                     <Button Content="📃" Margin="5" Width="33" Height="20"  Background="White"/>
                 </StackPanel>
@@ -136,6 +133,8 @@
 
             </ListView>
         </StackPanel>
-        <Frame x:Name="MainContentFrame" Grid.Column="1" Margin="10"/>
+        <Frame x:Name="MainContentFrame" Grid.Column="1" Margin="10" />
+
+        <!-- Main content area -->
     </Grid>
 </Window>
