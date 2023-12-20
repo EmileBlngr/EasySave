@@ -30,9 +30,8 @@ namespace Backend.Settings
             PriorityExtensionsToBackup = new List<string>();
             AddExtensionsToEncrypt(".txt");
             AddPriorityExtensionToBackup(".png");
-            MaxParallelTransferSizeKB = 1024;
+            MaxParallelTransferSizeKB = 2048;
             BusinessSoftware = "CalculatorApp";
-
         }
 
         /// <summary>
@@ -105,16 +104,27 @@ namespace Backend.Settings
             PriorityExtensionsToBackup.Remove(extension);
         }
 
+        /// <summary>
+        /// Sets the file name of the business software.
+        /// </summary>
+        /// <param name="fileName">The file name of the business software.</param>
         public void SetBusinessSoftware(string fileName)
         {
             BusinessSoftware = fileName;
         }
 
+        /// <summary>
+        /// Retrieves the file name of the business software.
+        /// </summary>
+        /// <returns>The file name of the business software.</returns>
         public string GetBusinessSoftware()
         { 
             return BusinessSoftware; 
         }
 
+        /// <summary>
+        /// Gets or sets the cumulative transfer size in kilobytes.
+        /// </summary>
         public int CumulativeTransferSizeKB
         {
             get

@@ -1,16 +1,17 @@
 ﻿using Backend.Backup;
-using Backend.Settings;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 
 namespace Frontend_console.View
 {
+
+    /// <summary>
+    /// Represents the view for managing and listing backups in the console application.
+    /// </summary>
     public class BackupsView
     {
+        /// <summary>
+        /// Lists all available backups and provides options for managing and launching them.
+        /// </summary>
+        /// <param name="backupManager">The instance of BackupManager containing the backup list.</param>
         public static void ListBackups(BackupManager backupManager)
         {
             Console.WriteLine(backupManager.settings.LanguageSettings.LanguageData["list_of_backups"]);

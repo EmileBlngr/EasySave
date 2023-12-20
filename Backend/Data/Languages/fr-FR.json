@@ -112,15 +112,20 @@
   "NewBackupHeader": "Nouvelle sauvegarde",
   "saveName": "Nom de la sauvegarde",
   "saveType": "Type de la sauvegarde",
-  "totalSave": "Sauvegarde total",
+  "totalSave": "Sauvegarde totale",
   "diffSave": "Sauvegarde différentielle",
   "sourcePath": "Répertoire source",
   "browse": "Parcourir",
   "destinationPath": "Répertoire destination",
   "browse2": "Parcourir",
-  "createSave": "Créer la sauvegarde"
+  "createSave": "Créer la sauvegarde",
 
-
-
-
+  "MaxParallelFileSize": "Taille maximale des fichiers (kB)",
+  "BusinessSoftware": "Logiciel métier",
+  "FileExtensionsToEncrypt": "Extensions de fichiers à chiffrer",
+  "FileExtensionsPrioritary": "Extensions de fichiers prioritaires",
+  "AddButton": "Ajouter",
+  "DeleteButton": "Supprimer",
+  "ErrorMaxParallelFileSize": "Veuillez entrer une valeur entière pour la taille maximale des fichiers.",
+  "InputError": "Erreur de saisie."
 }

@@ -23,6 +23,16 @@
             <Setter Property="Padding" Value="4"/>
         </Style>
 
+        <!-- Style pour ListBox -->
+        <Style x:Key="ListBoxStyle" TargetType="ListBox">
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="MaxHeight" Value="50"/>
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+        </Style>
+        <!-- Style pour SmallButton -->
+        <Style x:Key="SmallButtonStyle" TargetType="Button">
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
         <!-- Style pour Button avec un template personnalisé -->
         <Style x:Key="ButtonStyle" TargetType="Button">
             <Setter Property="Foreground" Value="#FF110D0D"/>
@@ -30,6 +40,7 @@
             <Setter Property="FontWeight" Value="Bold"/>
             <Setter Property="Padding" Value="1,5"/>
             <Setter Property="Width" Value="200"/>
+
             <!-- Adjust properties  -->
             <Setter Property="Height" Value="40"/>
             <Setter Property="BorderThickness" Value="1"/>
@@ -65,6 +76,8 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
@@ -84,13 +97,62 @@
                 <!-- Log Format Section -->
                 <TextBlock Name="txtLogFormat" Text="Format des Logs" Grid.Column="1" Grid.Row="0"/>
                 <StackPanel Grid.Column="1" Grid.Row="1">
-                    <CheckBox Content=".JSON" />
-                    <CheckBox Content=".TXT" IsChecked="True"/>
-                    <CheckBox Content=".XML" IsChecked="True"/>
+                    <CheckBox Content=".JSON" IsChecked="{Binding IsJsonChecked, Mode=TwoWay}" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" />
+                    <CheckBox Content=".TXT" IsChecked="{Binding IsTxtChecked, Mode=TwoWay}" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" />
+                    <CheckBox Content=".XML" IsChecked="{Binding IsXmlChecked, Mode=TwoWay}" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" />
                 </StackPanel>
 
+                <!-- File max parallel size Section -->
+                <TextBlock Name="txtMaxFileSize" Text="Taille maximale des fichiers (kB)" Grid.Column="0" Grid.Row="2" />
+                <StackPanel Grid.Column="0" Grid.Row="3">
+                    <TextBox Name="txtMaxFileSizeInput" />
+                </StackPanel>
+
+                <!-- Business Software Section -->
+                <TextBlock Name="txtBusinessSoftware" Text="Logiciel métier" Grid.Column="1" Grid.Row="2" />
+                <StackPanel Grid.Column="1" Grid.Row="3">
+                    <TextBox Name="txtBusinessSoftwareInput" />
+                </StackPanel>
+
+                <!-- File extensions to encrypt Section -->
+                <Grid Grid.Column="0" Grid.Row="3" Margin="0,18,0,57" Grid.RowSpan="3">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Name="txtEncryptFileExtensions" Text="Extensions de fichiers à chiffrer" Grid.Row="0" />
+                    <TextBox Name="txtEncryptFileExtensionInput" Grid.Row="1"/>
+
+                    <StackPanel Orientation="Vertical" Grid.Row="2">
+                        <Button Name="txtAddEncrypt" Content="Ajouter" Click="btnAddEncryptExtension_Click" Style="{StaticResource SmallButtonStyle}"/>
+                        <Button Name="txtRemoveEncrypt" Content="Supprimer" Click="btnRemoveEncryptExtension_Click" Style="{StaticResource SmallButtonStyle}"/>
+                        <ListBox Name="listEncryptFileExtensions" Style="{StaticResource ListBoxStyle}" SelectionMode="Extended" Height="Auto" MaxHeight="80" VerticalAlignment="Top"/>
+                    </StackPanel>
+                </Grid>
+                <!-- File extensions to encrypt Section -->
+                <Grid Grid.Column="1" Grid.Row="5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Name="txtPrioritaryFileExtensions" Text="Extensions de fichiers prioritaires" Grid.Row="0" />
+                    <TextBox Name="txtPrioritaryFileExtensionInput" Grid.Row="1"/>
+
+                    <StackPanel Orientation="Vertical" Grid.Row="2">
+                        <Button Name="txtAddPrioritary" Content="Ajouter" Click="btnAddPrioritaryExtension_Click" Style="{StaticResource SmallButtonStyle}"/>
+                        <Button Name="txtRemovePrioritary" Content="Supprimer" Click="btnRemovePrioritaryExtension_Click" Style="{StaticResource SmallButtonStyle}"/>
+                        <ListBox Name="listPrioritaryFileExtensions" Style="{StaticResource ListBoxStyle}" Height="Auto" MaxHeight="80" VerticalAlignment="Top"/>
+                    </StackPanel>
+                </Grid>
+
                 <!-- Apply Changes Button -->
-                <Button Name="btnApplyChanges" Content="Appliquer les changements" Style="{StaticResource ButtonStyle}" Grid.Row="3" Grid.ColumnSpan="2" Margin="166,140,162,24" Click="btnApplyChanges_Click"/>
+                <Button Name="btnApplyChanges" Content="Appliquer les changements" Style="{StaticResource ButtonStyle}" Grid.Row="5" Grid.ColumnSpan="2" Margin="166,152,162,12" Click="btnApplyChanges_Click"/>
 
             </Grid>
         </GroupBox>
