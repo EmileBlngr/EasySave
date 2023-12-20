@@ -53,40 +53,122 @@ namespace WpfApp1
 
             foreach (ABackup backup in backupManager.BackupList)
             {
-                StackPanel panel = new StackPanel { Orientation = Orientation.Horizontal };
-                TextBlock nameText = new TextBlock { Text = backup.Name, Width = 100 };
-                TextBlock stateText = new TextBlock { Text = backup.State.State.ToString(), Width = 100 };
-                TextBlock progressText = new TextBlock { Text = backup.Progress.ToString(), Width = 100 };
-                ProgressBar progressBar = new ProgressBar { Width = 100, Minimum = 0, Maximum = 1};
-                Binding progressBinding = new Binding("Progress")
+                Grid grid = new Grid();
+                // Define rows for different elements
+                grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto }); // For backup status text
+                grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto }); // For backup information
+                grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto }); // For progress bar
+                grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto }); // For progress text
+
+                // Backup Status Text
+                TextBlock backupStatusText = new TextBlock
                 {
-                    Source = backup,
-                    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+                    Text = "Backup not started",
+                    FontWeight = FontWeights.Bold,
+                    FontSize = 16,
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    Margin = new Thickness(0, 5, 0, 5)
                 };
-                progressBar.SetBinding(ProgressBar.ValueProperty, progressBinding);
-                Button startButton = new Button { Content = "▶", Width = 33 };
-                Button pauseButton = new Button { Content = "⏸", Width = 33 };
-                Button stopButton = new Button { Content = "■", Width = 33 };   
+                Grid.SetColumn(backupStatusText, 0);
+                Grid.SetColumnSpan(backupStatusText, 2); // Span across both columns
+                Grid.SetRow(backupStatusText, 0); // Set status text to the first row
+
+                // Backup Information
+                StackPanel infoPanel = new StackPanel { Orientation = Orientation.Vertical, HorizontalAlignment = HorizontalAlignment.Left };
+                TextBlock nameText = new TextBlock { Text = $"Name: {backup.Name}", FontWeight = FontWeights.Bold };
+                TextBlock sourceText = new TextBlock { Text = $"Source path: {backup.SourceDirectory}" };
+                TextBlock targetText = new TextBlock { Text = $"Destination path: {backup.TargetDirectory}" };
+                string backupType = backup is BackupFull ? "Full" : backup is BackupDifferential ? "Differential" : "Unknown";
+                TextBlock typeText = new TextBlock { Text = $"Type: {backupType}", FontWeight = FontWeights.Bold };
+
+                infoPanel.Children.Add(nameText);
+                infoPanel.Children.Add(typeText);
+                infoPanel.Children.Add(sourceText);
+                infoPanel.Children.Add(targetText);
+                Grid.SetColumn(infoPanel, 0);
+                Grid.SetRow(infoPanel, 1); // Set infoPanel to the second row
+
+                // Buttons
+                StackPanel buttonPanel = new StackPanel { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Right };
+                Button startButton = new Button { Content = "▶", Width = 33, Style = (Style)Resources["ButtonStyle"] };
+                Button pauseButton = new Button { Content = "⏸", Width = 33, Style = (Style)Resources["ButtonStyle"] };
+                Button stopButton = new Button { Content = "■", Width = 33, Style = (Style)Resources["ButtonStyle"] };
+                Button logButton = new Button { Content = "📃", Width = 33, Style = (Style)Resources["ButtonStyle"] };
+
+                buttonPanel.Children.Add(startButton);
+                buttonPanel.Children.Add(pauseButton);
+                buttonPanel.Children.Add(stopButton);
+                buttonPanel.Children.Add(logButton);
+                Grid.SetColumn(buttonPanel, 1); // Place buttons in the second column
+                Grid.SetRow(buttonPanel, 1); // Set buttonPanel to the second row
+
+                // ProgressBar
+                ProgressBar progressBar = new ProgressBar
+                {
+                    Value = 0,
+                    Maximum = 100,
+                    HorizontalAlignment = HorizontalAlignment.Stretch,
+                    Margin = new Thickness(0, 10, 0, 0)
+                };
+                Grid.SetColumnSpan(progressBar, 2); // Span across both columns
+                Grid.SetRow(progressBar, 2); // Set progressBar to the third row
+
+                // Progress Text
+                TextBlock progressText = new TextBlock
+                {
+                    Text = "0%",
+                    HorizontalAlignment = HorizontalAlignment.Center
+                };
+                Grid.SetColumn(progressText, 0);
+                Grid.SetRow(progressText, 3); // Set progressText to the fourth row
+
+                /// Button Click Event
+                startButton.Click += (s, e) =>
+                {
+                    Task.Run(() =>
+                    {
+                        backup.PerformBackup();
+                    });
+                    Dispatcher.Invoke(() => backupStatusText.Text = "Backup in progress");
+                };
+
+                // ProgressUpdated Event
+                backup.ProgressUpdated += (s, args) =>
+                {
+                    Dispatcher.Invoke(() =>
+                    {
+                        float progressPercentage = backup.State.Progress * 100;
+                        progressBar.Value = progressPercentage;
+                        progressText.Text = $"{progressPercentage:F0}%";
+
+                        // Directly update status based on progress percentage
+                        if (progressPercentage >= 100.0f)
+                        {
+                            backupStatusText.Text = "Backup finished";
+                        }
+                        else
+                        {
+                            backupStatusText.Text = "Backup in progress";
+                        }
+                    });
+                };
 
 
+                // Add elements to the grid
+                grid.Children.Add(backupStatusText);
+                grid.Children.Add(infoPanel);
+                grid.Children.Add(buttonPanel);
+                grid.Children.Add(progressBar);
+                grid.Children.Add(progressText);
 
-                startButton.Click += (s, e) => Task.Run(() => backup.ResumeBackup());
-                pauseButton.Click += (s, e) => Task.Run(() => backup.PauseBackup());
-                stopButton.Click += (s, e) => Task.Run(() => backup.CancelBackup());
-
-
-                panel.Children.Add(nameText);
-                panel.Children.Add(progressBar);
-                panel.Children.Add(startButton);
-                panel.Children.Add(pauseButton);
-                panel.Children.Add(stopButton);
-                panel.Children.Add(stateText);
-                panel.Children.Add(progressText);
-                
-
-                lvBackups.Items.Add(panel);
+                // Add the grid to the ListView
+                lvBackups.Items.Add(grid);
             }
         }
+
+
+
+
 
     }
 }

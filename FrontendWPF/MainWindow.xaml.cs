@@ -56,7 +56,7 @@ namespace WpfApp1
                     SettingsButton.Content = localizedResources["Settings"];
                     TrackSavesButton.Content = localizedResources["TrackSaves"];
                     CloseButton.Content = localizedResources["CloseButton"];
-
+                    
 
                 }
             }
@@ -97,7 +97,7 @@ namespace WpfApp1
 
 
         }
-
+     
 
         private void LogsButton_Click(object sender, RoutedEventArgs e)
         {

@@ -44,7 +44,7 @@
         </Style>
     </Page.Resources>
 
-    <!-- Content of the page  -->
+    <!-- Content of the page -->
     <Grid Background="Azure">
         <GroupBox x:Name="gbNewBackup" Header="Nouvelle sauvegarde" Margin="10">
             <StackPanel>
@@ -54,12 +54,14 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <StackPanel Grid.Column="0">
+                    <!-- First Column -->
+                    <StackPanel Grid.Column="0" HorizontalAlignment="Left">
                         <TextBlock x:Name="saveName" Text="Nom de votre sauvegarde" Margin="5"/>
                         <TextBox x:Name="txtBackupName" Style="{StaticResource TextBoxStyle}" Height="25" Width="300"/>
                     </StackPanel>
 
-                    <StackPanel Grid.Column="1" Margin="5,0,0,0">
+                    <!-- Second Column -->
+                    <StackPanel Grid.Column="1" HorizontalAlignment="Left" Margin="5,0,0,0">
                         <TextBlock x:Name="saveType" Text="Type de sauvegarde" Margin="5"/>
                         <ComboBox x:Name="cmbBackupType" Height="25" Width="300" Margin="5" SelectedValuePath="Content">
                             <ComboBoxItem Name="totalSave" Content="Totale"/>
@@ -69,13 +71,13 @@
                 </Grid>
 
                 <TextBlock x:Name="sourcePath" Text="Répertoire source" Margin="5"/>
-                <StackPanel Orientation="Horizontal" Margin="5">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="5">
                     <TextBox x:Name="txtSourceDirectory" Style="{StaticResource TextBoxStyle}" Height="25" Width="300" Margin="5"/>
                     <Button x:Name="btnBrowseSource" Content="Parcourir" Style="{StaticResource ButtonStyle}" Width="100" Click="BtnBrowseSource_Click"/>
                 </StackPanel>
 
                 <TextBlock x:Name="destinationPath" Text="Répertoire destination" Margin="5"/>
-                <StackPanel Orientation="Horizontal" Margin="5">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="5">
                     <TextBox x:Name="txtTargetDirectory" Style="{StaticResource TextBoxStyle}" Height="25" Width="300" Margin="5"/>
                     <Button x:Name="btnBrowseTarget" Content="Parcourir" Style="{StaticResource ButtonStyle}" Width="100" Click="BtnBrowseTarget_Click"/>
                 </StackPanel>
@@ -84,4 +86,5 @@
             </StackPanel>
         </GroupBox>
     </Grid>
+
 </Page>
