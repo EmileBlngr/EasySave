@@ -98,7 +98,14 @@ namespace Backend.Backup
         }
 
 
-
+        /// <summary>
+        /// Raises the event indicating that the progress has been updated.
+        /// This method is called when the progress of the backup operation is updated.
+        /// </summary>
+        protected virtual void OnProgressUpdated()
+        {
+            ProgressUpdated?.Invoke(this, EventArgs.Empty);
+        }
         /// <summary>
         /// ProgressDisplayTimerElapsed method shows the progress of the backups, once the timer reaches the end of his interval.
         /// </summary>
