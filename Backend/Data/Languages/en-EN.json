@@ -106,6 +106,7 @@
   "TrackSaves": "🔍 Track Backups",
   "CloseButton": "❌ Close",
   "mySaves": "MY SAVES",
+  "txtNoBackups": "You dont have any backups",
   "newSave": "New Save",
   "estimatedTime": "Estimated Time",
   "NewBackupHeader": "New Backup",
@@ -126,5 +127,24 @@
   "AddButton": "Add",
   "DeleteButton": "Remove",
   "ErrorMaxParallelFileSize": "Please enter an integer value for the maximum file size.",
-  "InputError": "Input error."
+  "InputError": "Input error.",
+
+  "FillAllFieldsAndSelectType": "Please fill in all fields and select a backup type.",
+  "SourceDirectoryNotExist": "Source directory does not exist.",
+  "TargetDirectoryNotExist": "Target directory does not exist.",
+  "BackupConfigSaved": "Backup configuration saved.",
+  "FailedToSaveBackup": "Failed to save backup configuration: {0}",
+  "BackupNotStarted": "Backup not started",
+  "NameLabel": "Name:",
+  "SourcePathLabel": "Source path:",
+  "DestinationPathLabel": "Destination path:",
+  "TypeLabel": "Type:",
+  "BackupInProgress": "Backup in progress",
+  "BackupPaused": "Backup paused",
+  "BackupResumed": "Backup resumed",
+  "BackupFinished": "Backup finished",
+  "Full": "Full",
+  "Differential": "Differential",
+  "Unknown": "Unknown",
+  "SourceTargetSame": "Source and target directories cannot be the same."
 }

@@ -107,6 +107,7 @@
   "TrackSaves": "🔍 Seguimiento de copias",
   "CloseButton": "❌ Salir",
   "mySaves": "MIS RESPALDOS",
+  "txtNoBackups": "No tienes ninguna copia de seguridad",
   "newSave": "Nuevo Guardar",
   "estimatedTime": "Tiempo Estimado",
   "NewBackupHeader": "Nueva Copia de Seguridad",
@@ -127,5 +128,25 @@
   "AddButton": "Agregar",
   "DeleteButton": "Eliminar",
   "ErrorMaxParallelFileSize": "Por favor, ingrese un valor entero para el tamaño máximo de archivo.",
-  "InputError": "Error de entrada."
+  "InputError": "Error de entrada.",
+  "FillAllFieldsAndSelectType": "Por favor, rellene todos los campos y seleccione un tipo de copia de seguridad.",
+  "SourceDirectoryNotExist": "El directorio de origen no existe.",
+  "TargetDirectoryNotExist": "El directorio de destino no existe.",
+  "BackupConfigSaved": "Configuración de copia de seguridad guardada.",
+  "FailedToSaveBackup": "Error al guardar la configuración de la copia de seguridad: {0}",
+
+  "BackupNotStarted": "Copia de seguridad no iniciada",
+  "NameLabel": "Nombre:",
+  "SourcePathLabel": "Ruta de origen:",
+  "DestinationPathLabel": "Ruta de destino:",
+  "TypeLabel": "Tipo:",
+  "BackupInProgress": "Copia de seguridad en progreso",
+  "BackupPaused": "Copia de seguridad pausada",
+  "BackupResumed": "Copia de seguridad reanudada",
+  "BackupFinished": "Copia de seguridad finalizada",
+  "Full": "Completa",
+  "Differential": "Diferencial",
+  "Unknown": "Desconocido",
+  "SourceTargetSame": "Los directorios de origen y destino no pueden ser los mismos."
+
 }

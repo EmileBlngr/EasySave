@@ -1,11 +1,29 @@
-﻿using System.Windows;
+﻿using System.Security.AccessControl;
+using System.IO;
+using System.Windows;
 using System.Windows.Controls;
 using Backend.Backup;
+using Newtonsoft.Json;
+using FrontendWPF;
 
 namespace WpfApp1
 {
     public partial class PageTrack : Page
     {
+        private static string currentLanguage = "fr-FR"; // Default to French
+        private Dictionary<string, string> localizedResources;
+
+        public delegate void LanguageChangedEventHandler(string newLanguage);
+        public static event LanguageChangedEventHandler LanguageChanged;
+        public bool IsJsonChecked { get; set; }
+        public bool IsTxtChecked { get; set; }
+        public bool IsXmlChecked { get; set; }
+        public static string CurrentLanguage
+        {
+            get { return currentLanguage; }
+            set { currentLanguage = value; }
+        }
+
         private BackupManager backupManager;
 
         public PageTrack(BackupManager backupManager)
@@ -15,6 +33,9 @@ namespace WpfApp1
 
             // Subscribe to the Loaded event
             this.Loaded += PageTrack_Loaded;
+
+            UpdateLanguage(App.CurrentLanguage); // Use global language setting
+
         }
         private void LoadBackups()
         {
@@ -42,6 +63,27 @@ namespace WpfApp1
                 }
             }
         }
+        private void UpdateLanguage(string cultureCode)
+        {
+            string relativePath = $"../../../../Backend/Data/Languages/{cultureCode}.json";
+            string fullPath = System.IO.Path.GetFullPath(relativePath, AppDomain.CurrentDomain.BaseDirectory);
+
+            if (File.Exists(fullPath))
+            {
+                string json = File.ReadAllText(fullPath);
+                localizedResources = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+
+                if (localizedResources != null)
+                {
+                    mySaves.Text = localizedResources["mySaves"];
+                    txtNoBackups.Text = localizedResources["txtNoBackups"];
+                }
+            }
+            else
+            {
+                MessageBox.Show($"Language file not found: {fullPath}");
+            }
+        }
 
 
         private void PageTrack_Loaded(object sender, RoutedEventArgs e)
@@ -61,7 +103,7 @@ namespace WpfApp1
                 // Backup Status Text
                 TextBlock backupStatusText = new TextBlock
                 {
-                    Text = "Backup not started",
+                    Text = localizedResources["BackupNotStarted"],
                     FontWeight = FontWeights.Bold,
                     FontSize = 16,
                     HorizontalAlignment = HorizontalAlignment.Center,
@@ -73,11 +115,11 @@ namespace WpfApp1
 
                 // Backup Information
                 StackPanel infoPanel = new StackPanel { Orientation = Orientation.Vertical, HorizontalAlignment = HorizontalAlignment.Left };
-                TextBlock nameText = new TextBlock { Text = $"Name: {backup.Name}", FontWeight = FontWeights.Bold };
-                TextBlock sourceText = new TextBlock { Text = $"Source path: {backup.SourceDirectory}" };
-                TextBlock targetText = new TextBlock { Text = $"Destination path: {backup.TargetDirectory}" };
-                string backupType = backup is BackupFull ? "Full" : backup is BackupDifferential ? "Differential" : "Unknown";
-                TextBlock typeText = new TextBlock { Text = $"Type: {backupType}", FontWeight = FontWeights.Bold };
+                TextBlock nameText = new TextBlock { Text = $"{localizedResources["NameLabel"]} {backup.Name}", FontWeight = FontWeights.Bold };
+                TextBlock sourceText = new TextBlock { Text = $"{localizedResources["SourcePathLabel"]} {backup.SourceDirectory}" };
+                TextBlock targetText = new TextBlock { Text = $"{localizedResources["DestinationPathLabel"]} {backup.TargetDirectory}" };
+                string backupType = backup is BackupFull ? localizedResources["Full"] : backup is BackupDifferential ? localizedResources["Differential"] : localizedResources["Unknown"];
+                TextBlock typeText = new TextBlock { Text = $"{localizedResources["TypeLabel"]} {backupType}" };
 
                 infoPanel.Children.Add(nameText);
                 infoPanel.Children.Add(typeText);
@@ -127,7 +169,7 @@ namespace WpfApp1
                     {
                         backup.PerformBackup();
                     });
-                    Dispatcher.Invoke(() => backupStatusText.Text = "Backup in progress");
+                    Dispatcher.Invoke(() => backupStatusText.Text = localizedResources["BackupInProgress"]);
                 };
 
                 // ProgressUpdated Event
@@ -143,7 +185,7 @@ namespace WpfApp1
                         // Check if backup is completed
                         if (backup.State.State == EnumState.Finished)
                         {
-                            backupStatusText.Text = "Backup finished";
+                            backupStatusText.Text = localizedResources["BackupFinished"];
                         }
                     });
                 };
@@ -159,10 +201,5 @@ namespace WpfApp1
                 lvBackups.Items.Add(grid);
             }
         }
-
-
-
-
-
     }
 }

@@ -54,8 +54,6 @@
 
 
             <ListView x:Name="lvBackups" HorizontalContentAlignment="Stretch" Margin="0,10">
-
-            <ListView x:Name="lvBackups" Width="Auto" Margin="0,10">
                 <StackPanel Orientation="Horizontal">
 
                 </StackPanel>
