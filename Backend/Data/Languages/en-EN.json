@@ -126,5 +126,9 @@
   "AddButton": "Add",
   "DeleteButton": "Remove",
   "ErrorMaxParallelFileSize": "Please enter an integer value for the maximum file size.",
-  "InputError": "Input error."
+  "InputError": "Input error.",
+
+  "source_directory_not_exist": "Source directory does not exist.",
+  "target_directory_not_exist": "Target directory does not exist.",
+  "backup_config_saved": "Backup configuration saved."
 }

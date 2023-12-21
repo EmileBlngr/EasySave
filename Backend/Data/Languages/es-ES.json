@@ -127,5 +127,9 @@
   "AddButton": "Agregar",
   "DeleteButton": "Eliminar",
   "ErrorMaxParallelFileSize": "Por favor, ingrese un valor entero para el tamaño máximo de archivo.",
-  "InputError": "Error de entrada."
+  "InputError": "Error de entrada.",
+
+  "source_directory_not_exist": "El directorio fuente no existe.",
+  "target_directory_not_exist": "El directorio de destino no existe.",
+  "backup_config_saved": "Configuración de copia de seguridad guardada."
 }

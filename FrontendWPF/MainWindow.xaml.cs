@@ -12,7 +12,7 @@ namespace WpfApp1
     /// </summary>
     public partial class MainWindow : Window
     {
-
+        
         private Dictionary<string, string> localizedResources;
         private BackupManager backupManager = new BackupManager();
 
@@ -21,6 +21,9 @@ namespace WpfApp1
         /// </summary>
         public MainWindow()
         {
+            backupManager.AddBackup("1", "monke", "C:\\Users\\romeo\\OneDrive\\Bureau\\test", "C:\\Users\\romeo\\OneDrive\\Bureau\\Test2");
+            backupManager.AddBackup("1", "monke", "C:\\Users\\romeo\\OneDrive\\Bureau\\test", "C:\\Users\\romeo\\OneDrive\\Bureau\\Test3");
+            backupManager.AddBackup("1", "monke", "C:\\Users\\romeo\\OneDrive\\Bureau\\test", "C:\\Users\\romeo\\OneDrive\\Bureau\\Test4");
 
             InitializeComponent();
             UpdateLanguage(App.CurrentLanguage); // Use global language setting

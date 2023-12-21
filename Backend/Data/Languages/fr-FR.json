@@ -127,5 +127,9 @@
   "AddButton": "Ajouter",
   "DeleteButton": "Supprimer",
   "ErrorMaxParallelFileSize": "Veuillez entrer une valeur entière pour la taille maximale des fichiers.",
-  "InputError": "Erreur de saisie."
+  "InputError": "Erreur de saisie.",
+
+  "source_directory_not_exist": "Le répertoire source n'existe pas.",
+  "target_directory_not_exist": "Le répertoire destination n'existe pas.",
+  "backup_config_saved": "Configuration de sauvegarde enregistrée."
 }

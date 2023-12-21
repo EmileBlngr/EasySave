@@ -38,12 +38,14 @@ namespace WpfApp1
                 // No backups, show the message
                 txtNoBackups.Visibility = Visibility.Visible;
                 lvBackups.Visibility = Visibility.Hidden;
+                PerformAllBackupsButton.Visibility = Visibility.Hidden;
             }
             else
             {
                 // There are backups, hide the message and list them
                 txtNoBackups.Visibility = Visibility.Collapsed;
                 lvBackups.Visibility = Visibility.Visible;
+                PerformAllBackupsButton.Visibility = Visibility.Visible;
                 foreach (var backup in backupManager.BackupList)
                 {
                     StackPanel panel = new StackPanel { Orientation = Orientation.Horizontal};
@@ -236,6 +238,16 @@ namespace WpfApp1
                 // Add the grid to the ListView
                 lvBackups.Items.Add(grid);
             }
+        }
+
+        private void PerformAllBackupsButton_Click(object sender, RoutedEventArgs e)
+        {
+            Task.Run(() =>
+            {
+                backupManager.PerformAllBackups();
+            });
+            
+
         }
     }
 }

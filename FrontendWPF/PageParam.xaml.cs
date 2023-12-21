@@ -137,7 +137,7 @@ namespace WpfApp1
 
 
                     btnApplyChanges.Content = localizedResources["ApplyChanges"];
-                    txtGroupBoxTitle.Text = localizedResources["GroupBoxTitle"]; // Update GroupBox title
+                    txtGroupBoxTitle.Text = localizedResources["GroupBoxTitle"]; 
                 }
             }
             else

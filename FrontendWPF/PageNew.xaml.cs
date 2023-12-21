@@ -55,26 +55,26 @@ namespace WpfApp1
             if (string.IsNullOrEmpty(backupName) || string.IsNullOrEmpty(sourceDirectory) ||
                 string.IsNullOrEmpty(targetDirectory) || string.IsNullOrEmpty(backupType))
             {
-                MessageBox.Show("Please fill in all fields and select a backup type.");
+                MessageBox.Show(localizedResources["not_valid"]);
                 return;
             }
 
             // Validate input
             if (string.IsNullOrWhiteSpace(backupName) || string.IsNullOrWhiteSpace(sourceDirectory) || string.IsNullOrWhiteSpace(targetDirectory))
             {
-                MessageBox.Show("Please fill in all fields.");
+                MessageBox.Show(localizedResources["not_valid"]);
                 return;
             }
 
             if (!Directory.Exists(sourceDirectory))
             {
-                MessageBox.Show("Source directory does not exist.");
+                MessageBox.Show(localizedResources["source_directory_not_exist"]);
                 return;
             }
 
             if (!Directory.Exists(targetDirectory))
             {
-                MessageBox.Show("Target directory does not exist.");
+                MessageBox.Show(localizedResources["target_directory_not_exist"]);
                 return;
             }
 
@@ -85,7 +85,7 @@ namespace WpfApp1
             try
             {
                 backupManager.AddBackup(backendBackupType, backupName, sourceDirectory, targetDirectory);
-                MessageBox.Show("Backup configuration saved.");
+                MessageBox.Show(localizedResources["backup_config_saved"]);
             }
             catch (Exception ex)
             {
