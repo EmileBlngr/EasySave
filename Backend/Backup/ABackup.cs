@@ -1,5 +1,5 @@
 ﻿using System;
-using System.ComponentModel; 
+using System.ComponentModel;
 using System.IO;
 using System.Timers;
 
@@ -123,7 +123,7 @@ namespace Backend.Backup
         /// <param name="e"></param>
         public void DisplayProgress(object sender, EventArgs e)
         {
-            Console.WriteLine(string.Format(Settings.Settings.GetInstance().LanguageSettings.LanguageData["backup_progress"], 
+            Console.WriteLine(string.Format(Settings.Settings.GetInstance().LanguageSettings.LanguageData["backup_progress"],
                 State.Progress * 100, State.RemainingFiles, State.RemainingSize, State.CurrentFileSource, State.CurrentFileTarget));
 
 
@@ -153,13 +153,10 @@ namespace Backend.Backup
         /// </summary>
         public void CancelBackup()
         {
-
             if (State.State != EnumState.NotStarted && State.State != EnumState.Finished)
             {
                 State.State = EnumState.Cancelled;
             }
-               
-
         }
 
         /// <summary>
@@ -171,7 +168,6 @@ namespace Backend.Backup
             {
                 State.State = EnumState.Paused;
             }
-            
         }
 
         /// <summary>
@@ -179,10 +175,11 @@ namespace Backend.Backup
         /// </summary>
         public void ResumeBackup()
         {
-            
-            State.State = EnumState.InProgress;
-            PerformBackup();
+            if (State.State != EnumState.InProgress)
+            {
+                State.State = EnumState.InProgress;
+                PerformBackup();
+            }
         }
-
     }
 }

@@ -1,8 +1,11 @@
-﻿using System.Windows;
+﻿using System.Security.AccessControl;
+using System.IO;
+using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Input;
 using Backend.Backup;
+using Newtonsoft.Json;
+using FrontendWPF;
 
 namespace WpfApp1
 {
@@ -12,6 +15,20 @@ namespace WpfApp1
     /// </summary>
     public partial class PageTrack : Page
     {
+        private static string currentLanguage = "fr-FR"; // Default to French
+        private Dictionary<string, string> localizedResources;
+
+        public delegate void LanguageChangedEventHandler(string newLanguage);
+        public static event LanguageChangedEventHandler LanguageChanged;
+        public bool IsJsonChecked { get; set; }
+        public bool IsTxtChecked { get; set; }
+        public bool IsXmlChecked { get; set; }
+        public static string CurrentLanguage
+        {
+            get { return currentLanguage; }
+            set { currentLanguage = value; }
+        }
+
         private BackupManager backupManager;
 
         /// <summary>
@@ -24,6 +41,9 @@ namespace WpfApp1
             this.backupManager = backupManager;
             // Subscribe to the Loaded event
             this.Loaded += PageTrack_Loaded;
+
+            UpdateLanguage(App.CurrentLanguage); // Use global language setting
+
         }
 
         /// <summary>
@@ -48,7 +68,7 @@ namespace WpfApp1
                 PerformAllBackupsButton.Visibility = Visibility.Visible;
                 foreach (var backup in backupManager.BackupList)
                 {
-                    StackPanel panel = new StackPanel { Orientation = Orientation.Horizontal};
+                    StackPanel panel = new StackPanel { Orientation = Orientation.Horizontal };
                     TextBlock nameText = new TextBlock { Text = backup.Name, Width = 100 };
                     ProgressBar progressBar = new ProgressBar { Width = 100 };
 
@@ -59,7 +79,6 @@ namespace WpfApp1
                 }
             }
         }
-
         /// <summary>
         /// Updates the progress bar based on the state of the backup.
         /// </summary>
@@ -68,14 +87,30 @@ namespace WpfApp1
         /// <param name="progressText">The text displaying the progress.</param>
         private void UpdateProgressBar(ABackup backup, ProgressBar progressBar, TextBlock progressText)
         {
-            float progressPercentage = backup.State.Progress * 100; 
+            float progressPercentage = backup.State.Progress * 100;
             string progressString = $"{progressPercentage:F0}%";
+        }
+        private void UpdateLanguage(string cultureCode)
+        {
+            string relativePath = $"../../../../Backend/Data/Languages/{cultureCode}.json";
+            string fullPath = System.IO.Path.GetFullPath(relativePath, AppDomain.CurrentDomain.BaseDirectory);
 
-            Dispatcher.Invoke(() =>
+            if (File.Exists(fullPath))
             {
-                progressBar.Value = progressPercentage;
-                progressText.Text = progressString; 
-            });
+                string json = File.ReadAllText(fullPath);
+                localizedResources = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+            }
+            if (localizedResources != null)
+            {
+                mySaves.Text = localizedResources["mySaves"];
+                txtNoBackups.Text = localizedResources["txtNoBackups"];
+            }
+
+
+            else
+            {
+                MessageBox.Show($"Language file not found: {fullPath}");
+            }
         }
 
         /// <summary>
@@ -100,7 +135,7 @@ namespace WpfApp1
                 // Backup Status Text
                 TextBlock backupStatusText = new TextBlock
                 {
-                    Text = "Backup not started",
+                    Text = localizedResources["BackupNotStarted"],
                     FontWeight = FontWeights.Bold,
                     FontSize = 16,
                     HorizontalAlignment = HorizontalAlignment.Center,
@@ -112,11 +147,11 @@ namespace WpfApp1
 
                 // Backup Information
                 StackPanel infoPanel = new StackPanel { Orientation = Orientation.Vertical, HorizontalAlignment = HorizontalAlignment.Left };
-                TextBlock nameText = new TextBlock { Text = $"Name: {backup.Name}", FontWeight = FontWeights.Bold };
-                TextBlock sourceText = new TextBlock { Text = $"Source path: {backup.SourceDirectory}" };
-                TextBlock targetText = new TextBlock { Text = $"Destination path: {backup.TargetDirectory}" };
-                string backupType = backup is BackupFull ? "Full" : backup is BackupDifferential ? "Differential" : "Unknown";
-                TextBlock typeText = new TextBlock { Text = $"Type: {backupType}", FontWeight = FontWeights.Bold };
+                TextBlock nameText = new TextBlock { Text = $"{localizedResources["NameLabel"]} {backup.Name}", FontWeight = FontWeights.Bold };
+                TextBlock sourceText = new TextBlock { Text = $"{localizedResources["SourcePathLabel"]} {backup.SourceDirectory}" };
+                TextBlock targetText = new TextBlock { Text = $"{localizedResources["DestinationPathLabel"]} {backup.TargetDirectory}" };
+                string backupType = backup is BackupFull ? localizedResources["Full"] : backup is BackupDifferential ? localizedResources["Differential"] : localizedResources["Unknown"];
+                TextBlock typeText = new TextBlock { Text = $"{localizedResources["TypeLabel"]} {backupType}" };
 
                 infoPanel.Children.Add(nameText);
                 infoPanel.Children.Add(typeText);
@@ -130,7 +165,7 @@ namespace WpfApp1
                 Button startButton = new Button { Content = "▶", Width = 33, Style = (Style)Resources["ButtonStyle"], Cursor = Cursors.Hand };
                 Button pauseButton = new Button { Content = "||", Width = 33, Style = (Style)Resources["ButtonStyle"], Cursor = Cursors.Hand };
                 Button stopButton = new Button { Content = "■", Width = 33, Style = (Style)Resources["ButtonStyle"], Cursor = Cursors.Hand };
-                
+
 
                 buttonPanel.Children.Add(startButton);
                 buttonPanel.Children.Add(pauseButton);
@@ -165,9 +200,9 @@ namespace WpfApp1
                     {
                         backup.ResumeBackup();
                         UpdateProgressBar(backup, progressBar, progressText);
-                                               
+
                     });
-                    Dispatcher.Invoke(() => backupStatusText.Text = "Backup in progress");
+                    Dispatcher.Invoke(() => backupStatusText.Text = localizedResources["BackupInProgress"]);
                 };
 
 
@@ -178,7 +213,7 @@ namespace WpfApp1
                         backup.PauseBackup();
                     });
                     if (backupStatusText.Text != "Backup cancelled" && backupStatusText.Text != "Backup finished" && backupStatusText.Text != "Backup not started")
-                    Dispatcher.Invoke(() => backupStatusText.Text = "Backup paused");
+                        Dispatcher.Invoke(() => backupStatusText.Text = "Backup paused");
                 };
 
                 stopButton.Click += (s, e) =>
@@ -194,28 +229,31 @@ namespace WpfApp1
                 // ProgressUpdated Event
                 backup.ProgressUpdated += (s, args) =>
                 {
+                    // Update on UI thread
                     Dispatcher.Invoke(() =>
                     {
                         float progressPercentage = backup.State.Progress * 100;
                         progressBar.Value = progressPercentage;
                         progressText.Text = $"{progressPercentage:F0}%";
 
+                        // Check if backup is completed
                         switch (backup.State.State)
                         {
+
                             case EnumState.InProgress:
-                                backupStatusText.Text = "Backup in progress";                              
+                                backupStatusText.Text = localizedResources["BackupInProgress"];
                                 break;
                             case EnumState.Paused:
-                                backupStatusText.Text = "Backup paused";
+                                backupStatusText.Text = localizedResources["BackupPaused"]; 
                                 break;
                             case EnumState.Cancelled:
-                                backupStatusText.Text = "Backup cancelled";
+                                backupStatusText.Text = localizedResources["BackupCancelled"];
                                 break;
                             case EnumState.Finished:
-                                backupStatusText.Text = "Backup finished";
+                                backupStatusText.Text = localizedResources["BackupFinished"];
                                 break;
                             case EnumState.NotStarted:
-                                backupStatusText.Text = "Backup not started";
+                                backupStatusText.Text = localizedResources["BackupNotStarted"]; 
                                 break;
                             case EnumState.Failed:
                                 backupStatusText.Text = "Backup error";
@@ -226,7 +264,6 @@ namespace WpfApp1
                         }
                     });
                 };
-
 
                 // Add elements to the grid
                 grid.Children.Add(backupStatusText);

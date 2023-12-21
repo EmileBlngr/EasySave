@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 using System.IO;
 using FrontendWPF;
 using Backend.Backup;
-using Microsoft.Win32;
+using Microsoft.Win32; 
 
 
 namespace WpfApp1
@@ -14,6 +14,8 @@ namespace WpfApp1
     /// </summary>
     public partial class PageNew : Page
     {
+
+        
         private Dictionary<string, string> localizedResources;
         private BackupManager backupManager;
 
@@ -55,29 +57,35 @@ namespace WpfApp1
             if (string.IsNullOrEmpty(backupName) || string.IsNullOrEmpty(sourceDirectory) ||
                 string.IsNullOrEmpty(targetDirectory) || string.IsNullOrEmpty(backupType))
             {
-                MessageBox.Show(localizedResources["not_valid"]);
+                MessageBox.Show(localizedResources["FillAllFieldsAndSelectType"]);
                 return;
             }
 
             // Validate input
             if (string.IsNullOrWhiteSpace(backupName) || string.IsNullOrWhiteSpace(sourceDirectory) || string.IsNullOrWhiteSpace(targetDirectory))
             {
-                MessageBox.Show(localizedResources["not_valid"]);
+                MessageBox.Show(localizedResources["FillAllFieldsAndSelectType"]);
                 return;
             }
 
             if (!Directory.Exists(sourceDirectory))
             {
-                MessageBox.Show(localizedResources["source_directory_not_exist"]);
+                MessageBox.Show(localizedResources["SourceDirectoryNotExist"]);
                 return;
             }
 
             if (!Directory.Exists(targetDirectory))
             {
-                MessageBox.Show(localizedResources["target_directory_not_exist"]);
+                MessageBox.Show(localizedResources["TargetDirectoryNotExist"]);
                 return;
             }
+            // if the paths of  source and destination are the same 
 
+            if (sourceDirectory.Equals(targetDirectory, StringComparison.OrdinalIgnoreCase))
+            {
+                MessageBox.Show(localizedResources["SourceTargetSame"]);
+                return;
+            }
             // Translate backup type to a type recognized by the backend
             string backendBackupType = backupType == localizedResources["totalSave"] ? "1" : "2";
 
@@ -85,11 +93,11 @@ namespace WpfApp1
             try
             {
                 backupManager.AddBackup(backendBackupType, backupName, sourceDirectory, targetDirectory);
-                MessageBox.Show(localizedResources["backup_config_saved"]);
+                MessageBox.Show(localizedResources["BackupConfigSaved"]);
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Failed to save backup configuration: {ex.Message}");
+                MessageBox.Show(String.Format(localizedResources["FailedToSaveBackup"], ex.Message));
             }
 
 

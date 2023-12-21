@@ -41,8 +41,11 @@ namespace Backend.Backup
             try
             {
                 string[] sourceFiles = Directory.GetFiles(SourceDirectory);
-                State.RemainingFiles = sourceFiles.Length;
-                State.RemainingSize = TotalSize;
+                if (State.CurrentFileIndex == 0)
+                {
+                    State.RemainingFiles = sourceFiles.Length;
+                    State.RemainingSize = TotalSize;
+                }
 
                 //create an array with the priority files
                 var priorityFiles = sourceFiles.Where(file =>
@@ -136,6 +139,8 @@ namespace Backend.Backup
 
             cryptosoftProcess.StartInfo.RedirectStandardOutput = true;
             cryptosoftProcess.StartInfo.RedirectStandardError = true;
+
+            cryptosoftProcess.StartInfo.CreateNoWindow = true;
             Stopwatch encryptionStopwatch = new Stopwatch();
             encryptionStopwatch.Start();
 

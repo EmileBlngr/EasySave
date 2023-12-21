@@ -107,6 +107,7 @@
   "TrackSaves": "🔍 Suivi des sauvegardes",
   "CloseButton": "❌ Quitter",
   "mySaves": "MES SAUVEGARDES",
+  "txtNoBackups": " Vous n'avez aucune sauvegarde",
   "newSave": "Nouvelle Sauvegarde",
   "estimatedTime": "Temps Estimé",
   "NewBackupHeader": "Nouvelle sauvegarde",
@@ -129,7 +130,22 @@
   "ErrorMaxParallelFileSize": "Veuillez entrer une valeur entière pour la taille maximale des fichiers.",
   "InputError": "Erreur de saisie.",
 
-  "source_directory_not_exist": "Le répertoire source n'existe pas.",
-  "target_directory_not_exist": "Le répertoire destination n'existe pas.",
-  "backup_config_saved": "Configuration de sauvegarde enregistrée."
+  "FillAllFieldsAndSelectType": "Veuillez remplir tous les champs et sélectionner un type de sauvegarde.",
+  "SourceDirectoryNotExist": "Le répertoire source n'existe pas.",
+  "TargetDirectoryNotExist": "Le répertoire cible n'existe pas.",
+  "BackupConfigSaved": "Configuration de sauvegarde enregistrée.",
+  "FailedToSaveBackup": "Échec de l'enregistrement de la configuration de sauvegarde : {0}",
+  "BackupNotStarted": "Sauvegarde non commencée",
+  "NameLabel": "Nom :",
+  "SourcePathLabel": "Chemin source :",
+  "DestinationPathLabel": "Chemin de destination :",
+  "TypeLabel": "Type :",
+  "BackupInProgress": "Sauvegarde en cours",
+  "BackupPaused": "Sauvegarde en pause",
+  "BackupResumed": "Sauvegarde reprise",
+  "BackupFinished": "Sauvegarde terminée",
+  "Full": "Complète",
+  "Differential": "Différentielle",
+  "Unknown": "Inconnu",
+  "SourceTargetSame": "Le répertoire source et de destination ne peuvent pas etre similaires"
 }
