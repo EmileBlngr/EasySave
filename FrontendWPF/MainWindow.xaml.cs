@@ -26,9 +26,7 @@ namespace WpfApp1
             UpdateLanguage(App.CurrentLanguage); // Use global language setting
             App.LanguageChanged += UpdateLanguage; // Subscribe to the global event
 
-            LogsButton.Click += LogsButton_Click;
             MainContentFrame.Navigate(new PageTrack(backupManager));
-            backupManager.AddBackup("1", "test", "C:\\backupSource", "C:\\backupTarget");
         }
 
         /// <summary>
