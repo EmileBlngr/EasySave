@@ -2,7 +2,6 @@
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Input;
 using Backend.Backup;
 using Newtonsoft.Json;
@@ -67,7 +66,7 @@ namespace WpfApp1
                 lvBackups.Visibility = Visibility.Visible;
                 foreach (var backup in backupManager.BackupList)
                 {
-                    StackPanel panel = new StackPanel { Orientation = Orientation.Horizontal};
+                    StackPanel panel = new StackPanel { Orientation = Orientation.Horizontal };
                     TextBlock nameText = new TextBlock { Text = backup.Name, Width = 100 };
                     ProgressBar progressBar = new ProgressBar { Width = 100 };
 
@@ -78,6 +77,17 @@ namespace WpfApp1
                 }
             }
         }
+        /// <summary>
+        /// Updates the progress bar based on the state of the backup.
+        /// </summary>
+        /// <param name="backup">The relevant backup.</param>
+        /// <param name="progressBar">The associated progress bar.</param>
+        /// <param name="progressText">The text displaying the progress.</param>
+        private void UpdateProgressBar(ABackup backup, ProgressBar progressBar, TextBlock progressText)
+        {
+            float progressPercentage = backup.State.Progress * 100;
+            string progressString = $"{progressPercentage:F0}%";
+        }
         private void UpdateLanguage(string cultureCode)
         {
             string relativePath = $"../../../../Backend/Data/Languages/{cultureCode}.json";
@@ -87,35 +97,18 @@ namespace WpfApp1
             {
                 string json = File.ReadAllText(fullPath);
                 localizedResources = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
-        /// <summary>
-        /// Updates the progress bar based on the state of the backup.
-        /// </summary>
-        /// <param name="backup">The relevant backup.</param>
-        /// <param name="progressBar">The associated progress bar.</param>
-        /// <param name="progressText">The text displaying the progress.</param>
-        private void UpdateProgressBar(ABackup backup, ProgressBar progressBar, TextBlock progressText)
-        {
-            float progressPercentage = backup.State.Progress * 100; 
-            string progressString = $"{progressPercentage:F0}%";
-
-                if (localizedResources != null)
-                {
-                    mySaves.Text = localizedResources["mySaves"];
-                    txtNoBackups.Text = localizedResources["txtNoBackups"];
-                }
             }
+            if (localizedResources != null)
+            {
+                mySaves.Text = localizedResources["mySaves"];
+                txtNoBackups.Text = localizedResources["txtNoBackups"];
+            }
+
+
             else
             {
                 MessageBox.Show($"Language file not found: {fullPath}");
             }
-        }
-
-
-            Dispatcher.Invoke(() =>
-            {
-                progressBar.Value = progressPercentage;
-                progressText.Text = progressString; 
-            });
         }
 
         /// <summary>
@@ -170,7 +163,7 @@ namespace WpfApp1
                 Button startButton = new Button { Content = "▶", Width = 33, Style = (Style)Resources["ButtonStyle"], Cursor = Cursors.Hand };
                 Button pauseButton = new Button { Content = "||", Width = 33, Style = (Style)Resources["ButtonStyle"], Cursor = Cursors.Hand };
                 Button stopButton = new Button { Content = "■", Width = 33, Style = (Style)Resources["ButtonStyle"], Cursor = Cursors.Hand };
-                
+
 
                 buttonPanel.Children.Add(startButton);
                 buttonPanel.Children.Add(pauseButton);
@@ -205,7 +198,7 @@ namespace WpfApp1
                     {
                         backup.ResumeBackup();
                         UpdateProgressBar(backup, progressBar, progressText);
-                                               
+
                     });
                     Dispatcher.Invoke(() => backupStatusText.Text = localizedResources["BackupInProgress"]);
                 };
@@ -218,7 +211,7 @@ namespace WpfApp1
                         backup.PauseBackup();
                     });
                     if (backupStatusText.Text != "Backup cancelled" && backupStatusText.Text != "Backup finished" && backupStatusText.Text != "Backup not started")
-                    Dispatcher.Invoke(() => backupStatusText.Text = "Backup paused");
+                        Dispatcher.Invoke(() => backupStatusText.Text = "Backup paused");
                 };
 
                 stopButton.Click += (s, e) =>
@@ -242,24 +235,23 @@ namespace WpfApp1
                         progressText.Text = $"{progressPercentage:F0}%";
 
                         // Check if backup is completed
-                        if (backup.State.State == EnumState.Finished)
                         switch (backup.State.State)
                         {
-                            backupStatusText.Text = localizedResources["BackupFinished"];
+
                             case EnumState.InProgress:
-                                backupStatusText.Text = "Backup in progress";                              
+                                backupStatusText.Text = localizedResources["BackupInProgress"];
                                 break;
                             case EnumState.Paused:
-                                backupStatusText.Text = "Backup paused";
+                                backupStatusText.Text = localizedResources["BackupPaused"]; 
                                 break;
                             case EnumState.Cancelled:
-                                backupStatusText.Text = "Backup cancelled";
+                                backupStatusText.Text = localizedResources["BackupCancelled"];
                                 break;
                             case EnumState.Finished:
-                                backupStatusText.Text = "Backup finished";
+                                backupStatusText.Text = localizedResources["BackupFinished"];
                                 break;
                             case EnumState.NotStarted:
-                                backupStatusText.Text = "Backup not started";
+                                backupStatusText.Text = localizedResources["BackupNotStarted"]; 
                                 break;
                             case EnumState.Failed:
                                 backupStatusText.Text = "Backup error";
