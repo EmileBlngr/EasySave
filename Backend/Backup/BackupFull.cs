@@ -52,12 +52,17 @@ namespace Backend.Backup
 
                 //merge both array into one with priority files in first
                 string[] allFiles = priorityFiles.Concat(remainingFiles).ToArray();
+                int totalFilesCount = allFiles.Length;
 
                 // browse all files starting with the priority ones
                 for (int i = State.CurrentFileIndex; i < allFiles.Length; i++)
                 {
+                    State.Progress = (float)i / totalFilesCount;
+                    OnProgressUpdated();
+
                     if (State.State == EnumState.Cancelled)
                     {
+                        State.CurrentFileIndex = 0;
                         break;
                     }                  
 
@@ -101,18 +106,20 @@ namespace Backend.Backup
                 }
                 finally
                 {
-                    // set to 100% only if the backup wasn't cancelled
-                    if (State.State != EnumState.Cancelled)
+                    // set to 100% only if the backup wasn't cancelled or paused
+                    if (State.State != EnumState.Cancelled && State.State != EnumState.Paused)
                     {
                         this.State.Progress = 1.0f; // Set to 100%
                         OnProgressUpdated();
                         State.State = EnumState.Finished; // Mark as finished
+                        State.CurrentFileIndex = 0;
                         Console.WriteLine(string.Format(Settings.Settings.GetInstance().LanguageSettings.LanguageData["full_backup_finished"], FileTransferTime));
                         Console.WriteLine("\n\n\n");
-                    }
+                    }                   
                     else
                     {
                         Console.WriteLine("Backup was cancelled.");
+                        State.CurrentFileIndex = 0;
                     }
 
                     Settings.Settings.GetInstance().LogSettings.Createlogs(this);

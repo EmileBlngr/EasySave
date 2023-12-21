@@ -45,7 +45,17 @@ namespace WpfApp1
             }
         }
 
+        private void UpdateProgressBar(ABackup backup, ProgressBar progressBar, TextBlock progressText)
+        {
+            float progressPercentage = backup.State.Progress * 100; 
+            string progressString = $"{progressPercentage:F0}%";
 
+            Dispatcher.Invoke(() =>
+            {
+                progressBar.Value = progressPercentage;
+                progressText.Text = progressString; 
+            });
+        }
         private void PageTrack_Loaded(object sender, RoutedEventArgs e)
         {
             LoadBackups();
@@ -93,12 +103,11 @@ namespace WpfApp1
                 Button startButton = new Button { Content = "▶", Width = 33, Style = (Style)Resources["ButtonStyle"] };
                 Button pauseButton = new Button { Content = "⏸", Width = 33, Style = (Style)Resources["ButtonStyle"] };
                 Button stopButton = new Button { Content = "■", Width = 33, Style = (Style)Resources["ButtonStyle"] };
-                Button logButton = new Button { Content = "📃", Width = 33, Style = (Style)Resources["ButtonStyle"] };
+                
 
                 buttonPanel.Children.Add(startButton);
                 buttonPanel.Children.Add(pauseButton);
                 buttonPanel.Children.Add(stopButton);
-                buttonPanel.Children.Add(logButton);
                 Grid.SetColumn(buttonPanel, 1); // Place buttons in the second column
                 Grid.SetRow(buttonPanel, 1); // Set buttonPanel to the second row
 
@@ -120,17 +129,39 @@ namespace WpfApp1
                     HorizontalAlignment = HorizontalAlignment.Center
                 };
                 Grid.SetColumn(progressText, 0);
-                Grid.SetRow(progressText, 3); // Set progressText to the fourth row
+                Grid.SetRow(progressText, 3); // Set progressText to the fourth row            
 
-                /// Button Click Event
+                /// Button Click Events
                 startButton.Click += (s, e) =>
                 {
                     Task.Run(() =>
                     {
-                        backup.PerformBackup();
+                        backup.ResumeBackup();
+                        UpdateProgressBar(backup, progressBar, progressText);
+                                               
                     });
                     Dispatcher.Invoke(() => backupStatusText.Text = "Backup in progress");
                 };
+
+
+                pauseButton.Click += (s, e) =>
+                {
+                    Task.Run(() =>
+                    {
+                        backup.PauseBackup();
+                    });
+                    Dispatcher.Invoke(() => backupStatusText.Text = "Backup paused");
+                };
+
+                stopButton.Click += (s, e) =>
+                {
+                    Task.Run(() =>
+                    {
+                        backup.CancelBackup();
+                    });
+                    Dispatcher.Invoke(() => backupStatusText.Text = "Backup cancelled");
+                };
+
 
                 // ProgressUpdated Event
                 backup.ProgressUpdated += (s, args) =>
@@ -141,14 +172,29 @@ namespace WpfApp1
                         progressBar.Value = progressPercentage;
                         progressText.Text = $"{progressPercentage:F0}%";
 
-                        // Directly update status based on progress percentage
-                        if (progressPercentage >= 100.0f)
+                        switch (backup.State.State)
                         {
-                            backupStatusText.Text = "Backup finished";
-                        }
-                        else
-                        {
-                            backupStatusText.Text = "Backup in progress";
+                            case EnumState.InProgress:
+                                backupStatusText.Text = "Backup in progress";
+                                break;
+                            case EnumState.Paused:
+                                backupStatusText.Text = "Backup paused";
+                                break;
+                            case EnumState.Cancelled:
+                                backupStatusText.Text = "Backup cancelled";
+                                break;
+                            case EnumState.Finished:
+                                backupStatusText.Text = "Backup finished";
+                                break;
+                            case EnumState.NotStarted:
+                                backupStatusText.Text = "Backup not started";
+                                break;
+                            case EnumState.Failed:
+                                backupStatusText.Text = "Backup error";
+                                break;
+                            default:
+                                
+                                break;
                         }
                     });
                 };

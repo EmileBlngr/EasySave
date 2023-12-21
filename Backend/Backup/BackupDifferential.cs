@@ -101,7 +101,7 @@ namespace Backend.Backup
                 }
                 finally
                 {
-                    if (State.State != EnumState.Cancelled)
+                    if (State.State != EnumState.Cancelled && State.State != EnumState.Paused)
                     {
                         //set progress to 100%, mark as finished, and log
                         this.State.Progress = 1.0f; // Set to 100%
