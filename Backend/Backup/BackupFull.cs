@@ -30,7 +30,7 @@ namespace Backend.Backup
             if (BackupManager.IsBusinessSoftwareRunning())
             {
                 Console.WriteLine("Le logiciel métier est en cours d'exécution. La sauvegarde ne peut pas être lancée.");
-                return; 
+                return;
             }
             ScanFiles();
             Stopwatch stopwatch = new Stopwatch();
@@ -39,8 +39,11 @@ namespace Backend.Backup
             try
             {
                 string[] sourceFiles = Directory.GetFiles(SourceDirectory);
-                State.RemainingFiles = sourceFiles.Length;
-                State.RemainingSize = TotalSize;
+                if (State.CurrentFileIndex == 0)
+                {
+                    State.RemainingFiles = sourceFiles.Length;
+                    State.RemainingSize = TotalSize;
+                }
 
                 //create an array with the priority files
                 var priorityFiles = sourceFiles
@@ -52,14 +55,19 @@ namespace Backend.Backup
 
                 //merge both array into one with priority files in first
                 string[] allFiles = priorityFiles.Concat(remainingFiles).ToArray();
+                int totalFilesCount = allFiles.Length;
 
                 // browse all files starting with the priority ones
                 for (int i = State.CurrentFileIndex; i < allFiles.Length; i++)
                 {
+                    State.Progress = (float)i / totalFilesCount;
+                    OnProgressUpdated();
+
                     if (State.State == EnumState.Cancelled)
                     {
+                        State.CurrentFileIndex = 0;
                         break;
-                    }                  
+                    }
 
                     else if (State.State == EnumState.Paused || BackupManager.IsBusinessSoftwareRunning())
                     {
@@ -93,7 +101,7 @@ namespace Backend.Backup
                     {
                         Encrypt();
                     }
-                    
+
                 }
                 catch (Exception ex)
                 {
@@ -101,18 +109,20 @@ namespace Backend.Backup
                 }
                 finally
                 {
-                    // set to 100% only if the backup wasn't cancelled
-                    if (State.State != EnumState.Cancelled)
+                    // set to 100% only if the backup wasn't cancelled or paused
+                    if (State.State != EnumState.Cancelled && State.State != EnumState.Paused)
                     {
                         this.State.Progress = 1.0f; // Set to 100%
-                        OnProgressUpdated();
                         State.State = EnumState.Finished; // Mark as finished
+                        OnProgressUpdated();
+                        State.CurrentFileIndex = 0;
                         Console.WriteLine(string.Format(Settings.Settings.GetInstance().LanguageSettings.LanguageData["full_backup_finished"], FileTransferTime));
                         Console.WriteLine("\n\n\n");
                     }
                     else
                     {
                         Console.WriteLine("Backup was cancelled.");
+
                     }
 
                     Settings.Settings.GetInstance().LogSettings.Createlogs(this);
@@ -138,6 +148,9 @@ namespace Backend.Backup
 
             cryptosoftProcess.StartInfo.RedirectStandardOutput = true;
             cryptosoftProcess.StartInfo.RedirectStandardError = true;
+
+            cryptosoftProcess.StartInfo.CreateNoWindow = true;
+
             Stopwatch encryptionStopwatch = new Stopwatch();
             encryptionStopwatch.Start();
 
@@ -157,7 +170,7 @@ namespace Backend.Backup
             }
             encryptionStopwatch.Stop();
             EncryptTime = (float)encryptionStopwatch.Elapsed.TotalSeconds * 1000;
-            Console.WriteLine($"Encrypt time: {EncryptTime}");         
+            Console.WriteLine($"Encrypt time: {EncryptTime}");
         }
 
         /// <summary>

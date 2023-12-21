@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="EasySave" Height="450" Width="800"
+        Title="EasySave 3.0" Height="450" Width="800"
         FontFamily="Raleway Light"
         WindowState="Maximized">
     <Window.Resources>
@@ -96,19 +96,19 @@
             </Viewbox>
 
             <StackPanel Grid.Column="0" Grid.Row="2" VerticalAlignment="Center">
-                <Button x:Name="NewSaveButton" Content="📁 Nouvelle sauvegarde" Style="{StaticResource AnimatedButtonStyle}" Click="NewSaveButton_Click" />
-                <Button x:Name="LogsButton" Content="📜 Accès aux logs" Style="{StaticResource AnimatedButtonStyle}" Click="LogsButton_Click"/>
-                <Button x:Name="SettingsButton" Content="⚙️ Paramètres" Style="{StaticResource AnimatedButtonStyle}" Click="SettingsButton_Click" />
-                <Button x:Name="TrackSavesButton" Content="🔍 Suivi des sauvegardes" Style="{StaticResource AnimatedButtonStyle}" Click="TracksButton_Click" />
+                <Button x:Name="NewSaveButton" Content="📁 Nouvelle sauvegarde" Style="{StaticResource AnimatedButtonStyle}" Click="NewSaveButton_Click" Cursor="Hand" />
+                <Button x:Name="LogsButton" Content="📜 Accès aux logs" Style="{StaticResource AnimatedButtonStyle}" Click="LogsButton_Click" Cursor="Hand"/>
+                <Button x:Name="SettingsButton" Content="⚙️ Paramètres" Style="{StaticResource AnimatedButtonStyle}" Click="SettingsButton_Click" Cursor="Hand"/>
+                <Button x:Name="TrackSavesButton" Content="🔍 Suivi des sauvegardes" Style="{StaticResource AnimatedButtonStyle}" Click="TracksButton_Click" Cursor="Hand"/>
             </StackPanel>
 
 
             <!-- log out button  -->
-            <Button x:Name="CloseButton" Content="❌ Quitter" Style="{StaticResource QuitButtonStyle}" Grid.Row="4" Click="CloseButton_Click"/>
+            <Button x:Name="CloseButton" Content="❌ Quitter" Style="{StaticResource QuitButtonStyle}" Grid.Row="4" Click="CloseButton_Click" Cursor="Hand"/>
         </Grid>
 
         <!-- PageTrack content -->
         
-        <Frame x:Name="MainContentFrame" Grid.Column="1" Margin="10"/>
+        <Frame x:Name="MainContentFrame" Grid.Column="1" Margin="10" NavigationUIVisibility="Hidden"/>
     </Grid>
 </Window>

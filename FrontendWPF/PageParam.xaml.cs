@@ -7,6 +7,10 @@ using Newtonsoft.Json;
 
 namespace WpfApp1
 {
+
+    /// <summary>
+    /// Interaction logic for PageParam.xaml
+    /// </summary>
     public partial class PageParam : Page
     {
         private static string currentLanguage = "fr-FR"; // Default to French
@@ -23,6 +27,9 @@ namespace WpfApp1
             set { currentLanguage = value; }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the PageParam class.
+        /// </summary>
         public PageParam()
         {
             DataContext = this;
@@ -62,7 +69,11 @@ namespace WpfApp1
             }
         }
 
-
+        /// <summary>
+        /// Handles the click event of the Apply Changes button.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnApplyChanges_Click(object sender, RoutedEventArgs e)
         {
             if (radioEnglish.IsChecked == true)
@@ -92,8 +103,10 @@ namespace WpfApp1
             App.OnLanguageChanged(CurrentLanguage);
         }
 
-
-
+        /// <summary>
+        /// Updates the UI elements based on the selected language.
+        /// </summary>
+        /// <param name="cultureCode">The culture code representing the selected language.</param>
         private void UpdateLanguage(string cultureCode)
         {
             // Form the relative path from the executable to the JSON files
@@ -133,6 +146,11 @@ namespace WpfApp1
             }
         }
 
+        /// <summary>
+        /// Handles the click event of the Add Encrypt Extension button.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnAddEncryptExtension_Click(object sender, RoutedEventArgs e)
         {
             string newExtension = txtEncryptFileExtensionInput.Text.Trim();
@@ -144,6 +162,11 @@ namespace WpfApp1
             }
         }
 
+        /// <summary>
+        /// Handles the click event of the Remove Encrypt Extension button.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnRemoveEncryptExtension_Click(object sender, RoutedEventArgs e)
         {
             if (listEncryptFileExtensions.SelectedIndex != -1)
@@ -152,6 +175,12 @@ namespace WpfApp1
                 listEncryptFileExtensions.Items.RemoveAt(listEncryptFileExtensions.SelectedIndex);
             }
         }
+
+        /// <summary>
+        /// Handles the click event of the "Add Prioritary Extension" button.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnAddPrioritaryExtension_Click(object sender, RoutedEventArgs e)
         {
             string newExtension = txtPrioritaryFileExtensionInput.Text.Trim();
@@ -163,6 +192,11 @@ namespace WpfApp1
             }
         }
 
+        /// <summary>
+        /// Handles the click event of the "Remove Prioritary Extension" button.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnRemovePrioritaryExtension_Click(object sender, RoutedEventArgs e)
         {
             if (listPrioritaryFileExtensions.SelectedIndex != -1)
@@ -172,6 +206,11 @@ namespace WpfApp1
             }
         }
 
+        /// <summary>
+        /// Handles the Checked event of the CheckBox controls.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CheckBox_Checked(object sender, RoutedEventArgs e)
         {
             if (sender is CheckBox checkBox)
@@ -185,6 +224,11 @@ namespace WpfApp1
             }
         }
 
+        /// <summary>
+        /// Handles the Unchecked event of the CheckBox controls.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CheckBox_Unchecked(object sender, RoutedEventArgs e)
         {
             if (sender is CheckBox checkBox)
@@ -197,6 +241,7 @@ namespace WpfApp1
                     IsXmlChecked = false;
             }
         }
+
 
     }
 }

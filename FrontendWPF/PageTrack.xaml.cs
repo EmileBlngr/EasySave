@@ -2,12 +2,18 @@
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Input;
 using Backend.Backup;
 using Newtonsoft.Json;
 using FrontendWPF;
 
 namespace WpfApp1
 {
+
+    /// <summary>
+    /// PageTrack is a class representing the backup tracking page.
+    /// </summary>
     public partial class PageTrack : Page
     {
         private static string currentLanguage = "fr-FR"; // Default to French
@@ -26,17 +32,24 @@ namespace WpfApp1
 
         private BackupManager backupManager;
 
+        /// <summary>
+        /// Constructor for the PageTrack class.
+        /// </summary>
+        /// <param name="backupManager">The backup manager used by the page.</param>
         public PageTrack(BackupManager backupManager)
         {
             InitializeComponent();
             this.backupManager = backupManager;
-
             // Subscribe to the Loaded event
             this.Loaded += PageTrack_Loaded;
 
             UpdateLanguage(App.CurrentLanguage); // Use global language setting
 
         }
+
+        /// <summary>
+        /// Loads the list of backups on the page.
+        /// </summary>
         private void LoadBackups()
         {
             lvBackups.Items.Clear();
@@ -45,17 +58,19 @@ namespace WpfApp1
             {
                 // No backups, show the message
                 txtNoBackups.Visibility = Visibility.Visible;
+                lvBackups.Visibility = Visibility.Hidden;
             }
             else
             {
                 // There are backups, hide the message and list them
                 txtNoBackups.Visibility = Visibility.Collapsed;
-
+                lvBackups.Visibility = Visibility.Visible;
                 foreach (var backup in backupManager.BackupList)
                 {
-                    StackPanel panel = new StackPanel { Orientation = Orientation.Horizontal };
+                    StackPanel panel = new StackPanel { Orientation = Orientation.Horizontal};
                     TextBlock nameText = new TextBlock { Text = backup.Name, Width = 100 };
                     ProgressBar progressBar = new ProgressBar { Width = 100 };
+
                     // Configure progress bar, buttons, etc.
 
                     // Add panel to ListView
@@ -72,6 +87,16 @@ namespace WpfApp1
             {
                 string json = File.ReadAllText(fullPath);
                 localizedResources = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+        /// <summary>
+        /// Updates the progress bar based on the state of the backup.
+        /// </summary>
+        /// <param name="backup">The relevant backup.</param>
+        /// <param name="progressBar">The associated progress bar.</param>
+        /// <param name="progressText">The text displaying the progress.</param>
+        private void UpdateProgressBar(ABackup backup, ProgressBar progressBar, TextBlock progressText)
+        {
+            float progressPercentage = backup.State.Progress * 100; 
+            string progressString = $"{progressPercentage:F0}%";
 
                 if (localizedResources != null)
                 {
@@ -86,6 +111,18 @@ namespace WpfApp1
         }
 
 
+            Dispatcher.Invoke(() =>
+            {
+                progressBar.Value = progressPercentage;
+                progressText.Text = progressString; 
+            });
+        }
+
+        /// <summary>
+        /// Event triggered when an instance of PageTrack is loaded.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void PageTrack_Loaded(object sender, RoutedEventArgs e)
         {
             LoadBackups();
@@ -130,15 +167,14 @@ namespace WpfApp1
 
                 // Buttons
                 StackPanel buttonPanel = new StackPanel { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Right };
-                Button startButton = new Button { Content = "▶", Width = 33, Style = (Style)Resources["ButtonStyle"] };
-                Button pauseButton = new Button { Content = "⏸", Width = 33, Style = (Style)Resources["ButtonStyle"] };
-                Button stopButton = new Button { Content = "■", Width = 33, Style = (Style)Resources["ButtonStyle"] };
-                Button logButton = new Button { Content = "📃", Width = 33, Style = (Style)Resources["ButtonStyle"] };
+                Button startButton = new Button { Content = "▶", Width = 33, Style = (Style)Resources["ButtonStyle"], Cursor = Cursors.Hand };
+                Button pauseButton = new Button { Content = "||", Width = 33, Style = (Style)Resources["ButtonStyle"], Cursor = Cursors.Hand };
+                Button stopButton = new Button { Content = "■", Width = 33, Style = (Style)Resources["ButtonStyle"], Cursor = Cursors.Hand };
+                
 
                 buttonPanel.Children.Add(startButton);
                 buttonPanel.Children.Add(pauseButton);
                 buttonPanel.Children.Add(stopButton);
-                buttonPanel.Children.Add(logButton);
                 Grid.SetColumn(buttonPanel, 1); // Place buttons in the second column
                 Grid.SetRow(buttonPanel, 1); // Set buttonPanel to the second row
 
@@ -160,17 +196,40 @@ namespace WpfApp1
                     HorizontalAlignment = HorizontalAlignment.Center
                 };
                 Grid.SetColumn(progressText, 0);
-                Grid.SetRow(progressText, 3); // Set progressText to the fourth row
+                Grid.SetRow(progressText, 3); // Set progressText to the fourth row            
 
-                /// Button Click Event
+                /// Button Click Events
                 startButton.Click += (s, e) =>
                 {
                     Task.Run(() =>
                     {
-                        backup.PerformBackup();
+                        backup.ResumeBackup();
+                        UpdateProgressBar(backup, progressBar, progressText);
+                                               
                     });
                     Dispatcher.Invoke(() => backupStatusText.Text = localizedResources["BackupInProgress"]);
                 };
+
+
+                pauseButton.Click += (s, e) =>
+                {
+                    Task.Run(() =>
+                    {
+                        backup.PauseBackup();
+                    });
+                    if (backupStatusText.Text != "Backup cancelled" && backupStatusText.Text != "Backup finished" && backupStatusText.Text != "Backup not started")
+                    Dispatcher.Invoke(() => backupStatusText.Text = "Backup paused");
+                };
+
+                stopButton.Click += (s, e) =>
+                {
+                    Task.Run(() =>
+                    {
+                        backup.CancelBackup();
+                    });
+                    Dispatcher.Invoke(() => backupStatusText.Text = "Backup cancelled");
+                };
+
 
                 // ProgressUpdated Event
                 backup.ProgressUpdated += (s, args) =>
@@ -184,8 +243,30 @@ namespace WpfApp1
 
                         // Check if backup is completed
                         if (backup.State.State == EnumState.Finished)
+                        switch (backup.State.State)
                         {
                             backupStatusText.Text = localizedResources["BackupFinished"];
+                            case EnumState.InProgress:
+                                backupStatusText.Text = "Backup in progress";                              
+                                break;
+                            case EnumState.Paused:
+                                backupStatusText.Text = "Backup paused";
+                                break;
+                            case EnumState.Cancelled:
+                                backupStatusText.Text = "Backup cancelled";
+                                break;
+                            case EnumState.Finished:
+                                backupStatusText.Text = "Backup finished";
+                                break;
+                            case EnumState.NotStarted:
+                                backupStatusText.Text = "Backup not started";
+                                break;
+                            case EnumState.Failed:
+                                backupStatusText.Text = "Backup error";
+                                break;
+                            default:
+                                backupStatusText.Text = "Backup finished";
+                                break;
                         }
                     });
                 };

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 
 namespace Backend.Backup
 {
@@ -6,7 +7,7 @@ namespace Backend.Backup
     /// <summary>
     /// Represents the interface for a backup operation.
     /// </summary>
-    public interface IBackup
+    public interface IBackup : INotifyPropertyChanged
     {
         /// <summary>
         /// Updates the progress of the backup operation.

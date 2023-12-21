@@ -41,8 +41,11 @@ namespace Backend.Backup
             try
             {
                 string[] sourceFiles = Directory.GetFiles(SourceDirectory);
-                State.RemainingFiles = sourceFiles.Length;
-                State.RemainingSize = TotalSize;
+                if (State.CurrentFileIndex == 0)
+                {
+                    State.RemainingFiles = sourceFiles.Length;
+                    State.RemainingSize = TotalSize;
+                }
 
                 //create an array with the priority files
                 var priorityFiles = sourceFiles.Where(file =>
@@ -101,12 +104,12 @@ namespace Backend.Backup
                 }
                 finally
                 {
-                    if (State.State != EnumState.Cancelled)
+                    if (State.State != EnumState.Cancelled && State.State != EnumState.Paused)
                     {
                         //set progress to 100%, mark as finished, and log
                         this.State.Progress = 1.0f; // Set to 100%
-                        OnProgressUpdated();
                         State.State = EnumState.Finished;
+                        OnProgressUpdated();
                         Console.WriteLine(string.Format(Settings.Settings.GetInstance().LanguageSettings.LanguageData["full_backup_finished"], FileTransferTime));
                         Console.WriteLine("\n\n\n");
                         Settings.Settings.GetInstance().LogSettings.Createlogs(this);
@@ -136,6 +139,8 @@ namespace Backend.Backup
 
             cryptosoftProcess.StartInfo.RedirectStandardOutput = true;
             cryptosoftProcess.StartInfo.RedirectStandardError = true;
+
+            cryptosoftProcess.StartInfo.CreateNoWindow = true;
             Stopwatch encryptionStopwatch = new Stopwatch();
             encryptionStopwatch.Start();
 

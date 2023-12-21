@@ -15,12 +15,30 @@
             <Setter Property="FontSize" Value="18"/>
         </Style>
 
+        <!-- Style pour TextBox -->
+        <Style x:Key="TextBoxStyle" TargetType="TextBox">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Padding" Value="3"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="#FFABADB3"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border CornerRadius="5" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                            <ScrollViewer x:Name="PART_ContentHost"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
         <!-- Style pour RadioButton -->
         <Style x:Key="RadioButtonStyle" TargetType="RadioButton">
             <Setter Property="Margin" Value="10,5"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
             <Setter Property="FontSize" Value="14"/>
             <Setter Property="Padding" Value="4"/>
+            <Setter Property="Cursor" Value="Hand"/>
         </Style>
 
         <!-- Style pour ListBox -->
@@ -32,6 +50,21 @@
         <!-- Style pour SmallButton -->
         <Style x:Key="SmallButtonStyle" TargetType="Button">
             <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Margin" Value="3"/>
+            <Setter Property="MinHeight" Value="25"/>
+
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="5" BorderBrush="#FFABADB3"
+                    BorderThickness="1">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                  VerticalAlignment="Center" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
         <!-- Style pour Button avec un template personnalisé -->
         <Style x:Key="ButtonStyle" TargetType="Button">
@@ -89,7 +122,7 @@
                 <!-- Language Selection Section -->
                 <TextBlock Name="txtLanguages" Text="Langues" Grid.Column="0" Grid.Row="0"/>
                 <StackPanel Grid.Column="0" Grid.Row="1">
-                    <RadioButton Name="radioEnglish" Content="Anglais" GroupName="Langues"/>
+                    <RadioButton Name="radioEnglish" Content="Anglais" GroupName="Langues" />
                     <RadioButton Name="radioFrench" Content="Français 🇫🇷" GroupName="Langues" IsChecked="True"/>
                     <RadioButton Name="radioSpanish" Content="Espagnol" GroupName="Langues"/>
                 </StackPanel>
@@ -97,25 +130,25 @@
                 <!-- Log Format Section -->
                 <TextBlock Name="txtLogFormat" Text="Format des Logs" Grid.Column="1" Grid.Row="0"/>
                 <StackPanel Grid.Column="1" Grid.Row="1">
-                    <CheckBox Content=".JSON" IsChecked="{Binding IsJsonChecked, Mode=TwoWay}" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" />
-                    <CheckBox Content=".TXT" IsChecked="{Binding IsTxtChecked, Mode=TwoWay}" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" />
-                    <CheckBox Content=".XML" IsChecked="{Binding IsXmlChecked, Mode=TwoWay}" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" />
+                    <CheckBox Content=".JSON" IsChecked="{Binding IsJsonChecked, Mode=TwoWay}" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" Cursor="Hand"/>
+                    <CheckBox Content=".TXT" IsChecked="{Binding IsTxtChecked, Mode=TwoWay}" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" Cursor="Hand"/>
+                    <CheckBox Content=".XML" IsChecked="{Binding IsXmlChecked, Mode=TwoWay}" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" Cursor="Hand"/>
                 </StackPanel>
 
                 <!-- File max parallel size Section -->
-                <TextBlock Name="txtMaxFileSize" Text="Taille maximale des fichiers (kB)" Grid.Column="0" Grid.Row="2" />
-                <StackPanel Grid.Column="0" Grid.Row="3">
-                    <TextBox Name="txtMaxFileSizeInput" />
+                <TextBlock Name="txtMaxFileSize" Text="Taille maximale des fichiers (kB)" Grid.Column="0" Grid.Row="3" />
+                <StackPanel Grid.Column="0" Grid.Row="4">
+                    <TextBox Name="txtMaxFileSizeInput" Style="{StaticResource TextBoxStyle}" />
                 </StackPanel>
 
                 <!-- Business Software Section -->
-                <TextBlock Name="txtBusinessSoftware" Text="Logiciel métier" Grid.Column="1" Grid.Row="2" />
-                <StackPanel Grid.Column="1" Grid.Row="3">
-                    <TextBox Name="txtBusinessSoftwareInput" />
+                <TextBlock Name="txtBusinessSoftware" Text="Logiciel métier" Grid.Column="1" Grid.Row="3" />
+                <StackPanel Grid.Column="1" Grid.Row="4">
+                    <TextBox Name="txtBusinessSoftwareInput" Style="{StaticResource TextBoxStyle}"/>
                 </StackPanel>
 
                 <!-- File extensions to encrypt Section -->
-                <Grid Grid.Column="0" Grid.Row="3" Margin="0,18,0,57" Grid.RowSpan="3">
+                <Grid Grid.Column="0" Grid.Row="5" Margin="0,18,0,24">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
@@ -124,16 +157,16 @@
                     </Grid.RowDefinitions>
 
                     <TextBlock Name="txtEncryptFileExtensions" Text="Extensions de fichiers à chiffrer" Grid.Row="0" />
-                    <TextBox Name="txtEncryptFileExtensionInput" Grid.Row="1"/>
+                    <TextBox Name="txtEncryptFileExtensionInput" Grid.Row="1" Style="{StaticResource TextBoxStyle}"/>
 
                     <StackPanel Orientation="Vertical" Grid.Row="2">
-                        <Button Name="txtAddEncrypt" Content="Ajouter" Click="btnAddEncryptExtension_Click" Style="{StaticResource SmallButtonStyle}"/>
-                        <Button Name="txtRemoveEncrypt" Content="Supprimer" Click="btnRemoveEncryptExtension_Click" Style="{StaticResource SmallButtonStyle}"/>
+                        <Button Name="txtAddEncrypt" Content="Ajouter" Click="btnAddEncryptExtension_Click" Style="{StaticResource SmallButtonStyle}" Cursor="Hand" Margin="3,3,3,3"/>
+                        <Button Name="txtRemoveEncrypt" Content="Supprimer" Click="btnRemoveEncryptExtension_Click" Style="{StaticResource SmallButtonStyle}" Cursor="Hand"/>
                         <ListBox Name="listEncryptFileExtensions" Style="{StaticResource ListBoxStyle}" SelectionMode="Extended" Height="Auto" MaxHeight="80" VerticalAlignment="Top"/>
                     </StackPanel>
                 </Grid>
                 <!-- File extensions to encrypt Section -->
-                <Grid Grid.Column="1" Grid.Row="5">
+                <Grid Grid.Column="1" Grid.Row="5" Margin="0,18,0,57">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
@@ -142,18 +175,17 @@
                     </Grid.RowDefinitions>
 
                     <TextBlock Name="txtPrioritaryFileExtensions" Text="Extensions de fichiers prioritaires" Grid.Row="0" />
-                    <TextBox Name="txtPrioritaryFileExtensionInput" Grid.Row="1"/>
+                    <TextBox Name="txtPrioritaryFileExtensionInput" Grid.Row="1" Style="{StaticResource TextBoxStyle}"/>
 
                     <StackPanel Orientation="Vertical" Grid.Row="2">
-                        <Button Name="txtAddPrioritary" Content="Ajouter" Click="btnAddPrioritaryExtension_Click" Style="{StaticResource SmallButtonStyle}"/>
-                        <Button Name="txtRemovePrioritary" Content="Supprimer" Click="btnRemovePrioritaryExtension_Click" Style="{StaticResource SmallButtonStyle}"/>
+                        <Button Name="txtAddPrioritary" Content="Ajouter" Click="btnAddPrioritaryExtension_Click" Style="{StaticResource SmallButtonStyle}" Cursor="Hand"/>
+                        <Button Name="txtRemovePrioritary" Content="Supprimer" Click="btnRemovePrioritaryExtension_Click" Style="{StaticResource SmallButtonStyle}" Cursor="Hand"/>
                         <ListBox Name="listPrioritaryFileExtensions" Style="{StaticResource ListBoxStyle}" Height="Auto" MaxHeight="80" VerticalAlignment="Top"/>
                     </StackPanel>
                 </Grid>
 
                 <!-- Apply Changes Button -->
-                <Button Name="btnApplyChanges" Content="Appliquer les changements" Style="{StaticResource ButtonStyle}" Grid.Row="5" Grid.ColumnSpan="2" Margin="166,152,162,12" Click="btnApplyChanges_Click"/>
-
+                <Button Name="btnApplyChanges" Content="Appliquer les changements" Style="{StaticResource ButtonStyle}" Grid.Row="5" Grid.ColumnSpan="2" Margin="164,185,164,0" Click="btnApplyChanges_Click" Cursor="Hand"/>
             </Grid>
         </GroupBox>
     </Grid>
