@@ -119,7 +119,7 @@ namespace Backend.Backup
                     else
                     {
                         Console.WriteLine("Backup was cancelled.");
-                        State.CurrentFileIndex = 0;
+                        
                     }
 
                     Settings.Settings.GetInstance().LogSettings.Createlogs(this);
