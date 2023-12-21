@@ -1,6 +1,8 @@
-﻿using System.Windows;
+﻿using System.Collections.ObjectModel;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Input;
 using Backend.Backup;
 using Newtonsoft.Json.Linq;
 
@@ -9,6 +11,7 @@ namespace WpfApp1
     public partial class PageTrack : Page
     {
         private BackupManager backupManager;
+        
 
         public PageTrack(BackupManager backupManager)
         {
@@ -26,12 +29,13 @@ namespace WpfApp1
             {
                 // No backups, show the message
                 txtNoBackups.Visibility = Visibility.Visible;
+                lvBackups.Visibility = Visibility.Hidden;
             }
             else
             {
                 // There are backups, hide the message and list them
                 txtNoBackups.Visibility = Visibility.Collapsed;
-
+                lvBackups.Visibility = Visibility.Visible;
                 foreach (var backup in backupManager.BackupList)
                 {
                     StackPanel panel = new StackPanel { Orientation = Orientation.Horizontal };
@@ -100,9 +104,9 @@ namespace WpfApp1
 
                 // Buttons
                 StackPanel buttonPanel = new StackPanel { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Right };
-                Button startButton = new Button { Content = "▶", Width = 33, Style = (Style)Resources["ButtonStyle"] };
-                Button pauseButton = new Button { Content = "⏸", Width = 33, Style = (Style)Resources["ButtonStyle"] };
-                Button stopButton = new Button { Content = "■", Width = 33, Style = (Style)Resources["ButtonStyle"] };
+                Button startButton = new Button { Content = "▶", Width = 33, Style = (Style)Resources["ButtonStyle"], Cursor = Cursors.Hand };
+                Button pauseButton = new Button { Content = "⏸", Width = 33, Style = (Style)Resources["ButtonStyle"], Cursor = Cursors.Hand };
+                Button stopButton = new Button { Content = "■", Width = 33, Style = (Style)Resources["ButtonStyle"], Cursor = Cursors.Hand };
                 
 
                 buttonPanel.Children.Add(startButton);
@@ -150,6 +154,7 @@ namespace WpfApp1
                     {
                         backup.PauseBackup();
                     });
+                    if (backupStatusText.Text != "Backup cancelled" && backupStatusText.Text != "Backup finished" && backupStatusText.Text != "Backup not started")
                     Dispatcher.Invoke(() => backupStatusText.Text = "Backup paused");
                 };
 
@@ -175,7 +180,7 @@ namespace WpfApp1
                         switch (backup.State.State)
                         {
                             case EnumState.InProgress:
-                                backupStatusText.Text = "Backup in progress";
+                                backupStatusText.Text = "Backup in progress";                              
                                 break;
                             case EnumState.Paused:
                                 backupStatusText.Text = "Backup paused";
@@ -193,7 +198,7 @@ namespace WpfApp1
                                 backupStatusText.Text = "Backup error";
                                 break;
                             default:
-                                
+                                backupStatusText.Text = "Backup finished";
                                 break;
                         }
                     });
@@ -209,6 +214,7 @@ namespace WpfApp1
 
                 // Add the grid to the ListView
                 lvBackups.Items.Add(grid);
+
             }
         }
 
