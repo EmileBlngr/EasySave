@@ -1,15 +1,21 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using Backend.Backup;
-using Newtonsoft.Json.Linq;
 
 namespace WpfApp1
 {
+
+    /// <summary>
+    /// PageTrack is a class representing the backup tracking page.
+    /// </summary>
     public partial class PageTrack : Page
     {
         private BackupManager backupManager;
 
+        /// <summary>
+        /// Constructor for the PageTrack class.
+        /// </summary>
+        /// <param name="backupManager">The backup manager used by the page.</param>
         public PageTrack(BackupManager backupManager)
         {
             InitializeComponent();
@@ -18,6 +24,10 @@ namespace WpfApp1
             // Subscribe to the Loaded event
             this.Loaded += PageTrack_Loaded;
         }
+
+        /// <summary>
+        /// Loads the list of backups on the page.
+        /// </summary>
         private void LoadBackups()
         {
             lvBackups.Items.Clear();
@@ -45,6 +55,12 @@ namespace WpfApp1
             }
         }
 
+        /// <summary>
+        /// Updates the progress bar based on the state of the backup.
+        /// </summary>
+        /// <param name="backup">The relevant backup.</param>
+        /// <param name="progressBar">The associated progress bar.</param>
+        /// <param name="progressText">The text displaying the progress.</param>
         private void UpdateProgressBar(ABackup backup, ProgressBar progressBar, TextBlock progressText)
         {
             float progressPercentage = backup.State.Progress * 100; 
@@ -56,6 +72,12 @@ namespace WpfApp1
                 progressText.Text = progressString; 
             });
         }
+
+        /// <summary>
+        /// Event triggered when an instance of PageTrack is loaded.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void PageTrack_Loaded(object sender, RoutedEventArgs e)
         {
             LoadBackups();
@@ -211,10 +233,5 @@ namespace WpfApp1
                 lvBackups.Items.Add(grid);
             }
         }
-
-
-
-
-
     }
 }

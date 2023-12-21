@@ -6,15 +6,19 @@ using System.Windows;
 
 namespace WpfApp1
 {
+
     /// <summary>
     /// Interaction logic for MainWindow.xaml
-    
+    /// </summary>
     public partial class MainWindow : Window
     {
-        
+
         private Dictionary<string, string> localizedResources;
         private BackupManager backupManager = new BackupManager();
 
+        /// <summary>
+        /// Constructor for the MainWindow class.
+        /// </summary>
         public MainWindow()
         {
 
@@ -26,17 +30,16 @@ namespace WpfApp1
             MainContentFrame.Navigate(new PageTrack(backupManager));
 
         }
-        private void PageParam_LanguageChanged(string newLanguage)
-        {
-            UpdateLanguage(newLanguage);
-        }
 
-
+        /// <summary>
+        /// Updates the language of the MainWindow based on the specified culture code.
+        /// </summary>
+        /// <param name="cultureCode"></param>
         private void UpdateLanguage(string cultureCode)
         {
             // Form the relative path from the executable to the JSON files
             string relativePath = $"../../../../Backend/Data/Languages/{cultureCode}.json";
-            string fullPath = System.IO.Path.GetFullPath(relativePath, AppDomain.CurrentDomain.BaseDirectory);
+            string fullPath = Path.GetFullPath(relativePath, AppDomain.CurrentDomain.BaseDirectory);
 
             if (File.Exists(fullPath))
             {
@@ -45,14 +48,11 @@ namespace WpfApp1
 
                 if (localizedResources != null)
                 {
-
                     NewSaveButton.Content = localizedResources["NewBackup"];
                     LogsButton.Content = localizedResources["AccessLogs"];
                     SettingsButton.Content = localizedResources["Settings"];
                     TrackSavesButton.Content = localizedResources["TrackSaves"];
                     CloseButton.Content = localizedResources["CloseButton"];
-                    
-
                 }
             }
             else
@@ -60,49 +60,52 @@ namespace WpfApp1
                 MessageBox.Show($"Language file not found: {fullPath}");
             }
         }
+
+        /// <summary>
+        /// Event handler for the CloseButton click event.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             // Close the application when the CloseButton is clicked
             Application.Current.Shutdown();
         }
 
-
-
-
-        /* 
-        ResourceDictionary dict = new ResourceDictionary();
-
-         this.Resources.MergedDictionaries.Clear();
-
-        switch 
-        {
-
-        }
-
-          add (dict)*/
-
+        /// <summary>
+        /// Event handler for the NewSaveButton click event.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void NewSaveButton_Click(object sender, RoutedEventArgs e)
         {
             MainContentFrame.Navigate(new PageNew(backupManager));
         }
 
+        /// <summary>
+        /// Event handler for the SettingsButton click event.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SettingsButton_Click(object sender, RoutedEventArgs e)
         {
             MainContentFrame.Navigate(new PageParam());
-
-
         }
-     
 
+        /// <summary>
+        /// Event handler for the LogsButton click event.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void LogsButton_Click(object sender, RoutedEventArgs e)
         {
             System.Diagnostics.Debug.WriteLine("LogsButton_Click called");
 
-            string logPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
+            string logPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
 
             try
             {
-                if (System.IO.Directory.Exists(logPath))
+                if (Directory.Exists(logPath))
                 {
                     System.Diagnostics.Debug.WriteLine("Directory exists, attempting to open.");
 
@@ -116,24 +119,23 @@ namespace WpfApp1
                 }
                 else
                 {
-
                     MessageBox.Show("Le dossier des logs n'existe pas dans le répertoire de l'application.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
             catch (Exception ex)
             {
-
-
                 MessageBox.Show($"Impossible d'ouvrir le dossier des logs : {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
+        /// <summary>
+        /// Event handler for the TracksButton click event.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TracksButton_Click(object sender, RoutedEventArgs e)
         {
             MainContentFrame.Navigate(new PageTrack(backupManager));
         }
-
     }
-
-
-
 }
