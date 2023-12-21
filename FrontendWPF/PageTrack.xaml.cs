@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using Backend.Backup;
 
 namespace WpfApp1
@@ -20,7 +21,6 @@ namespace WpfApp1
         {
             InitializeComponent();
             this.backupManager = backupManager;
-
             // Subscribe to the Loaded event
             this.Loaded += PageTrack_Loaded;
         }
@@ -44,9 +44,10 @@ namespace WpfApp1
 
                 foreach (var backup in backupManager.BackupList)
                 {
-                    StackPanel panel = new StackPanel { Orientation = Orientation.Horizontal };
+                    StackPanel panel = new StackPanel { Orientation = Orientation.Horizontal};
                     TextBlock nameText = new TextBlock { Text = backup.Name, Width = 100 };
                     ProgressBar progressBar = new ProgressBar { Width = 100 };
+
                     // Configure progress bar, buttons, etc.
 
                     // Add panel to ListView
@@ -123,7 +124,7 @@ namespace WpfApp1
                 // Buttons
                 StackPanel buttonPanel = new StackPanel { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Right };
                 Button startButton = new Button { Content = "▶", Width = 33, Style = (Style)Resources["ButtonStyle"] };
-                Button pauseButton = new Button { Content = "⏸", Width = 33, Style = (Style)Resources["ButtonStyle"] };
+                Button pauseButton = new Button { Content = "||", Width = 33, Style = (Style)Resources["ButtonStyle"] };
                 Button stopButton = new Button { Content = "■", Width = 33, Style = (Style)Resources["ButtonStyle"] };
                 
 
@@ -214,8 +215,7 @@ namespace WpfApp1
                             case EnumState.Failed:
                                 backupStatusText.Text = "Backup error";
                                 break;
-                            default:
-                                
+                            default:                             
                                 break;
                         }
                     });
@@ -231,6 +231,7 @@ namespace WpfApp1
 
                 // Add the grid to the ListView
                 lvBackups.Items.Add(grid);
+
             }
         }
     }
