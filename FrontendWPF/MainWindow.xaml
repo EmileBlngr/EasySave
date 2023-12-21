@@ -104,7 +104,7 @@
 
 
             <!-- log out button  -->
-            <Button x:Name="CloseButton" Content="❌ Quitter" Style="{StaticResource QuitButtonStyle}" Grid.Row="4" Click="CloseButton_Click"/>
+            <Button x:Name="CloseButton" Content="❌ Quitter" Style="{StaticResource QuitButtonStyle}" Grid.Row="4" Click="CloseButton_Click" Cursor="Hand"/>
         </Grid>
 
         <!-- PageTrack content -->

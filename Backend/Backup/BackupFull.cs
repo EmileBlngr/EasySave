@@ -113,8 +113,8 @@ namespace Backend.Backup
                     if (State.State != EnumState.Cancelled && State.State != EnumState.Paused)
                     {
                         this.State.Progress = 1.0f; // Set to 100%
-                        OnProgressUpdated();
                         State.State = EnumState.Finished; // Mark as finished
+                        OnProgressUpdated();
                         State.CurrentFileIndex = 0;
                         Console.WriteLine(string.Format(Settings.Settings.GetInstance().LanguageSettings.LanguageData["full_backup_finished"], FileTransferTime));
                         Console.WriteLine("\n\n\n");

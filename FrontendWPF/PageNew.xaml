@@ -47,7 +47,7 @@
     <!-- Content of the page -->
     <Grid Background="Azure">
         <GroupBox x:Name="gbNewBackup" Header="Nouvelle sauvegarde" Margin="10">
-            <StackPanel>
+            <StackPanel Cursor="Hand">
                 <Grid Margin="5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
@@ -63,7 +63,7 @@
                     <!-- Second Column -->
                     <StackPanel Grid.Column="1" HorizontalAlignment="Left" Margin="5,0,0,0">
                         <TextBlock x:Name="saveType" Text="Type de sauvegarde" Margin="5"/>
-                        <ComboBox x:Name="cmbBackupType" Height="25" Width="300" Margin="5" SelectedValuePath="Content">
+                        <ComboBox x:Name="cmbBackupType" Height="25" Width="300" Margin="5" SelectedValuePath="Content" Cursor="Hand">
                             <ComboBoxItem Name="totalSave" Content="Totale"/>
                             <ComboBoxItem Name="diffSave" Content="Différentielle"/>
                         </ComboBox>
@@ -73,16 +73,16 @@
                 <TextBlock x:Name="sourcePath" Text="Répertoire source" Margin="5"/>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="5">
                     <TextBox x:Name="txtSourceDirectory" Style="{StaticResource TextBoxStyle}" Height="25" Width="300" Margin="5"/>
-                    <Button x:Name="btnBrowseSource" Content="Parcourir" Style="{StaticResource ButtonStyle}" Width="100" Click="BtnBrowseSource_Click"/>
+                    <Button x:Name="btnBrowseSource" Content="Parcourir" Style="{StaticResource ButtonStyle}" Width="100" Click="BtnBrowseSource_Click" Cursor="Hand"/>
                 </StackPanel>
 
                 <TextBlock x:Name="destinationPath" Text="Répertoire destination" Margin="5"/>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="5">
                     <TextBox x:Name="txtTargetDirectory" Style="{StaticResource TextBoxStyle}" Height="25" Width="300" Margin="5"/>
-                    <Button x:Name="btnBrowseTarget" Content="Parcourir" Style="{StaticResource ButtonStyle}" Width="100" Click="BtnBrowseTarget_Click"/>
+                    <Button x:Name="btnBrowseTarget" Content="Parcourir" Style="{StaticResource ButtonStyle}" Width="100" Click="BtnBrowseTarget_Click" Cursor="Hand"/>
                 </StackPanel>
 
-                <Button x:Name="btnCreateBackup" Content="Créer la sauvegarde" Style="{StaticResource ButtonStyle}" Height="30" Width="200" Margin="5" Click="btnCreateBackup_Click"/>
+                <Button x:Name="btnCreateBackup" Content="Créer la sauvegarde" Style="{StaticResource ButtonStyle}" Height="30" Width="200" Margin="5" Click="btnCreateBackup_Click" Cursor="Hand"/>
             </StackPanel>
         </GroupBox>
     </Grid>

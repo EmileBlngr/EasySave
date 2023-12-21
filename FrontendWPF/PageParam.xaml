@@ -38,6 +38,7 @@
             <Setter Property="VerticalContentAlignment" Value="Center"/>
             <Setter Property="FontSize" Value="14"/>
             <Setter Property="Padding" Value="4"/>
+            <Setter Property="Cursor" Value="Hand"/>
         </Style>
 
         <!-- Style pour ListBox -->
@@ -121,7 +122,7 @@
                 <!-- Language Selection Section -->
                 <TextBlock Name="txtLanguages" Text="Langues" Grid.Column="0" Grid.Row="0"/>
                 <StackPanel Grid.Column="0" Grid.Row="1">
-                    <RadioButton Name="radioEnglish" Content="Anglais" GroupName="Langues"/>
+                    <RadioButton Name="radioEnglish" Content="Anglais" GroupName="Langues" />
                     <RadioButton Name="radioFrench" Content="Français 🇫🇷" GroupName="Langues" IsChecked="True"/>
                     <RadioButton Name="radioSpanish" Content="Espagnol" GroupName="Langues"/>
                 </StackPanel>
@@ -129,9 +130,9 @@
                 <!-- Log Format Section -->
                 <TextBlock Name="txtLogFormat" Text="Format des Logs" Grid.Column="1" Grid.Row="0"/>
                 <StackPanel Grid.Column="1" Grid.Row="1">
-                    <CheckBox Content=".JSON" IsChecked="{Binding IsJsonChecked, Mode=TwoWay}" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" />
-                    <CheckBox Content=".TXT" IsChecked="{Binding IsTxtChecked, Mode=TwoWay}" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" />
-                    <CheckBox Content=".XML" IsChecked="{Binding IsXmlChecked, Mode=TwoWay}" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" />
+                    <CheckBox Content=".JSON" IsChecked="{Binding IsJsonChecked, Mode=TwoWay}" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" Cursor="Hand"/>
+                    <CheckBox Content=".TXT" IsChecked="{Binding IsTxtChecked, Mode=TwoWay}" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" Cursor="Hand"/>
+                    <CheckBox Content=".XML" IsChecked="{Binding IsXmlChecked, Mode=TwoWay}" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" Cursor="Hand"/>
                 </StackPanel>
 
                 <!-- File max parallel size Section -->
@@ -159,8 +160,8 @@
                     <TextBox Name="txtEncryptFileExtensionInput" Grid.Row="1" Style="{StaticResource TextBoxStyle}"/>
 
                     <StackPanel Orientation="Vertical" Grid.Row="2">
-                        <Button Name="txtAddEncrypt" Content="Ajouter" Click="btnAddEncryptExtension_Click" Style="{StaticResource SmallButtonStyle}"/>
-                        <Button Name="txtRemoveEncrypt" Content="Supprimer" Click="btnRemoveEncryptExtension_Click" Style="{StaticResource SmallButtonStyle}"/>
+                        <Button Name="txtAddEncrypt" Content="Ajouter" Click="btnAddEncryptExtension_Click" Style="{StaticResource SmallButtonStyle}" Cursor="Hand" Margin="3,3,3,3"/>
+                        <Button Name="txtRemoveEncrypt" Content="Supprimer" Click="btnRemoveEncryptExtension_Click" Style="{StaticResource SmallButtonStyle}" Cursor="Hand"/>
                         <ListBox Name="listEncryptFileExtensions" Style="{StaticResource ListBoxStyle}" SelectionMode="Extended" Height="Auto" MaxHeight="80" VerticalAlignment="Top"/>
                     </StackPanel>
                 </Grid>
@@ -177,14 +178,14 @@
                     <TextBox Name="txtPrioritaryFileExtensionInput" Grid.Row="1" Style="{StaticResource TextBoxStyle}"/>
 
                     <StackPanel Orientation="Vertical" Grid.Row="2">
-                        <Button Name="txtAddPrioritary" Content="Ajouter" Click="btnAddPrioritaryExtension_Click" Style="{StaticResource SmallButtonStyle}"/>
-                        <Button Name="txtRemovePrioritary" Content="Supprimer" Click="btnRemovePrioritaryExtension_Click" Style="{StaticResource SmallButtonStyle}"/>
+                        <Button Name="txtAddPrioritary" Content="Ajouter" Click="btnAddPrioritaryExtension_Click" Style="{StaticResource SmallButtonStyle}" Cursor="Hand"/>
+                        <Button Name="txtRemovePrioritary" Content="Supprimer" Click="btnRemovePrioritaryExtension_Click" Style="{StaticResource SmallButtonStyle}" Cursor="Hand"/>
                         <ListBox Name="listPrioritaryFileExtensions" Style="{StaticResource ListBoxStyle}" Height="Auto" MaxHeight="80" VerticalAlignment="Top"/>
                     </StackPanel>
                 </Grid>
 
                 <!-- Apply Changes Button -->
-                <Button Name="btnApplyChanges" Content="Appliquer les changements" Style="{StaticResource ButtonStyle}" Grid.Row="5" Grid.ColumnSpan="2" Margin="164,185,164,0" Click="btnApplyChanges_Click"/>
+                <Button Name="btnApplyChanges" Content="Appliquer les changements" Style="{StaticResource ButtonStyle}" Grid.Row="5" Grid.ColumnSpan="2" Margin="164,185,164,0" Click="btnApplyChanges_Click" Cursor="Hand"/>
             </Grid>
         </GroupBox>
     </Grid>

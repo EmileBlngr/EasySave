@@ -108,8 +108,8 @@ namespace Backend.Backup
                     {
                         //set progress to 100%, mark as finished, and log
                         this.State.Progress = 1.0f; // Set to 100%
-                        OnProgressUpdated();
                         State.State = EnumState.Finished;
+                        OnProgressUpdated();
                         Console.WriteLine(string.Format(Settings.Settings.GetInstance().LanguageSettings.LanguageData["full_backup_finished"], FileTransferTime));
                         Console.WriteLine("\n\n\n");
                         Settings.Settings.GetInstance().LogSettings.Createlogs(this);

@@ -167,7 +167,7 @@ namespace Backend.Backup
         /// </summary>
         public void PauseBackup()
         {
-            if (State.State != EnumState.NotStarted && State.State != EnumState.Finished)
+            if (State.State != EnumState.NotStarted && State.State != EnumState.Finished && State.State != EnumState.Cancelled)
             {
                 State.State = EnumState.Paused;
             }
