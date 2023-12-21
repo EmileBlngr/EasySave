@@ -32,6 +32,7 @@
             RemainingSize = 0;
             CurrentFileSource = "";
             CurrentFileTarget = "";
+            CurrentFileIndex = 0;
         }
     }
 }

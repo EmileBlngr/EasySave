@@ -28,7 +28,7 @@ namespace WpfApp1
 
             LogsButton.Click += LogsButton_Click;
             MainContentFrame.Navigate(new PageTrack(backupManager));
-
+            backupManager.AddBackup("1", "test", "C:\\backupSource", "C:\\backupTarget");
         }
 
         /// <summary>
