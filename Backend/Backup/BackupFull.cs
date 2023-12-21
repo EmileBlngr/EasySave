@@ -145,6 +145,9 @@ namespace Backend.Backup
 
             cryptosoftProcess.StartInfo.RedirectStandardOutput = true;
             cryptosoftProcess.StartInfo.RedirectStandardError = true;
+
+            cryptosoftProcess.StartInfo.CreateNoWindow = true;
+
             Stopwatch encryptionStopwatch = new Stopwatch();
             encryptionStopwatch.Start();
 
