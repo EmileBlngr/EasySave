@@ -147,5 +147,6 @@
   "Full": "Complète",
   "Differential": "Différentielle",
   "Unknown": "Inconnu",
-  "SourceTargetSame": "Le répertoire source et de destination ne peuvent pas etre similaires"
+  "SourceTargetSame": "Le répertoire source et de destination ne peuvent pas etre similaires",
+  "PerformAllBackups": "Lancer toutes les sauvegardes"
 }

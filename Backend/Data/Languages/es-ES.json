@@ -147,6 +147,7 @@
   "Full": "Completa",
   "Differential": "Diferencial",
   "Unknown": "Desconocido",
-  "SourceTargetSame": "Los directorios de origen y destino no pueden ser los mismos."
+  "SourceTargetSame": "Los directorios de origen y destino no pueden ser los mismos.",
+  "PerformAllBackups": "Realizar todas las copias"
 
 }

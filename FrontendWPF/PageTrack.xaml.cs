@@ -104,6 +104,7 @@ namespace WpfApp1
             {
                 mySaves.Text = localizedResources["mySaves"];
                 txtNoBackups.Text = localizedResources["txtNoBackups"];
+                PerformAllBackupsButton.Content = localizedResources["PerformAllBackups"];
             }
 
 

@@ -146,5 +146,6 @@
   "Full": "Full",
   "Differential": "Differential",
   "Unknown": "Unknown",
-  "SourceTargetSame": "Source and target directories cannot be the same."
+  "SourceTargetSame": "Source and target directories cannot be the same.",
+  "PerformAllBackups": "Perform All Backups"
 }
