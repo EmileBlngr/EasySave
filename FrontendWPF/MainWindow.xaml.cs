@@ -21,10 +21,7 @@ namespace WpfApp1
         /// </summary>
         public MainWindow()
         {
-            backupManager.AddBackup("1", "monke", "C:\\Users\\romeo\\OneDrive\\Bureau\\test", "C:\\Users\\romeo\\OneDrive\\Bureau\\Test2");
-            backupManager.AddBackup("1", "monke", "C:\\Users\\romeo\\OneDrive\\Bureau\\test", "C:\\Users\\romeo\\OneDrive\\Bureau\\Test3");
-            backupManager.AddBackup("1", "monke", "C:\\Users\\romeo\\OneDrive\\Bureau\\test", "C:\\Users\\romeo\\OneDrive\\Bureau\\Test4");
-
+ 
             InitializeComponent();
             UpdateLanguage(App.CurrentLanguage); // Use global language setting
             App.LanguageChanged += UpdateLanguage; // Subscribe to the global event
