@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Backend.Settings
+﻿namespace Backend.Settings
 {
     /// <summary>
     /// Represents an entry for a backup log.
@@ -15,7 +9,8 @@ namespace Backend.Settings
         public string FileSource { get; set; }
         public string FileTarget { get; set; }
         public long FileSize { get; set; }
-        public double FileTransferTime { get; set; }
+        public float FileTransferTime { get; set; }
+        public float EncryptTime { get; set; }
         public string Time => DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
 
     }

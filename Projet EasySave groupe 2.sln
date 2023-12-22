@@ -10,6 +10,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FrontendWPF", "FrontendWPF\FrontendWPF.csproj", "{67BB2204-C1C4-4C8A-970A-22B03F97C12A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Éléments de solution", "Éléments de solution", "{C95D50FC-3344-4C62-B2B5-FB484035E6D4}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\Downloads\ES-icon.ico = ..\..\Downloads\ES-icon.ico
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

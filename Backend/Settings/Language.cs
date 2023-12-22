@@ -2,6 +2,7 @@
 
 namespace Backend.Settings
 {
+
     /// <summary>
     /// Class representing language management in the application.
     /// </summary>
@@ -10,6 +11,8 @@ namespace Backend.Settings
         public string LanguageFile { get; set; }
         public EnumLanguages CurrentLanguage { get; set; }
         public Dictionary<string, string> LanguageData { get; set; }
+
+
         /// <summary>
         /// Constructor of the Language class.
         /// </summary>
@@ -24,6 +27,8 @@ namespace Backend.Settings
             
             CreateLanguageFile();
         }
+
+
         /// <summary>
         /// Converts the language enum to a language code used in the file name.
         /// </summary>
@@ -44,6 +49,7 @@ namespace Backend.Settings
                 loadFileLocal();
             }
         }
+
         /// <summary>
         /// Loads the language file locally from the file system.
         /// </summary>

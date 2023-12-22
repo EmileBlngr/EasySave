@@ -8,6 +8,27 @@
     <UseWPF>true</UseWPF>
     <AssemblyVersion>1.1</AssemblyVersion>
     <FileVersion>1.1</FileVersion>
+    <ApplicationIcon>ES-icon.ico</ApplicationIcon>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="easysavelogo.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="ES-icon.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Backend\Backend.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="easysavelogo.png" />
+  </ItemGroup>
 
 </Project>

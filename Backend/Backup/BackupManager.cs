@@ -1,5 +1,10 @@
-﻿namespace Backend.Backup
+﻿using System.Diagnostics;
+
+namespace Backend.Backup
 {
+    /// <summary>
+    /// Manages backup operations and provides functionality to add, convert paths, and perform backups.
+    /// </summary>
     public class BackupManager
     {
         public Backend.Settings.Settings settings;
@@ -12,20 +17,6 @@
         {
             settings = Settings.Settings.GetInstance();
             BackupList = new List<ABackup>();
-        }
-        /// <summary>
-        /// Updates daily logs for the backups.
-        /// </summary>
-        public void UpdateDailyLogs()
-        {
-
-        }
-        /// <summary>
-        /// Updates real-time logs for the backups.
-        /// </summary>
-        public void UpdateRealTimeLogs()
-        {
-
         }
         /// <summary>
         /// Adds a new backup to the BackupManager, in BackupList.
@@ -44,13 +35,13 @@
             {
 
                 BackupList.Add(new BackupFull(name, sourceDirectory, targetDirectory));
-                
+
 
             }
             else if (backupType == "2")
             {
                 BackupList.Add(new BackupDifferential(name, sourceDirectory, targetDirectory));
-                
+
             }
             else
             {
@@ -78,5 +69,37 @@
             }
         }
 
+        /// <summary>
+        /// Performs all backup operations asynchronously, running each backup in a separate task.
+        /// </summary>
+        public void PerformAllBackups()
+        {
+            List<Task> backupTasks = new List<Task>();
+
+            foreach (ABackup backup in BackupList)
+            {
+                Task backupTask = Task.Run(() => backup.PerformBackup());
+                backupTasks.Add(backupTask);
+            }
+            Task.WaitAll(backupTasks.ToArray());
+        }
+
+        /// <summary>
+        /// Checks if the business software associated with the backups is currently running.
+        /// </summary>
+        /// <returns>True if the business software is running; otherwise, false.</returns>
+        public static bool IsBusinessSoftwareRunning()
+        {
+            string businessSoftware = Settings.Settings.GetInstance().GetBusinessSoftware();         
+            if (string.IsNullOrEmpty(businessSoftware))
+            {
+                
+                return false;
+            }
+
+            string processName = Path.GetFileNameWithoutExtension(businessSoftware);
+            var runningProcesses = Process.GetProcessesByName(processName);
+            return runningProcesses.Length > 0;
+        }
     }
 }
