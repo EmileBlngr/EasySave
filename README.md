@@ -1,4 +1,4 @@
-# Projet EasySave groupe 2
+# Projet EasySave
 # EasySave(FR)
 
 EasySave est un logiciel de sauvegarde conçu pour vous permettre de créer des sauvegardes de vos données en toute simplicité et sécurité.
